@@ -16,14 +16,13 @@ using System.Windows.Shapes;
 namespace Bachup.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AddBachupGroupView.xaml
     /// </summary>
-    public partial class MainView : Window
+    public partial class AddBachupGroupView : UserControl
     {
-        public MainView()
+        public AddBachupGroupView()
         {
             InitializeComponent();
         }
-
     }
 }

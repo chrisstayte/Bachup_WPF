@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:Bachup.ViewModel"
         DataContext="{DynamicResource MainViewModel}"
-        Title="Bachup" Height="729" Width="869"
+        Title="Bachup" Height="729" Width="571"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:model="clr-namespace:Bachup.Model"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -15,83 +15,68 @@
         FontFamily="{DynamicResource MaterialDesignFont}">
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel"/>
-        
+
     </Window.Resources>
-    <Grid>
-        <Grid.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
-                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
-                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
-                </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
-        </Grid.Resources>
-        <Menu
-            IsMainMenu="True" Grid.RowSpan="2">
-            <MenuItem Header="_File">
-                <MenuItem Header="Save">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="ContentSave" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Exit" InputGestureText="Ctrl+E">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="ExitToApp" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-        </Menu>
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <Grid>
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Grid.Resources>
+            <materialDesign:ColorZone
+                Mode="PrimaryMid"
+                Padding="16">
+                <DockPanel>
+                    <ToggleButton
+                        Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                        VerticalAlignment="Center"
+                        DockPanel.Dock="Right" 
+                        IsChecked="{Binding DarkMode}"
+                        Command="{Binding SetThemeCommand}"/>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        DockPanel.Dock="Right"
+                        Style="{StaticResource MaterialDesignBody2TextBlock}"
+                        Margin="0,0,10,0"
+                        Text="{Binding ThemeName}"></TextBlock>
+                    <Button
+                        Style="{DynamicResource MaterialDesignToolForegroundButton}"
+                        Margin="0 0 0 0"
+                        Panel.ZIndex="0">
+                        <materialDesign:PackIcon
+                            Kind="Plus" />
+                    </Button>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        materialDesign:RippleAssist.IsCentered="True"/>
+                </DockPanel>
 
+            </materialDesign:ColorZone>
 
-        <TreeView 
-            x:Name="treeView" 
-            Margin="10,64,0,34" 
-            HorizontalAlignment="Left" 
-            Width="239"
-            ItemsSource="{Binding Bachup}">
-            <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type model:BachupGroup}" ItemsSource="{Binding BachupItems}">
-                    <TextBlock Text="{Binding Name}"></TextBlock>
-                </HierarchicalDataTemplate>
-                <DataTemplate DataType="{x:Type model:BachupItem}">
-                    <TextBlock Text="{Binding Name}"></TextBlock>
-                </DataTemplate>
-                
-            </TreeView.Resources>
-        </TreeView>
-        <materialDesign:PopupBox
-            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
-            PlacementMode="LeftAndAlignMiddles"
-            UnfurlOrientation="Horizontal"
-            ToolTip="Manage items"
-            Margin="193,0,0,34"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom">
-            <StackPanel
-                Orientation="Horizontal">
-                <Button
-                    ToolTip="Add an item"
-                    Command="{Binding AddCommand}">
-                    <Path
-                        Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
-                        Stretch="Uniform"
-                        Width="15"
-                        Height="15"
-                        Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
-                </Button>
-                <Button
-                    ToolTip="Remove selected item"
-                    Command="{Binding RemoveSelectedItemCommand}">
-                    <Path
-                        Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"
-                        Stretch="Uniform"
-                        Width="15"
-                        Height="15"
-                        Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
-                </Button>
-            </StackPanel>
-        </materialDesign:PopupBox>
+            <TreeView 
+                x:Name="treeView" 
+                Margin="0,64,0,0" 
+                HorizontalAlignment="Left" 
+                Width="249"
+                ItemsSource="{Binding Bachup}"
+                Background="{DynamicResource MaterialDesignFlatButtonClick}">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type model:BachupGroup}" ItemsSource="{Binding BachupItems}">
+                        <TextBlock Text="{Binding Name}"></TextBlock>
+                    </HierarchicalDataTemplate>
+                    <DataTemplate DataType="{x:Type model:BachupItem}">
+                        <TextBlock Text="{Binding Name}" Style="{StaticResource MaterialDesignBody2TextBlock}"></TextBlock>
+                    </DataTemplate>
 
-    </Grid>
+                </TreeView.Resources>
+            </TreeView>
+            
+
+        </Grid>
+    </materialDesign:DialogHost>
 </Window>
