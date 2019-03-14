@@ -134,15 +134,17 @@
             await DialogHost.Show(view, "RootDialog", ShowMessageCloseEventHandler);
         }
 
+        private void ShowMessageCloseEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            Console.WriteLine("You can intercept the closing event, and cancel here.");
+        }
+
         private void SetTheme(object o)
         {
             new PaletteHelper().SetLightDark(DarkMode);
         }
 
-        private void ShowMessageCloseEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            Console.WriteLine("You can intercept the closing event, and cancel here.");
-        }
+        
         #endregion
 
     }

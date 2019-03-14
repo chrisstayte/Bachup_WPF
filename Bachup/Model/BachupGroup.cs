@@ -1,8 +1,12 @@
 ﻿using Bachup.Model.BachupItems;
+using Bachup.View;
+using Bachup.ViewModel;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -90,7 +94,36 @@ namespace Bachup.Model
         {
             BachupItems.Add(new Geodatabase(name, "TEST"));
         }
-        
+
+        private BachupType DetermineBachupType(string Source)
+        {
+            string extension = Path.GetExtension(Source);
+
+            if (Enum.IsDefined(typeof(BachupType), extension.ToUpper()))
+                return (BachupType)Enum.Parse(typeof(BachupType), extension.ToUpper());
+            else
+            {
+                return BachupType.GDB;
+            }
+
+
+        }
+
+        private async void AddBachupGroup(string Message)
+        {
+            var view = new AddBachupGroupView
+            {
+                DataContext = new AddBachupGroupViewModel()
+            };
+
+            await DialogHost.Show(view, "RootDialog", ShowMessageCloseEventHandler);
+        }
+
+        private void ShowMessageCloseEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            Console.WriteLine("You can intercept the closing event, and cancel here.");
+        }
+
 
         #endregion
 
