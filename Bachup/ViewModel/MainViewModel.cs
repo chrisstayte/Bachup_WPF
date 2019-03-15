@@ -6,6 +6,7 @@
     using MaterialDesignThemes.Wpf;
     using System;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
 
     /// <summary>
     /// Defines the <see cref="MainViewModel" />
@@ -115,11 +116,16 @@
             }
         }
 
+        
+
 
 
         // Relay Commands
         public RelayCommand AddBachupGroupCommand { get; private set; }
         public RelayCommand SetThemeCommand { get; private set; }
+        
+
+    
 
 
 
@@ -131,13 +137,16 @@
                 DataContext = new AddBachupGroupViewModel()
             };
 
-            await DialogHost.Show(view, "RootDialog", ShowMessageCloseEventHandler);
+            var test = await DialogHost.Show(view, "RootDialog");
+            
+            
+            if (test != null)
+            {
+                Bachup.Add((BachupGroup)test);
+            }
+            
         }
 
-        private void ShowMessageCloseEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            Console.WriteLine("You can intercept the closing event, and cancel here.");
-        }
 
         private void SetTheme(object o)
         {

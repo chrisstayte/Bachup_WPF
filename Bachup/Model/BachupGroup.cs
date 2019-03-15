@@ -103,13 +103,13 @@ namespace Bachup.Model
                 return (BachupType)Enum.Parse(typeof(BachupType), extension.ToUpper());
             else
             {
-                return BachupType.GDB;
+                return BachupType.NotSupported;
             }
 
 
         }
 
-        private async void AddBachupGroup(string Message)
+        private async void AddBachupGroup(string message)
         {
             var view = new AddBachupGroupView
             {

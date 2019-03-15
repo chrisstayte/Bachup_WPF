@@ -47,9 +47,11 @@
                     <Button
                         Style="{DynamicResource MaterialDesignToolForegroundButton}"
                         Margin="0 0 0 0"
-                        Panel.ZIndex="0">
+                        Panel.ZIndex="0"
+                        Command="{Binding AddBachupGroupCommand}">
                         <materialDesign:PackIcon
-                            Kind="Plus" />
+                            Kind="Plus" Height="28" Width="28" RenderTransformOrigin="0.536,-0.345" />
+                        
                     </Button>
                     <StackPanel
                         Orientation="Horizontal"
@@ -64,7 +66,10 @@
                 HorizontalAlignment="Left" 
                 Width="249"
                 ItemsSource="{Binding Bachup}"
-                Background="{DynamicResource MaterialDesignFlatButtonClick}">
+                Background="{DynamicResource MaterialDesignFlatButtonClick}"
+                BorderBrush="#f44336" BorderThickness="0, 0, .5, 0"
+                >
+                
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type model:BachupGroup}" ItemsSource="{Binding BachupItems}">
                         <TextBlock Text="{Binding Name}"></TextBlock>
