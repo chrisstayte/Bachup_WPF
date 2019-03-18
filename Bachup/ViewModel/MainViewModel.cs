@@ -7,6 +7,7 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
+    using System.Windows;
 
     /// <summary>
     /// Defines the <see cref="MainViewModel" />
@@ -81,9 +82,15 @@
 
             AddBachupGroupCommand = new RelayCommand(AddBachupGroup);
             SetThemeCommand = new RelayCommand(SetTheme);
+            TestCommand = new RelayCommand(Test);
 
             DarkMode = true;
             ThemeName = "Dark";
+
+            
+
+            SetView(null);
+       
 
             
         }
@@ -116,13 +123,26 @@
             }
         }
 
-        
+        private object _selectedViewModel;
+        public object SelectedViewModel
+        {
+            get
+            {
+                return _selectedViewModel;
+            }
+            set
+            {
+                _selectedViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
 
 
 
         // Relay Commands
         public RelayCommand AddBachupGroupCommand { get; private set; }
         public RelayCommand SetThemeCommand { get; private set; }
+        public RelayCommand TestCommand { get; private set; }
         
 
     
@@ -155,6 +175,35 @@
 
         
         #endregion
+
+        private void SetView(object Item)
+        {
+            if (Item is BachupGroup)
+            {
+                SelectedViewModel = new BachupGroupView()
+                {
+                    DataContext = new BachupGroupViewModel((BachupGroup)Item)
+                };
+                return;
+            }
+
+
+            if (Item is BachupItem)
+            {
+                SelectedViewModel = new BachupItemView()
+                {
+                    DataContext = new BachupItemViewModel((BachupItem)Item)
+                };
+                return;
+            }
+
+            SelectedViewModel = new HomePageView();
+        }
+
+        private void Test(object sender)
+        { 
+            SetView(sender);            
+        }
 
     }
 }

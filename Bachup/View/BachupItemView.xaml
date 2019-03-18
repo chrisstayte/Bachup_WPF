@@ -13,10 +13,10 @@
             HorizontalAlignment="Left" 
             Margin="10,10,0,0" 
             TextWrapping="Wrap" 
-            Text="TextBlock"
+            Text="{Binding Name}"
             VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignHeadlineTextBlock}">
-            Area 15
+            Style="{StaticResource MaterialDesignDisplay1TextBlock}">
+            
         </TextBlock>
             
 

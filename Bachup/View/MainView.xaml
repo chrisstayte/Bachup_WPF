@@ -13,7 +13,10 @@
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" MinWidth="550" MinHeight="550">
+    
+    
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel"/>
         <DataTemplate x:Key="HomePageView" DataType="{x:Type local:HomePageView}">
@@ -74,8 +77,10 @@
                 Width="249"
                 ItemsSource="{Binding Bachup}"
                 Background="{DynamicResource MaterialDesignFlatButtonClick}"
-                BorderBrush="#f44336" BorderThickness="0, 0, .5, 0"
+                BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="0, 0, .5, 0"
+               
                 >
+
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type model:BachupGroup}" ItemsSource="{Binding BachupItems}">
                         <TextBlock Text="{Binding Name}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
@@ -85,16 +90,16 @@
                     </DataTemplate>
 
                 </TreeView.Resources>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedItemChanged">
+                        <i:InvokeCommandAction Command="{Binding TestCommand}" CommandParameter="{Binding ElementName=treeView, Path=SelectedItem}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </TreeView>
             <ContentControl 
                 Margin="254,69,10,10"
-                Content="{Binding}" HorizontalContentAlignment="Center">
-                <ContentControl.Style>
-                    <Style TargetType="{x:Type ContentControl}">
-                        <Setter Property="ContentTemplate" Value="{StaticResource HomePageView}"/>
-                        <Style.Triggers></Style.Triggers>
-                    </Style>
-                </ContentControl.Style>
+                Content="{Binding SelectedViewModel}" HorizontalContentAlignment="Center">
+                
             </ContentControl>
         </Grid>
     </materialDesign:DialogHost>
