@@ -72,6 +72,17 @@ namespace Bachup.Model
             }
         }
 
+        private DateTime _lastBackup;
+        public DateTime LastBackup
+        {
+            get { return _lastBackup; }
+            set
+            {
+                _lastBackup = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private List<string> _destinations;
         public List<string> Destinations
         {

@@ -24,18 +24,7 @@
             bg1.AddNewBachupItem("Area 2");
             bg1.AddNewBachupItem("Area 3");
             bg1.AddNewBachupItem("Area 4");
-            bg1.AddNewBachupItem("Area 1");
-            bg1.AddNewBachupItem("Area 2");
-            bg1.AddNewBachupItem("Area 3");
-            bg1.AddNewBachupItem("Area 1");
-            bg1.AddNewBachupItem("Area 2");
-            bg1.AddNewBachupItem("Area 3");
-            bg1.AddNewBachupItem("Area 1");
-            bg1.AddNewBachupItem("Area 2");
-            bg1.AddNewBachupItem("Area 3");
-            bg1.AddNewBachupItem("Area 4");
-            bg1.AddNewBachupItem("Area 4");
-            bg1.AddNewBachupItem("Area 4");
+
 
             BachupGroup bg2 = new BachupGroup("Project 2");
             bg2.AddNewBachupItem("Area 1");
@@ -44,16 +33,7 @@
             bg2.AddNewBachupItem("Area 4");
             bg2.AddNewBachupItem("Area 1");
             bg2.AddNewBachupItem("Area 2");
-            bg2.AddNewBachupItem("Area 3");
-            bg2.AddNewBachupItem("Area 4");
-            bg2.AddNewBachupItem("Area 1");
-            bg2.AddNewBachupItem("Area 2");
-            bg2.AddNewBachupItem("Area 3");
-            bg2.AddNewBachupItem("Area 4");
-            bg2.AddNewBachupItem("Area 1");
-            bg2.AddNewBachupItem("Area 2");
-            bg2.AddNewBachupItem("Area 3");
-            bg2.AddNewBachupItem("Area 4");
+
 
             BachupGroup bg3 = new BachupGroup("Project 3");
             bg3.AddNewBachupItem("Area 1");
@@ -64,21 +44,17 @@
             bg3.AddNewBachupItem("Area 2");
             bg3.AddNewBachupItem("Area 3");
             bg3.AddNewBachupItem("Area 4");
-            bg3.AddNewBachupItem("Area 1");
-            bg3.AddNewBachupItem("Area 2");
-            bg3.AddNewBachupItem("Area 3");
-            bg3.AddNewBachupItem("Area 4");
-            bg3.AddNewBachupItem("Area 1");
-            bg3.AddNewBachupItem("Area 2");
-            bg3.AddNewBachupItem("Area 3");
-            bg3.AddNewBachupItem("Area 4");
 
-            Bachup = new ObservableCollection<BachupGroup>
-            {
-                bg1,
-                bg2,
-                bg3
-            };
+
+            //Bachup = new ObservableCollection<BachupGroup>
+            //{
+            //    bg1,
+            //    bg2,
+            //    bg3
+            //};
+            Bachup.Add(bg1);
+            Bachup.Add(bg2);
+            Bachup.Add(bg3);
 
             AddBachupGroupCommand = new RelayCommand(AddBachupGroup);
             SetThemeCommand = new RelayCommand(SetTheme);
@@ -96,7 +72,7 @@
         }
 
         // Properties
-        public ObservableCollection<BachupGroup> Bachup { get; }
+        static public ObservableCollection<BachupGroup> Bachup { get; set; } = new ObservableCollection<BachupGroup>();
 
 
         private bool _darkMode;
@@ -143,11 +119,7 @@
         public RelayCommand AddBachupGroupCommand { get; private set; }
         public RelayCommand SetThemeCommand { get; private set; }
         public RelayCommand TestCommand { get; private set; }
-        
-
-    
-
-
+       
 
         #region Events
 
@@ -203,6 +175,11 @@
         private void Test(object sender)
         { 
             SetView(sender);            
+        }
+
+        static internal void DeleteBachupGroup(BachupGroup bg)
+        {
+            Bachup.Remove(bg);
         }
 
     }

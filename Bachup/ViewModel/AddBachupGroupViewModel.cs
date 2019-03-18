@@ -120,7 +120,7 @@ namespace Bachup.ViewModel
         {
             if (_name == null)
             {
-                Message = "Enter A Name";
+                Message = "Enter a Name";
                 ShowMessage = true;
                 return false;
             }
