@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Bachup.View.HomePageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:Bachup.ViewModel"
+             DataContext="{DynamicResource HomePageViewModel}"
+             FontFamily="{DynamicResource MaterialDesignFont}" 
+             xmlns:local="clr-namespace:Bachup.View"
+             mc:Ignorable="d" d:DesignWidth="500" Height="429.645">
+    <UserControl.Resources>
+        <vm:HomePageViewModel x:Key="HomePageViewModel"/>
+    </UserControl.Resources>
+    <Grid>
+        <TextBlock 
+            x:Name="versionNumber" 
+            Margin="10,0,10,10" 
+            TextWrapping="Wrap"
+            Text="{Binding VersionNumber}" 
+            TextAlignment="Center" 
+            Height="24"
+            VerticalAlignment="Bottom" 
+            />
+        <Image 
+            x:Name="image" 
+            Margin="10,10,10,0" 
+            Source="/Bachup;component/Russian Accordion_64px.png" 
+            Height="64"
+            VerticalAlignment="Top"/>
+        <TextBlock
+            x:Name="textBlock" 
+            Margin="10,88,10,0"
+            TextWrapping="Wrap"
+            Text="Bachup" 
+            VerticalAlignment="Top"
+            Style="{StaticResource MaterialDesignDisplay1TextBlock}" 
+            TextAlignment="Center"/>
+        <TextBlock
+            x:Name="textBlock1" 
+            Margin="10,134,10,0" 
+            TextWrapping="Wrap"
+            Text="Your All In One Bachup Solution" 
+            VerticalAlignment="Top"
+            Height="257" TextAlignment="Center"
+            Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
+
+    </Grid>
+</UserControl>

@@ -89,7 +89,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\BachupGroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\BachupItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HomePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -110,7 +118,9 @@
     <Compile Include="Model\BachupTypes.cs" />
     <Compile Include="ViewModel\AddBachupGroupViewModel.cs" />
     <Compile Include="ViewModel\AlertViewModel.cs" />
+    <Compile Include="ViewModel\BachupGroupViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\HomePageViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="View\AddBachupGroupView.xaml.cs">
       <DependentUpon>AddBachupGroupView.xaml</DependentUpon>
@@ -118,8 +128,14 @@
     <Compile Include="View\AlertView.xaml.cs">
       <DependentUpon>AlertView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\BachupGroupView.xaml.cs">
+      <DependentUpon>BachupGroupView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\BachupItemView.xaml.cs">
       <DependentUpon>BachupItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HomePageView.xaml.cs">
+      <DependentUpon>HomePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -157,6 +173,7 @@
     <Content Include="Helpers\Microsoft.WindowsAPICodePack.dll" />
     <Content Include="Helpers\Microsoft.WindowsAPICodePack.Shell.dll" />
     <Content Include="Helpers\Ookii.Dialogs.Wpf.dll" />
+    <Resource Include="Russian Accordion_64px.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icons8_Russian_Accordion.ico" />
