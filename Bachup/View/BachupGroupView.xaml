@@ -66,7 +66,8 @@
             Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}"
             ItemsSource="{Binding BachupGroup.BachupItems}"
             AutoGenerateColumns="False"
-            CanUserAddRows="False">
+            CanUserAddRows="False"
+            CanUserDeleteRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Binding="{Binding Name}"

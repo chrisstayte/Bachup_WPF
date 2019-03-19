@@ -73,11 +73,18 @@ namespace Bachup.ViewModel
             string message = String.Format("Delete {0}?", BachupGroup.Name);
             string submessage = String.Format("This is not reversable. You will lose all bachup items and their history. Source files will remain in place.");
 
-            var view = new ConfirmChoiceView {
-                DataContext = ConfirmChoiceViewModel(message, submessage);
-            }
+            var view = new ConfirmChoiceView
+            {
+                DataContext = new ConfirmChoiceViewModel(message, submessage)
+            };
 
-            MainViewModel.DeleteBachupGroup(BachupGroup);
+            var choice = await DialogHost.Show(view, "RootDialog");
+
+            if ((bool)choice == true)
+            {
+                MainViewModel.DeleteBachupGroup(BachupGroup);
+            }
+            
         }
 
         #endregion
