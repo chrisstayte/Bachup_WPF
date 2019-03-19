@@ -15,7 +15,7 @@
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{DynamicResource MaterialDesignFont}"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-     MinWidth="550" MinHeight="550">
+     MinWidth="600" MinHeight="550">
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel"/>
     </Window.Resources>

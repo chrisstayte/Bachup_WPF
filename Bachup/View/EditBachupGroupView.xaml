@@ -10,13 +10,11 @@
     <Grid>
         <TextBlock 
             x:Name="textBlock"
-            HorizontalAlignment="Left"
-            Margin="10,10,0,0" 
+            Margin="10,10,10,0" 
             TextWrapping="Wrap" 
-            Text="Edit Bachup Item"
+            Text="Edit Bachup Group"
             VerticalAlignment="Top" 
-            Height="28" 
-            Width="160"
+            Height="28"
             Style="{StaticResource MaterialDesignTitleTextBlock}"/>
         <TextBox 
             x:Name="textBox"
@@ -25,14 +23,9 @@
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="Name" 
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+            Text="{Binding Path=Name, Mode=TwoWay, TargetNullValue=''}"
             >
-            <TextBox.Text>
-                <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <helpers:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
+
         </TextBox>
         <Button
             x:Name="button" 

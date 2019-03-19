@@ -82,8 +82,8 @@
                     CanUserReorder="True"
                     ElementStyle="{StaticResource MaterialDesignBody2TextBlock}"/>
                 <DataGridTextColumn 
-                    Binding="{Binding LastBackup}"
-                    Header="Last Backup"
+                    Binding="{Binding LastBachup}"
+                    Header="Last Bachup"
                     IsReadOnly="True"
                     CanUserReorder="True"
                     ElementStyle="{StaticResource MaterialDesignBody2TextBlock}"/>

@@ -12,20 +12,26 @@ namespace Bachup.ViewModel
 
         public BachupItemViewModel(BachupItem item)
         {
-            _name = item.Name;
+
+            BachupItem = item;
         }
 
-        private string _name;
-        public string Name
+        private BachupItem _bachupItem;
+        public BachupItem BachupItem
+        {
+            get { return _bachupItem; }
+            set
+            {
+                _bachupItem = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string LastBachup
         {
             get
             {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-                NotifyPropertyChanged();
+                return String.Format("Last Bachup: {0}", BachupItem.LastBachup);
             }
         }
 

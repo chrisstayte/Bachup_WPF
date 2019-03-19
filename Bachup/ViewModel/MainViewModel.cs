@@ -31,8 +31,6 @@
             bg2.AddNewBachupItem("Area 2");
             bg2.AddNewBachupItem("Area 3");
             bg2.AddNewBachupItem("Area 4");
-            bg2.AddNewBachupItem("Area 1");
-            bg2.AddNewBachupItem("Area 2");
 
 
             BachupGroup bg3 = new BachupGroup("Project 3");
@@ -40,18 +38,7 @@
             bg3.AddNewBachupItem("Area 2");
             bg3.AddNewBachupItem("Area 3");
             bg3.AddNewBachupItem("Area 4");
-            bg3.AddNewBachupItem("Area 1");
-            bg3.AddNewBachupItem("Area 2");
-            bg3.AddNewBachupItem("Area 3");
-            bg3.AddNewBachupItem("Area 4");
 
-
-            //Bachup = new ObservableCollection<BachupGroup>
-            //{
-            //    bg1,
-            //    bg2,
-            //    bg3
-            //};
             Bachup.Add(bg1);
             Bachup.Add(bg2);
             Bachup.Add(bg3);
@@ -63,12 +50,7 @@
             DarkMode = true;
             ThemeName = "Dark";
 
-            
-
-            SetView(null);
-       
-
-            
+            SetView(null);             
         }
 
         // Properties

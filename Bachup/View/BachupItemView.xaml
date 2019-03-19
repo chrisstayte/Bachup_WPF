@@ -6,19 +6,131 @@
              xmlns:local="clr-namespace:Bachup.View"
              mc:Ignorable="d" 
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
+        <Button
+            Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+            Background="#4CAF50"
+            BorderBrush="#4CAF50"
+            Margin="0,10,10,0"
+            Command="{Binding SaveComand}"
+            materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding IsSaving}"
+            materialDesign:ButtonProgressAssist.Value="{Binding SaveProgress}" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <!-- simple example of toggling/animating pack icon with a data trigger-->
+            <materialDesign:PackIcon
+                Height="24"
+                Width="24"
+                >
+                <materialDesign:PackIcon.Style>
+                    <Style
+                        TargetType="materialDesign:PackIcon"
+                        BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
+                        <Setter
+                            Property="Kind"
+                            Value="Play" />
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding IsSaveComplete}"
+                                Value="True">
+                                <Setter
+                                    Property="Kind"
+                                    Value="Check" />
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetProperty="Opacity"
+                                                From="0"
+                                                To="1"
+                                                Duration="0:0:0.8" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </materialDesign:PackIcon.Style>
+            </materialDesign:PackIcon>
+        </Button>
         <TextBlock 
-            x:Name="textBlock" 
+            x:Name="Name" 
             HorizontalAlignment="Left" 
             Margin="10,10,0,0" 
             TextWrapping="Wrap" 
-            Text="{Binding Name}"
+            Text="{Binding BachupItem.Name}"
             VerticalAlignment="Top"
             Style="{StaticResource MaterialDesignDisplay1TextBlock}">
-            
         </TextBlock>
-            
+        <TextBlock 
+            x:Name="lastbachup" 
+            HorizontalAlignment="Left" 
+            Margin="10,60,0,0"
+            TextWrapping="Wrap" 
+            Text="{Binding LastBachup}" 
+            VerticalAlignment="Top"
+            Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+        <TextBlock 
+            x:Name="textBlock1" 
+            Margin="10,113,10,0"
+            TextWrapping="Wrap" 
+            Text="Source Path" 
+            VerticalAlignment="Top"
+            Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
+        <TextBox 
+            x:Name="textBox"
+            Height="23" Margin="10,147,71,0" 
+            TextWrapping="Wrap"
+            Text="{Binding BachupItem.Source}" 
+            VerticalAlignment="Top"
+            IsReadOnly="True"/>
+        <Button
+            Style="{StaticResource MaterialDesignRaisedButton}"
+            Content="{wpf:PackIcon FolderUpload}"
+            ToolTip="Show Source"
+            Margin="0,138,10,0"
+            HorizontalAlignment="Right"
+            Width="56" 
+            VerticalAlignment="Top" />
+        <TextBlock 
+            x:Name="textBlock1_Copy" 
+            Margin="10,192,10,0"
+            TextWrapping="Wrap" 
+            Text="Destinations" 
+            VerticalAlignment="Top"
+            Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
+        <ListBox x:Name="listBox" Margin="10,217,71,10" ItemsSource="{Binding BachupItem.Destinations}"/>
+        <Button
+            Style="{StaticResource MaterialDesignRaisedButton}"
+            Content="{wpf:PackIcon Add}"
+            ToolTip="Add Destination"
+            Margin="0,217,10,0"
+            HorizontalAlignment="Right"
+            Width="56" 
+            VerticalAlignment="Top" />
+        <Button
+            Style="{StaticResource MaterialDesignRaisedButton}"
+            Content="{wpf:PackIcon Delete}"
+            ToolTip="Removed Selected Destination"
+            Margin="0,254,10,0"
+            HorizontalAlignment="Right"
+            Width="56" 
+            VerticalAlignment="Top"
+            IsEnabled="False"/>
+
 
     </Grid>
 </UserControl>

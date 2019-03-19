@@ -9,7 +9,7 @@
     <Grid>
         <TextBlock 
             x:Name="message"
-            Margin="10,10,10,0" 
+            Margin="10,18,10,0" 
             TextWrapping="Wrap"
             Text="{Binding Message}" 
             VerticalAlignment="Top"
@@ -18,7 +18,7 @@
             Style="{StaticResource MaterialDesignTitleTextBlock}"/>
         <TextBlock 
             x:Name="submessage"
-            Margin="10,49,10,47" 
+            Margin="10,57,10,47" 
             TextWrapping="Wrap"
             Text="{Binding SubMessage}" 
             Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>

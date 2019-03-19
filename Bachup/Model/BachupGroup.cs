@@ -19,6 +19,7 @@ namespace Bachup.Model
         public BachupGroup(string name)
         {
             Name = name;
+            ID = Guid.NewGuid();
             BachupItems = new ObservableCollection<BachupItem>();
         }
 
@@ -40,6 +41,17 @@ namespace Bachup.Model
             set
             {
                 _name = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private Guid _ID;
+        public Guid ID
+        {
+            get { return _ID; }
+            set
+            {
+                _ID = value;
                 NotifyPropertyChanged();
             }
         }
@@ -92,7 +104,10 @@ namespace Bachup.Model
         // TODO: FLESH OUT BACHUP ITEM
         public void AddNewBachupItem(string name)
         {
-            BachupItems.Add(new Geodatabase(name, "TEST"));
+            BachupItem bi = new Geodatabase(name, @"X:\Projects\ToledoOH_Impervious\Team\Toledo.gdb");
+            bi.AddDestination(@"G:\GS\Projects\79631_ToledoOH_Stormwater\RemoteSensing\GIS\Team\backup\Chris");
+            bi.AddDestination(@"X:\Projects\ToledoOH_Impervious\Team\backup");
+            BachupItems.Add(bi);
         }
 
         private BachupType DetermineBachupType(string Source)

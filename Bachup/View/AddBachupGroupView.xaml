@@ -26,16 +26,8 @@
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="Name" 
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-            >
-            <TextBox.Text>
-                <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <helpers:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
+            Text="{Binding Path=Name, Mode=TwoWay, TargetNullValue=''}">
         </TextBox>
-
         <Button
             x:Name="button" 
             Content="Cancel" 
@@ -60,7 +52,5 @@
             Message="{Binding Message}"
             IsActive="{Binding ShowMessage}"
             x:Name="SnackbarOne" />
-        <TextBlock Text="{Binding Name}" x:Name="textBlock1" HorizontalAlignment="Left" Margin="63,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-
     </Grid>
 </UserControl>

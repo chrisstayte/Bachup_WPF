@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -10,10 +11,6 @@ namespace Bachup.Model
 {
     abstract class BachupItem : INotifyPropertyChanged
     {
-        public BachupItem()
-        {
-
-        }
 
         public BachupItem(string name, string source)
         {
@@ -58,33 +55,33 @@ namespace Bachup.Model
             }
         }
 
-        private List<DateTime> _backupHistory;
-        public List<DateTime> BackupHistory
+        private List<DateTime> _bachupHistory;
+        public List<DateTime> BachupHistory
         {
             get
             {
-                return _backupHistory;
+                return _bachupHistory;
             }
             set
             {
-                _backupHistory = value;
+                _bachupHistory = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private DateTime _lastBackup;
-        public DateTime LastBackup
+        private DateTime _lastbachup;
+        public DateTime LastBachup
         {
-            get { return _lastBackup; }
+            get { return _lastbachup; }
             set
             {
-                _lastBackup = value;
+                _lastbachup = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private List<string> _destinations;
-        public List<string> Destinations
+        private ObservableCollection<string> _destinations = new ObservableCollection<string>();
+        public ObservableCollection<string> Destinations
         {
             get { return _destinations; }
             set
@@ -94,13 +91,13 @@ namespace Bachup.Model
             }
         }
 
-        private List<DateTime> _scheduledBackups;
-        public List<DateTime> ScheduledBackups
+        private List<DateTime> _scheduledbachups;
+        public List<DateTime> Scheduledbachups
         {
-            get { return _scheduledBackups; }
+            get { return _scheduledbachups; }
             set
             {
-                _scheduledBackups = value;
+                _scheduledbachups = value;
                 NotifyPropertyChanged();
             }
         }
