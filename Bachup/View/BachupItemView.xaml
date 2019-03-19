@@ -27,21 +27,16 @@
             Background="#4CAF50"
             BorderBrush="#4CAF50"
             Margin="0,10,10,0"
-            Command="{Binding SaveComand}"
+            Command="{Binding BachupBachupItemCommand}"
             materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding IsSaving}"
             materialDesign:ButtonProgressAssist.Value="{Binding SaveProgress}" VerticalAlignment="Top" HorizontalAlignment="Right">
             <!-- simple example of toggling/animating pack icon with a data trigger-->
-            <materialDesign:PackIcon
-                Height="24"
-                Width="24"
-                >
+            <materialDesign:PackIcon Height="24" Width="24">
                 <materialDesign:PackIcon.Style>
                     <Style
                         TargetType="materialDesign:PackIcon"
                         BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
-                        <Setter
-                            Property="Kind"
-                            Value="Play" />
+                        <Setter Property="Kind" Value="Play" />
                         <Style.Triggers>
                             <DataTrigger
                                 Binding="{Binding IsSaveComplete}"
