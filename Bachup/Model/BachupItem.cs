@@ -102,6 +102,8 @@ namespace Bachup.Model
             }
         }
 
+
+
         #region Methods
 
         /// <summary>
@@ -113,9 +115,15 @@ namespace Bachup.Model
             _destinations.Add(path);
         }
 
-        
+        public void DeleteDestination(string path)
+        {
+            _destinations.Remove(path);
+        }
 
-
+        public bool CheckDestinationExistence(string path)
+        {
+            return _destinations.Contains(path);
+        }
 
         #endregion 
     }

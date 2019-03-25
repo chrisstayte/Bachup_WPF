@@ -1,5 +1,7 @@
 ﻿using Bachup.Helpers;
 using Bachup.Model;
+using Bachup.View;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,9 +19,12 @@ namespace Bachup.ViewModel
         {
             // Connect Commands On Creations
             BachupBachupItemCommand = new RelayCommand(BachupBachupItem);
+            AddDestinationCommand = new RelayCommand(AddDestination);
+            DeleteDestinationCommand = new RelayCommand(DeleteDestination);
+            ShowSourceCommand = new RelayCommand(ShowSource);
 
             BachupItem = item;
-
+            EnableDeleteButton = false;
             
 
         }
@@ -76,11 +81,44 @@ namespace Bachup.ViewModel
             }
         }
 
+        private string _selectedDestination;
+        public String SelectedDestination
+        {
+            get
+            {
+                return _selectedDestination;
+            }
+            set
+            {
+                _selectedDestination = value;
+                if (value != null)
+                {
+                    EnableDeleteButton = true;
+                }
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _enableDeleteButton;
+        public bool EnableDeleteButton
+        {
+            get
+            {
+                return _enableDeleteButton;
+            }
+            set
+            {
+                _enableDeleteButton = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         // Relay Commands
 
         public RelayCommand BachupBachupItemCommand { get; private set; }
-
-
+        public RelayCommand AddDestinationCommand { get; private set; }
+        public RelayCommand DeleteDestinationCommand { get; private set; }
+        public RelayCommand ShowSourceCommand { get; private set; }
 
         #region Events
 
@@ -119,7 +157,42 @@ namespace Bachup.ViewModel
                    }), Dispatcher.CurrentDispatcher);
         }
 
+        private async void DeleteDestination(object parameter)
+        {
+            string message = String.Format("Delete Destination?");
+            string submessage = String.Format("{0}", SelectedDestination);
+
+            var view = new ConfirmChoiceView
+            {
+                DataContext = new ConfirmChoiceViewModel(message, submessage)
+            };
+
+            var choice = await DialogHost.Show(view, "RootDialog");
+
+            if ((bool)choice)
+            {
+                _bachupItem.DeleteDestination(_selectedDestination);
+                EnableDeleteButton = false;
+            }
+        }
+
+        private async void AddDestination(object parameter)
+        {
+            var view = new AddDestinationView
+            {
+                DataContext = new AddDestinationViewModel(_bachupItem)
+            };
+
+            await DialogHost.Show(view, "RootDialog");
+        }
+
+        public void ShowSource(object parameter)
+        {
+            Process.Start("explorer.exe", _bachupItem.Source);
+        }
 
         #endregion
+
+        
     }
 }

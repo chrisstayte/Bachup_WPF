@@ -99,7 +99,8 @@
             Margin="0,138,10,0"
             HorizontalAlignment="Right"
             Width="56" 
-            VerticalAlignment="Top" />
+            VerticalAlignment="Top" 
+            Command="{Binding ShowSourceCommand}"/>
         <TextBlock 
             x:Name="textBlock1_Copy" 
             Margin="10,192,10,0"
@@ -107,7 +108,13 @@
             Text="Destinations" 
             VerticalAlignment="Top"
             Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
-        <ListBox x:Name="listBox" Margin="10,217,71,10" ItemsSource="{Binding BachupItem.Destinations}"/>
+        <ListBox 
+            x:Name="listBox" 
+            Margin="10,217,71,10" 
+            ItemsSource="{Binding BachupItem.Destinations}"
+            SelectedItem="{Binding SelectedDestination}">
+            
+        </ListBox>
         <Button
             Style="{StaticResource MaterialDesignRaisedButton}"
             Content="{wpf:PackIcon Add}"
@@ -115,7 +122,8 @@
             Margin="0,217,10,0"
             HorizontalAlignment="Right"
             Width="56" 
-            VerticalAlignment="Top" />
+            VerticalAlignment="Top" 
+            Command="{Binding AddDestinationCommand}"/>
         <Button
             Style="{StaticResource MaterialDesignRaisedButton}"
             Content="{wpf:PackIcon Delete}"
@@ -124,7 +132,8 @@
             HorizontalAlignment="Right"
             Width="56" 
             VerticalAlignment="Top"
-            IsEnabled="False"/>
+            IsEnabled="{Binding EnableDeleteButton}"
+            Command="{Binding DeleteDestinationCommand}"/>
 
 
     </Grid>

@@ -84,7 +84,6 @@ namespace Bachup.ViewModel
             {
                 MainViewModel.DeleteBachupGroup(BachupGroup);
             }
-            
         }
 
         #endregion

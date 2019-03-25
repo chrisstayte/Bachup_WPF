@@ -86,6 +86,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AddDestinationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AlertView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -127,6 +131,7 @@
     <Compile Include="Model\BachupItems\Geodatabase.cs" />
     <Compile Include="Model\BachupTypes.cs" />
     <Compile Include="ViewModel\AddBachupGroupViewModel.cs" />
+    <Compile Include="ViewModel\AddDestinationViewModel.cs" />
     <Compile Include="ViewModel\AlertViewModel.cs" />
     <Compile Include="ViewModel\BachupGroupViewModel.cs" />
     <Compile Include="ViewModel\BachupItemViewModel.cs" />
@@ -137,6 +142,9 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="View\AddBachupGroupView.xaml.cs">
       <DependentUpon>AddBachupGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddDestinationView.xaml.cs">
+      <DependentUpon>AddDestinationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\AlertView.xaml.cs">
       <DependentUpon>AlertView.xaml</DependentUpon>
