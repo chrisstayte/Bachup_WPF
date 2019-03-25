@@ -33,7 +33,7 @@
             TextWrapping="Wrap" 
             VerticalAlignment="Top"
             Style="{StaticResource MaterialDesignDisplay1TextBlock}"
-            Text="{Binding BachupGroup.Name}" Height="125"/>
+            Text="{Binding BachupGroup.Name}" MinHeight="125"/>
 
         <materialDesign:PopupBox
             Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
@@ -43,7 +43,7 @@
             Margin="0,10,10,0" HorizontalAlignment="Right" Width="56" VerticalAlignment="Top">
             <materialDesign:PopupBox.ToggleCheckedContent>
                 <materialDesign:PackIcon
-                    Kind="Plus"
+                    Kind="Remove"
                     Width="24"
                     Height="24" />
             </materialDesign:PopupBox.ToggleCheckedContent>

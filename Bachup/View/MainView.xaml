@@ -15,7 +15,7 @@
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{DynamicResource MaterialDesignFont}"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-     MinWidth="600" MinHeight="550">
+    MinWidth="635" MinHeight="550">
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel"/>
     </Window.Resources>
@@ -83,10 +83,15 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </TreeView>
-            <ContentControl 
-                Margin="254,69,10,10"
-                Content="{Binding SelectedViewModel}" HorizontalContentAlignment="Center">
-            </ContentControl>
+            <ScrollViewer 
+                Margin="249,64,0,0"
+                HorizontalScrollBarVisibility="Disabled"
+                
+                VerticalScrollBarVisibility="Auto">
+                <ContentControl
+                    Content="{Binding SelectedViewModel}" 
+                    HorizontalContentAlignment="Center"/>
+            </ScrollViewer>
         </Grid>
     </materialDesign:DialogHost>
 </Window>

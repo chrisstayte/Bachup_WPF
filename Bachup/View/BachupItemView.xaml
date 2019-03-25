@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Bachup.View"
              mc:Ignorable="d" 
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             d:DesignWidth="800" d:DesignHeight="602">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -61,33 +61,43 @@
                 </materialDesign:PackIcon.Style>
             </materialDesign:PackIcon>
         </Button>
+        <Button
+            Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+            Content="{materialDesign:PackIcon Edit}" 
+            Margin="0,71,17,0" 
+            Width="40"
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Right" />
+        <Button
+            Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+            Content="{materialDesign:PackIcon Delete}" 
+            Margin="0,116,17,0" 
+            Width="40"
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Right" />
         <TextBlock 
             x:Name="Name" 
-            HorizontalAlignment="Left" 
-            Margin="10,10,0,0" 
+            Margin="10,10,71,0" 
             TextWrapping="Wrap" 
             Text="{Binding BachupItem.Name}"
             VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignDisplay1TextBlock}">
-        </TextBlock>
+            Style="{StaticResource MaterialDesignDisplay1TextBlock}"  Height="56"/>
         <TextBlock 
             x:Name="lastbachup" 
-            HorizontalAlignment="Left" 
-            Margin="10,60,0,0"
+            Margin="10,71,71,0"
             TextWrapping="Wrap" 
-            Text="{Binding LastBachup}" 
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+            Text="{Binding LastBachup}"
+            Style="{StaticResource MaterialDesignBody1TextBlock}" Height="17" VerticalAlignment="Top"/>
         <TextBlock 
             x:Name="textBlock1" 
-            Margin="10,113,10,0"
+            Margin="10,174,10,0"
             TextWrapping="Wrap" 
             Text="Source Path" 
             VerticalAlignment="Top"
             Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
         <TextBox 
             x:Name="textBox"
-            Height="23" Margin="10,147,71,0" 
+            Height="23" Margin="10,208,71,0" 
             TextWrapping="Wrap"
             Text="{Binding BachupItem.Source}" 
             VerticalAlignment="Top"
@@ -96,30 +106,30 @@
             Style="{StaticResource MaterialDesignRaisedButton}"
             Content="{wpf:PackIcon FolderUpload}"
             ToolTip="Show Source"
-            Margin="0,138,10,0"
+            Margin="0,199,10,0"
             HorizontalAlignment="Right"
             Width="56" 
             VerticalAlignment="Top" 
             Command="{Binding ShowSourceCommand}"/>
         <TextBlock 
             x:Name="textBlock1_Copy" 
-            Margin="10,192,10,0"
+            Margin="10,249,10,0"
             TextWrapping="Wrap" 
             Text="Destinations" 
             VerticalAlignment="Top"
             Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
         <ListBox 
             x:Name="listBox" 
-            Margin="10,217,71,10" 
+            Margin="10,274,71,10" 
             ItemsSource="{Binding BachupItem.Destinations}"
             SelectedItem="{Binding SelectedDestination}">
-            
+
         </ListBox>
         <Button
             Style="{StaticResource MaterialDesignRaisedButton}"
             Content="{wpf:PackIcon Add}"
             ToolTip="Add Destination"
-            Margin="0,217,10,0"
+            Margin="0,274,10,0"
             HorizontalAlignment="Right"
             Width="56" 
             VerticalAlignment="Top" 
@@ -128,7 +138,7 @@
             Style="{StaticResource MaterialDesignRaisedButton}"
             Content="{wpf:PackIcon Delete}"
             ToolTip="Removed Selected Destination"
-            Margin="0,254,10,0"
+            Margin="0,311,10,0"
             HorizontalAlignment="Right"
             Width="56" 
             VerticalAlignment="Top"
