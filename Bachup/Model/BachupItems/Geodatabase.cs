@@ -9,7 +9,7 @@ namespace Bachup.Model.BachupItems
 {
     class Geodatabase : BachupItem
     {
-        public Geodatabase(string name, string source) : base(name, source)
+        public Geodatabase(string name, string source, Guid bachupGroupID) : base(name, source, bachupGroupID)
         { 
 
         }

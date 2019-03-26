@@ -82,7 +82,7 @@ namespace Bachup.ViewModel
 
             if ((bool)choice == true)
             {
-                MainViewModel.DeleteBachupGroup(BachupGroup);
+                MainViewModel.Bachup.Remove(BachupGroup);
             }
         }
 

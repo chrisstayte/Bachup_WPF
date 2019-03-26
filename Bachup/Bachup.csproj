@@ -110,6 +110,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\EditBachupItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\HomePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -138,6 +142,7 @@
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\ConfirmChoiceViewModel.cs" />
     <Compile Include="ViewModel\EditBachupGroupViewModel.cs" />
+    <Compile Include="ViewModel\EditBachupItemViewModel.cs" />
     <Compile Include="ViewModel\HomePageViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="View\AddBachupGroupView.xaml.cs">
@@ -160,6 +165,9 @@
     </Compile>
     <Compile Include="View\EditBachupGroupView.xaml.cs">
       <DependentUpon>EditBachupGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditBachupItemView.xaml.cs">
+      <DependentUpon>EditBachupItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HomePageView.xaml.cs">
       <DependentUpon>HomePageView.xaml</DependentUpon>

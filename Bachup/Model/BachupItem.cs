@@ -12,10 +12,11 @@ namespace Bachup.Model
     abstract class BachupItem : INotifyPropertyChanged
     {
 
-        public BachupItem(string name, string source)
+        public BachupItem(string name, string source, Guid groupID)
         {
             ID = Guid.NewGuid();
             DateCreated = DateTime.Now;
+            BachupGroupID = groupID;
             Name = name;
             Source = source;
         }
@@ -32,6 +33,8 @@ namespace Bachup.Model
 
         public Guid ID { get; }
         public DateTime DateCreated { get; }
+
+        public Guid BachupGroupID { get; }
 
         private string _name;
         public string Name

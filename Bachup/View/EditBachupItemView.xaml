@@ -1,25 +1,20 @@
-﻿<UserControl x:Class="Bachup.View.AddBachupGroupView"
+﻿<UserControl x:Class="Bachup.View.EditBachupItemView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Bachup.View"
-             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:helpers="clr-namespace:Bachup.Helpers"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
-             FontFamily="{DynamicResource MaterialDesignFont}" 
+             xmlns:local="clr-namespace:Bachup.View"
+             mc:Ignorable="d" 
              Height="167" Width="653">
-
-
-    <Grid Height="167" VerticalAlignment="Bottom">
-        <TextBlock
-            x:Name="textBlock" 
-            HorizontalAlignment="Left" 
-            Margin="10,10,0,0" 
-            TextWrapping="Wrap"
-            Text="Add Bachup Group" 
-            VerticalAlignment="Top"
+    <Grid>
+        <TextBlock 
+            x:Name="textBlock"
+            Margin="10,10,10,0" 
+            TextWrapping="Wrap" 
+            Text="Edit Bachup Item"
+            VerticalAlignment="Top" 
+            Height="28"
             Style="{StaticResource MaterialDesignTitleTextBlock}"/>
         <TextBox 
             x:Name="textBox"
@@ -28,7 +23,8 @@
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="Name" 
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-            Text="{Binding Path=Name, Mode=TwoWay, TargetNullValue=''}">
+            Text="{Binding Path=Name, Mode=TwoWay, TargetNullValue=''}"
+            >
         </TextBox>
         <Button
             x:Name="button" 
@@ -42,13 +38,13 @@
         </Button>
         <Button
             x:Name="button1" 
-            Content="Add" 
+            Content="Save" 
             Margin="0,0,10,10" 
             Height="32" 
             VerticalAlignment="Bottom" 
             HorizontalAlignment="Right" 
             Width="75"
-            Command="{Binding AddCommand}">
+            Command="{Binding SaveCommand}">
         </Button>
         <materialDesign:Snackbar
             Message="{Binding Message}"

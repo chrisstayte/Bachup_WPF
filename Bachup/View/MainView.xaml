@@ -68,7 +68,6 @@
                 Background="{DynamicResource MaterialDesignFlatButtonClick}"
                 BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="0, 0, .5, 0"            
                 >
-  
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type model:BachupGroup}" ItemsSource="{Binding BachupItems}">
                         <TextBlock Text="{Binding Name}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
@@ -79,7 +78,7 @@
                 </TreeView.Resources>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedItemChanged">
-                        <i:InvokeCommandAction Command="{Binding TestCommand}" CommandParameter="{Binding ElementName=treeView, Path=SelectedItem}"/>
+                        <i:InvokeCommandAction Command="{Binding SelectItemCommand}" CommandParameter="{Binding ElementName=treeView, Path=SelectedItem}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </TreeView>

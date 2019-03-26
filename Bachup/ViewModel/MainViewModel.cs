@@ -20,24 +20,24 @@
         public MainViewModel()
         {
             BachupGroup bg1 = new BachupGroup("Project 1");
-            bg1.AddNewBachupItem("Area 1");
-            bg1.AddNewBachupItem("Area 2");
-            bg1.AddNewBachupItem("Area 3");
-            bg1.AddNewBachupItem("Area 4");
+            bg1.AddNewBachupItem("Area 1", bg1.ID);
+            bg1.AddNewBachupItem("Area 2", bg1.ID);
+            bg1.AddNewBachupItem("Area 3", bg1.ID);
+            bg1.AddNewBachupItem("Area 4", bg1.ID);
 
 
             BachupGroup bg2 = new BachupGroup("Project 2");
-            bg2.AddNewBachupItem("Area 1");
-            bg2.AddNewBachupItem("Area 2");
-            bg2.AddNewBachupItem("Area 3");
-            bg2.AddNewBachupItem("Area 4");
+            bg2.AddNewBachupItem("Area 1", bg2.ID);
+            bg2.AddNewBachupItem("Area 2", bg2.ID);
+            bg2.AddNewBachupItem("Area 3", bg2.ID);
+            bg2.AddNewBachupItem("Area 4", bg2.ID);
 
 
             BachupGroup bg3 = new BachupGroup("Project 3");
-            bg3.AddNewBachupItem("Area 1");
-            bg3.AddNewBachupItem("Area 2");
-            bg3.AddNewBachupItem("Area 3");
-            bg3.AddNewBachupItem("Area 4");
+            bg3.AddNewBachupItem("Area 1", bg3.ID);
+            bg3.AddNewBachupItem("Area 2", bg3.ID);
+            bg3.AddNewBachupItem("Area 3", bg3.ID);
+            bg3.AddNewBachupItem("Area 4", bg3.ID);
 
             Bachup.Add(bg1);
             Bachup.Add(bg2);
@@ -45,7 +45,7 @@
 
             AddBachupGroupCommand = new RelayCommand(AddBachupGroup);
             SetThemeCommand = new RelayCommand(SetTheme);
-            TestCommand = new RelayCommand(Test);
+            SelectItemCommand = new RelayCommand(SelectItem);
 
             DarkMode = true;
             ThemeName = "Dark";
@@ -100,7 +100,7 @@
         // Relay Commands
         public RelayCommand AddBachupGroupCommand { get; private set; }
         public RelayCommand SetThemeCommand { get; private set; }
-        public RelayCommand TestCommand { get; private set; }
+        public RelayCommand SelectItemCommand { get; private set; }
        
 
         #region Events
@@ -154,14 +154,9 @@
             SelectedViewModel = new HomePageView();
         }
 
-        private void Test(object sender)
+        private void SelectItem(object sender)
         { 
             SetView(sender);            
-        }
-
-        static internal void DeleteBachupGroup(BachupGroup bg)
-        {
-            Bachup.Remove(bg);
         }
 
     }

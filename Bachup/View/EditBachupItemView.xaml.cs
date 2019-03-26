@@ -16,14 +16,13 @@ using System.Windows.Shapes;
 namespace Bachup.View
 {
     /// <summary>
-    /// Interaction logic for BachupItemView.xaml
+    /// Interaction logic for EditBachupItemView.xaml
     /// </summary>
-    public partial class BachupItemView : UserControl
+    public partial class EditBachupItemView : UserControl
     {
-        public BachupItemView()
+        public EditBachupItemView()
         {
             InitializeComponent();
         }
-
     }
 }

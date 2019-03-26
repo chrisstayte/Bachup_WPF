@@ -22,11 +22,14 @@ namespace Bachup.ViewModel
             AddDestinationCommand = new RelayCommand(AddDestination);
             DeleteDestinationCommand = new RelayCommand(DeleteDestination);
             ShowSourceCommand = new RelayCommand(ShowSource);
+            DeleteBachupItemCommand = new RelayCommand(DeleteBachup);
+            EditBachupItemCommand = new RelayCommand(EditBachupItem);
+            RunBachupCommand = new RelayCommand(RunBachup);
+
 
             BachupItem = item;
             EnableDeleteButton = false;
             
-
         }
 
         private BachupItem _bachupItem;
@@ -39,6 +42,7 @@ namespace Bachup.ViewModel
                 NotifyPropertyChanged();
             }
         }
+
 
         public string LastBachup
         {
@@ -119,6 +123,11 @@ namespace Bachup.ViewModel
         public RelayCommand AddDestinationCommand { get; private set; }
         public RelayCommand DeleteDestinationCommand { get; private set; }
         public RelayCommand ShowSourceCommand { get; private set; }
+        public RelayCommand DeleteBachupItemCommand { get; private set; }
+        public RelayCommand EditBachupItemCommand { get; private set; }
+        public RelayCommand RunBachupCommand { get; private set; }
+
+
 
         #region Events
 
@@ -186,9 +195,32 @@ namespace Bachup.ViewModel
             await DialogHost.Show(view, "RootDialog");
         }
 
-        public void ShowSource(object parameter)
+        private void ShowSource(object parameter)
         {
             Process.Start("explorer.exe", _bachupItem.Source);
+        }
+
+        private void DeleteBachup(object parameter)
+        {
+            BachupGroup bg = Bachup.ViewModel.MainViewModel.Bachup.Where(o => o.ID.Equals(_bachupItem.BachupGroupID)).Single();
+            bg.RemoveBachupItem(_bachupItem);
+
+            Debug.WriteLine(bg.Name);
+        }
+
+        private async void EditBachupItem(object parameter)
+        {
+            var view = new EditBachupItemView
+            {
+                DataContext = new EditBachupItemViewModel(_bachupItem)
+            };
+
+            await DialogHost.Show(view, "RootDialog");
+        }
+
+        private void RunBachup(object parameter)
+        {
+
         }
 
         #endregion

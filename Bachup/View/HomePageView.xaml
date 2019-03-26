@@ -8,7 +8,7 @@
              DataContext="{DynamicResource HomePageViewModel}"
              FontFamily="{DynamicResource MaterialDesignFont}" 
              xmlns:local="clr-namespace:Bachup.View"
-             mc:Ignorable="d" d:DesignWidth="500" Height="429.645">
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="429.645">
     <UserControl.Resources>
         <vm:HomePageViewModel x:Key="HomePageViewModel"/>
     </UserControl.Resources>
@@ -42,8 +42,21 @@
             TextWrapping="Wrap"
             Text="Your All In One Bachup Solution" 
             VerticalAlignment="Top"
-            Height="257" TextAlignment="Center"
+            Height="22" TextAlignment="Center"
             Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
+        <Grid 
+            Margin="107,161,98,80">
+            <TextBlock 
+                x:Name="textBlock2"
+                Margin="10,10,10,0"
+                TextWrapping="Wrap"
+                Text="Supported Bachup Types"
+                VerticalAlignment="Top" 
+                TextAlignment="Center"
+                Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+        </Grid>
+
+
 
     </Grid>
 </UserControl>

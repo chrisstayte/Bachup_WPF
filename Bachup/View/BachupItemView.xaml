@@ -22,128 +22,137 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Button
-            Style="{StaticResource MaterialDesignFloatingActionLightButton}"
-            Background="#4CAF50"
-            BorderBrush="#4CAF50"
-            Margin="0,10,10,0"
-            Command="{Binding BachupBachupItemCommand}"
-            materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding IsSaving}"
-            materialDesign:ButtonProgressAssist.Value="{Binding SaveProgress}" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <!-- simple example of toggling/animating pack icon with a data trigger-->
-            <materialDesign:PackIcon Height="24" Width="24">
-                <materialDesign:PackIcon.Style>
-                    <Style
-                        TargetType="materialDesign:PackIcon"
-                        BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
-                        <Setter Property="Kind" Value="Play" />
-                        <Style.Triggers>
-                            <DataTrigger
-                                Binding="{Binding IsSaveComplete}"
-                                Value="True">
-                                <Setter
-                                    Property="Kind"
-                                    Value="Check" />
-                                <DataTrigger.EnterActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation
-                                                Storyboard.TargetProperty="Opacity"
-                                                From="0"
-                                                To="1"
-                                                Duration="0:0:0.8" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.EnterActions>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </materialDesign:PackIcon.Style>
-            </materialDesign:PackIcon>
-        </Button>
-        <Button
-            Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
-            Content="{materialDesign:PackIcon Edit}" 
-            Margin="0,71,17,0" 
-            Width="40"
-            VerticalAlignment="Top" 
-            HorizontalAlignment="Right" />
-        <Button
-            Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
-            Content="{materialDesign:PackIcon Delete}" 
-            Margin="0,116,17,0" 
-            Width="40"
-            VerticalAlignment="Top" 
-            HorizontalAlignment="Right" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="262*"/>
+        </Grid.RowDefinitions>
+        <materialDesign:PopupBox
+            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+            PlacementMode="LeftAndAlignMiddles"   
+            UnfurlOrientation="Horizontal"
+            ToolTipService.Placement="Bottom"
+            ToolTip="Bachup Item Options"
+            Margin="0,10,10,0" 
+            HorizontalAlignment="Right" 
+            Width="56" 
+            VerticalAlignment="Top">
+            <materialDesign:PopupBox.ToggleContent>
+                <materialDesign:PackIcon Kind="DotsHorizontal" Height="24" Width="24" />
+            </materialDesign:PopupBox.ToggleContent>
+            <materialDesign:PopupBox.ToggleCheckedContent>
+                <materialDesign:PackIcon
+                    Kind="Close"
+                    Width="24"
+                    Height="24" />
+            </materialDesign:PopupBox.ToggleCheckedContent>
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    ToolTip="Delete"
+                    Command="{Binding DeleteBachupItemCommand}"
+                    Background="#f44336"
+                    BorderBrush="#f44336">
+                    <materialDesign:PackIcon Kind="Delete" Width="12" Height="12"/>
+                </Button>
+                <Button
+                    ToolTip="Edit"
+                    Command="{Binding EditBachupItemCommand}"
+                    Background="#fdd835"
+                    BorderBrush="#fdd835">
+                    <materialDesign:PackIcon Kind="Edit" Width="12" Height="12"/>
+                </Button>
+                <Button
+                    ToolTip="Run Bachup"
+                    Command="{Binding RunBachupCommand}"
+                    Background="#43a047"
+                    BorderBrush="#43a047">
+                    <materialDesign:PackIcon Kind="Play" Width="12" Height="12"/>
+                </Button>
+            </StackPanel>
+        </materialDesign:PopupBox>
         <TextBlock 
-            x:Name="Name" 
-            Margin="10,10,71,0" 
+            x:Name="BachupItemName" 
+            Margin="10,10,71,12" 
             TextWrapping="Wrap" 
             Text="{Binding BachupItem.Name}"
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignDisplay1TextBlock}"  Height="56"/>
+            Style="{StaticResource MaterialDesignDisplay1TextBlock}">
+            <TextBlock.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Edit Bachup Item" Command="{Binding EditBachupItemCommand}"/>
+                </ContextMenu>
+            </TextBlock.ContextMenu>
+        </TextBlock>
         <TextBlock 
             x:Name="lastbachup" 
-            Margin="10,71,71,0"
+            Margin="10,10,10,0"
             TextWrapping="Wrap" 
             Text="{Binding LastBachup}"
-            Style="{StaticResource MaterialDesignBody1TextBlock}" Height="17" VerticalAlignment="Top"/>
+            Style="{StaticResource MaterialDesignBody1TextBlock}" Height="17" VerticalAlignment="Top" Grid.Row="1"/>
         <TextBlock 
             x:Name="textBlock1" 
-            Margin="10,174,10,0"
+            Margin="10,58,10,0"
             TextWrapping="Wrap" 
             Text="Source Path" 
             VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
+            Style="{StaticResource MaterialDesignSubheadingTextBlock}" Grid.Row="1" Height="20"/>
         <TextBox 
             x:Name="textBox"
-            Height="23" Margin="10,208,71,0" 
+            Height="23" Margin="10,92,71,0" 
             TextWrapping="Wrap"
             Text="{Binding BachupItem.Source}" 
             VerticalAlignment="Top"
-            IsReadOnly="True"/>
+            IsReadOnly="True" Grid.Row="1"/>
         <Button
             Style="{StaticResource MaterialDesignRaisedButton}"
             Content="{wpf:PackIcon FolderUpload}"
             ToolTip="Show Source"
-            Margin="0,199,10,0"
+            Margin="0,83,10,0"
             HorizontalAlignment="Right"
             Width="56" 
             VerticalAlignment="Top" 
-            Command="{Binding ShowSourceCommand}"/>
-        <TextBlock 
-            x:Name="textBlock1_Copy" 
-            Margin="10,249,10,0"
-            TextWrapping="Wrap" 
-            Text="Destinations" 
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
-        <ListBox 
-            x:Name="listBox" 
-            Margin="10,274,71,10" 
-            ItemsSource="{Binding BachupItem.Destinations}"
-            SelectedItem="{Binding SelectedDestination}">
-
-        </ListBox>
+            Command="{Binding ShowSourceCommand}" Grid.Row="1"/>
         <Button
             Style="{StaticResource MaterialDesignRaisedButton}"
             Content="{wpf:PackIcon Add}"
             ToolTip="Add Destination"
-            Margin="0,274,10,0"
+            Margin="0,184,10,0"
             HorizontalAlignment="Right"
             Width="56" 
             VerticalAlignment="Top" 
-            Command="{Binding AddDestinationCommand}"/>
+            Command="{Binding AddDestinationCommand}" Grid.Row="1"/>
         <Button
             Style="{StaticResource MaterialDesignRaisedButton}"
             Content="{wpf:PackIcon Delete}"
             ToolTip="Removed Selected Destination"
-            Margin="0,311,10,0"
+            Margin="0,221,10,0"
             HorizontalAlignment="Right"
             Width="56" 
             VerticalAlignment="Top"
             IsEnabled="{Binding EnableDeleteButton}"
-            Command="{Binding DeleteDestinationCommand}"/>
+            Command="{Binding DeleteDestinationCommand}" Grid.Row="1"/>
+        <GroupBox x:Name="destinationGroupBox" Header="Destinations" Margin="10,133,71,10" Grid.Row="1">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Kind="MapMarker"
+                            Height="32"
+                            Width="32"
+                            VerticalAlignment="Center" />
+                        <TextBlock
+                            Margin="8,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignSubheadingTextBlock}"
+                            Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <ListBox 
+                x:Name="listBox" 
+                Margin="0,0,0,52" 
+                ItemsSource="{Binding BachupItem.Destinations}"
+                SelectedItem="{Binding SelectedDestination}" />
+        </GroupBox>
 
 
     </Grid>

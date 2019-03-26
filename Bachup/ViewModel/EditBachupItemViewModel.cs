@@ -9,23 +9,23 @@ using System.Threading.Tasks;
 
 namespace Bachup.ViewModel
 {
-    class EditBachupGroupViewModel : BaseViewModel
+    class EditBachupItemViewModel : BaseViewModel
     {
-        public EditBachupGroupViewModel(BachupGroup bg)
+        public EditBachupItemViewModel(BachupItem bi)
         {
             CancelCommand = new RelayCommand(Cancel);
             SaveCommand = new RelayCommand(Save);
 
             ShowMessage = false;
             Message = "";
-            _bachupGroup = bg;
-            Name = bg.Name;
+            _bachupItem = bi;
+            Name = bi.Name;
         }
 
-        private readonly BachupGroup _bachupGroup;
+        private readonly BachupItem _bachupItem;
 
         private string _name;
-        public String Name
+        public string Name
         {
             get
             {
@@ -39,7 +39,7 @@ namespace Bachup.ViewModel
         }
 
         private string _message;
-        public String Message
+        public string Message
         {
             get
             {
@@ -68,11 +68,9 @@ namespace Bachup.ViewModel
         public RelayCommand CancelCommand { get; private set; }
         public RelayCommand SaveCommand { get; private set; }
 
-       
-
         #region Events
 
-        private void Cancel(object paraemeter)
+        private void Cancel(object parameter)
         {
             DialogHost.CloseDialogCommand.Execute(null, null);
         }
@@ -81,10 +79,9 @@ namespace Bachup.ViewModel
         {
             if (CheckRequirements())
             {
-                _bachupGroup.Name = Name;
+                _bachupItem.Name = Name;
                 DialogHost.CloseDialogCommand.Execute(null, null);
             }
-            
         }
 
         private bool CheckRequirements()
@@ -97,9 +94,13 @@ namespace Bachup.ViewModel
             }
 
             ShowMessage = false;
+
             return true;
         }
 
         #endregion
+
     }
+
+
 }
