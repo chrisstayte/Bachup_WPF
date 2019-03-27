@@ -129,5 +129,14 @@
             Visibility="{Binding ShowAddBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}"
             TextAlignment="Center" Grid.Row="1"/>
 
+        <materialDesign:Snackbar
+                IsActive="{Binding ShowMessage}"
+                x:Name="SnackbarTwo" Margin="10,0" HorizontalAlignment="Stretch" MaxWidth="400" Grid.Row="1">
+            <materialDesign:SnackbarMessage
+                    Content="{Binding Message}"
+                    ActionCommand="{Binding CloseMessageCommand}"
+                    ActionContent="Okay" />
+        </materialDesign:Snackbar>
+
     </Grid>
 </UserControl>

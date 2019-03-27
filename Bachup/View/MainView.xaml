@@ -30,9 +30,13 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="277"/>
+                <ColumnDefinition Width="559*"/>
+            </Grid.ColumnDefinitions>
             <materialDesign:ColorZone
                 Mode="PrimaryMid"
-                Padding="16">
+                Padding="16" Grid.ColumnSpan="2">
                 <DockPanel>
                     <ToggleButton
                         Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
@@ -61,9 +65,7 @@
             </materialDesign:ColorZone>
             <TreeView 
                 x:Name="treeView" 
-                Margin="0,64,0,0" 
-                HorizontalAlignment="Left" 
-                Width="249"
+                Margin="0,64,0,0"
                 ItemsSource="{Binding Bachup}"
                 Background="{DynamicResource MaterialDesignFlatButtonClick}"
                 BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="0, 0, .5, 0"            
@@ -82,15 +84,20 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </TreeView>
+
+
             <ScrollViewer 
-                Margin="249,64,0,0"
+                Margin="0,64,0,0"
                 HorizontalScrollBarVisibility="Disabled"
                 
-                VerticalScrollBarVisibility="Auto">
+                VerticalScrollBarVisibility="Auto" Grid.Column="1">
                 <ContentControl
                     Content="{Binding SelectedViewModel}" 
                     HorizontalContentAlignment="Center"/>
             </ScrollViewer>
+
+            
+
         </Grid>
     </materialDesign:DialogHost>
 </Window>

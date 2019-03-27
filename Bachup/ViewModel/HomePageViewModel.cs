@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bachup.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -15,6 +16,8 @@ namespace Bachup.ViewModel
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             VersionNumber = String.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+
+            ShowMySiteCommand = new RelayCommand(ShowMySite );
         }
 
         private string _message;
@@ -41,5 +44,17 @@ namespace Bachup.ViewModel
                 NotifyPropertyChanged();
             }
         }
+
+        // Relay Commands
+
+        public RelayCommand ShowMySiteCommand { get; private set; }
+
+        #region Events
+
+        private void ShowMySite(object o)
+        {
+            System.Diagnostics.Process.Start("http://chrisstayte.com");
+        }
+        #endregion
     }
 }

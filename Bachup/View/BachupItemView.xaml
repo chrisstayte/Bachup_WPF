@@ -24,7 +24,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="262*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <materialDesign:PopupBox
             Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
@@ -129,7 +129,7 @@
             VerticalAlignment="Top"
             IsEnabled="{Binding EnableDeleteButton}"
             Command="{Binding DeleteDestinationCommand}" Grid.Row="1"/>
-        <GroupBox x:Name="destinationGroupBox" Header="Destinations" Margin="10,133,71,10" Grid.Row="1">
+        <GroupBox x:Name="destinationGroupBox" Header="Destinations" Margin="10,133,71,10" Grid.Row="1" MinHeight="300">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <StackPanel
@@ -149,11 +149,8 @@
             </GroupBox.HeaderTemplate>
             <ListBox 
                 x:Name="listBox" 
-                Margin="0,0,0,52" 
                 ItemsSource="{Binding BachupItem.Destinations}"
-                SelectedItem="{Binding SelectedDestination}" />
+                SelectedItem="{Binding SelectedDestination}" Height="275" VerticalAlignment="Top" />
         </GroupBox>
-
-
     </Grid>
 </UserControl>

@@ -200,12 +200,23 @@ namespace Bachup.ViewModel
             Process.Start("explorer.exe", _bachupItem.Source);
         }
 
-        private void DeleteBachup(object parameter)
+        private async void DeleteBachup(object parameter)
         {
-            BachupGroup bg = Bachup.ViewModel.MainViewModel.Bachup.Where(o => o.ID.Equals(_bachupItem.BachupGroupID)).Single();
-            bg.RemoveBachupItem(_bachupItem);
+            string message = String.Format("Delete {0}", _bachupItem.Name);
+            string submessage = String.Format("This is not reversable. You will lose this bachup item and its history. Source files will remain in place.");
 
-            Debug.WriteLine(bg.Name);
+            var view = new ConfirmChoiceView
+            {
+                DataContext = new ConfirmChoiceViewModel(message, submessage)
+            };
+
+            var choice = await DialogHost.Show(view, "RootDialog");
+
+            if ((bool)choice == true)
+            {
+                BachupGroup bg = Bachup.ViewModel.MainViewModel.Bachup.Where(o => o.ID.Equals(_bachupItem.BachupGroupID)).Single();
+                bg.RemoveBachupItem(_bachupItem);
+            }
         }
 
         private async void EditBachupItem(object parameter)

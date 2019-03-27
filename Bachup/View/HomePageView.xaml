@@ -15,11 +15,11 @@
     <Grid>
         <TextBlock 
             x:Name="versionNumber" 
-            Margin="10,0,10,10" 
+            Margin="10,0,10,37" 
             TextWrapping="Wrap"
             Text="{Binding VersionNumber}" 
             TextAlignment="Center" 
-            Height="24"
+            Height="14"
             VerticalAlignment="Bottom" 
             />
         <Image 
@@ -44,19 +44,33 @@
             VerticalAlignment="Top"
             Height="22" TextAlignment="Center"
             Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
-        <Grid 
-            Margin="107,161,98,80">
+        <GroupBox 
+            x:Name="groupBox" 
+            Header="Supported Bachup Types"
+            Margin="10,187,10,0"
+            Height="121"
+            MaxWidth="150"
+            VerticalAlignment="Top">
             <TextBlock 
-                x:Name="textBlock2"
-                Margin="10,10,10,0"
-                TextWrapping="Wrap"
-                Text="Supported Bachup Types"
-                VerticalAlignment="Top" 
+                x:Name="textBlock2" 
+                TextWrapping="Wrap" 
+                Text="Geodatabase"
+                VerticalAlignment="Top"
                 TextAlignment="Center"
-                Style="{StaticResource MaterialDesignBody2TextBlock}"/>
-        </Grid>
-
-
-
+                Style="{StaticResource MaterialDesignCaptionTextBlock}"/>
+        </GroupBox>
+        <materialDesign:Badged
+            Margin="202,0,200,10"
+            Height="22" 
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Center"
+            Width="98"
+            Badge="{materialDesign:PackIcon Kind=Heart}" BadgeColorZoneMode="Accent">
+        <Button
+            x:Name="button" 
+            
+            FontSize="12" 
+            Command="{Binding ShowMySiteCommand}" Height="22" Width="98">Chris Stayte</Button>
+            </materialDesign:Badged>
     </Grid>
 </UserControl>

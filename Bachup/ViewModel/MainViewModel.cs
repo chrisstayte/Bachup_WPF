@@ -46,6 +46,7 @@
             AddBachupGroupCommand = new RelayCommand(AddBachupGroup);
             SetThemeCommand = new RelayCommand(SetTheme);
             SelectItemCommand = new RelayCommand(SelectItem);
+            
 
             DarkMode = true;
             ThemeName = "Dark";
@@ -95,12 +96,15 @@
             }
         }
 
+        
+
 
 
         // Relay Commands
         public RelayCommand AddBachupGroupCommand { get; private set; }
         public RelayCommand SetThemeCommand { get; private set; }
         public RelayCommand SelectItemCommand { get; private set; }
+       
        
 
         #region Events
@@ -128,12 +132,16 @@
         }
 
         
+
         #endregion
+
+        #region Methods
 
         private void SetView(object Item)
         {
             if (Item is BachupGroup)
             {
+
                 SelectedViewModel = new BachupGroupView()
                 {
                     DataContext = new BachupGroupViewModel((BachupGroup)Item)
@@ -158,6 +166,10 @@
         { 
             SetView(sender);            
         }
+
+
+        #endregion
+
 
     }
 }

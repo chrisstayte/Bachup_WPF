@@ -16,8 +16,12 @@ namespace Bachup.ViewModel
         {
             EditBachupGroupCommand = new RelayCommand(EditBachupGroup);
             DeleteBachupGroupCommand = new RelayCommand(DeleteBachupGroup);
+            AddBachupItemCommand = new RelayCommand(AddBachupItem);
+            CloseMessageCommand = new RelayCommand(CloseMessage);
 
             _bachupGroup = BachupGroupInput;
+
+            ShowMessage = false;
 
             ShowBachupItems = _bachupGroup.BachupItems.Count > 0;
             ShowAddBachupItems = _bachupGroup.BachupItems.Count <= 0;
@@ -52,9 +56,36 @@ namespace Bachup.ViewModel
             }
         }
 
+        private string _message;
+        public String Message
+        {
+            get
+            {
+                return _message;
+            }
+            set
+            {
+                _message = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _showMessage;
+        public bool ShowMessage
+        {
+            get { return _showMessage; }
+            set
+            {
+                _showMessage = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         // Relay Commands
         public RelayCommand EditBachupGroupCommand { get; private set; }
         public RelayCommand DeleteBachupGroupCommand { get; private set; }
+        public RelayCommand AddBachupItemCommand { get; private set; }
+        public RelayCommand CloseMessageCommand { get; private set; }
 
         #region Events
 
@@ -84,6 +115,17 @@ namespace Bachup.ViewModel
             {
                 MainViewModel.Bachup.Remove(BachupGroup);
             }
+        }
+
+        private async void AddBachupItem(object parameter)
+        {
+            ShowMessage = true;
+            Message = "HIIIII";
+        }
+
+        private void CloseMessage(object o)
+        {
+            ShowMessage = false;
         }
 
         #endregion
