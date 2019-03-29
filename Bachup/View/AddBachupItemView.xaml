@@ -1,0 +1,66 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Bachup.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="Bachup.View.AddBachupItemView"
+             mc:Ignorable="d" Width="653" Height="205.43">
+    <Grid>
+        <TextBlock
+            x:Name="textBlock" 
+            HorizontalAlignment="Left" 
+            Margin="10,10,0,0" 
+            TextWrapping="Wrap"
+            Text="Add Bachup Item" 
+            VerticalAlignment="Top"
+            Style="{StaticResource MaterialDesignTitleTextBlock}"/>
+
+        <TextBox 
+            x:Name="textBox"
+            Height="38" Margin="10,42,10,0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="Name" 
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+            Text="{Binding Name, Mode=TwoWay, TargetNullValue=''}"/>
+        <TextBox 
+            x:Name="textBox_Copy"
+            Height="38" Margin="10,104,114,0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="Source" 
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+            Text="{Binding Name, Mode=TwoWay, TargetNullValue=''}"/>
+        <Button 
+            x:Name="button"
+            ToolTip="Folder"
+            VerticalAlignment="Top" 
+            Margin="0,110,62,0" HorizontalAlignment="Right" Width="47">
+            <materialDesign:PackIcon Kind="Folder"/>
+        </Button>
+        <Button 
+            x:Name="button_Copy" 
+            ToolTip="File" 
+            Margin="0,110,10,0" 
+            Height="32" 
+            HorizontalAlignment="Right"
+            Width="47" 
+            VerticalAlignment="Top">
+            <materialDesign:PackIcon Kind="File"/>
+        </Button>
+        <Button
+            x:Name="button1"
+            Content="Add"
+            Margin="0,0,10,10" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
+        <Button 
+            x:Name="button1_Copy" 
+            Content="Cancel" 
+            Margin="0,0,90,10" 
+            Height="32" 
+            HorizontalAlignment="Right" 
+            Width="75" 
+            VerticalAlignment="Bottom"/>
+
+    </Grid>
+</UserControl>
