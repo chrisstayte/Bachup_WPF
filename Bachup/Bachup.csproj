@@ -138,6 +138,7 @@
     <Compile Include="Model\BachupGroup.cs" />
     <Compile Include="Model\BachupItem.cs" />
     <Compile Include="Model\BachupItems\BI_Geodatabase.cs" />
+    <Compile Include="Model\BachupItems\BI_TextFile.cs" />
     <Compile Include="Model\BachupTypes.cs" />
     <Compile Include="ViewModel\AddBachupGroupViewModel.cs" />
     <Compile Include="ViewModel\AddBachupItemViewModel.cs" />

@@ -231,7 +231,7 @@ namespace Bachup.ViewModel
 
         private void RunBachup(object parameter)
         {
-
+            _bachupItem.RunBachup();
         }
 
         #endregion

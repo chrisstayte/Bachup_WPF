@@ -85,7 +85,7 @@ namespace Bachup.ViewModel
 
         private void Add(object o)
         {
-            if (_bachupItem.CheckDestinationExistence(Destination))
+            if (_bachupItem.IsDestinationADuplicate(Destination))
             {
                 Message = "Destination Alreadys Exists";
                 ShowMessage = true;

@@ -13,5 +13,18 @@ namespace Bachup.Model.BachupItems
 
         }
 
+        #region Methods
+
+        public override bool IsFileLocked()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RunBachup()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

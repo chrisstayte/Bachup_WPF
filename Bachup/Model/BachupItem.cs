@@ -123,12 +123,76 @@ namespace Bachup.Model
             _destinations.Remove(path);
         }
 
-        public bool CheckDestinationExistence(string path)
+        public bool IsDestinationADuplicate(string path)
         {
             return _destinations.Contains(path);
         }
 
+        public bool CheckDestinationsConnection()
+        {
+            foreach (string destination in Destinations)
+                if (!System.IO.Directory.Exists(destination))
+                    return false;
+            return true;
+        }
+
+        public void GenerateBachupLocation(string destination)
+        {
+            // Create Initial Named Folder
+            string bachupLocation = System.IO.Path.Combine(destination, Name);
+            bachupLocation = System.IO.Path.Combine(bachupLocation, CurrentDate());
+            System.IO.Directory.CreateDirectory(bachupLocation);
+
+
+            int count = 1;
+            bool exists = true;
+
+            while (exists)
+            {
+                string number = "";
+                if (count < 10)
+                {
+                    number = String.Format("0{0}", count);
+                }
+                else
+                {
+                    number = String.Format("{0}", count);
+                }
+
+                if (System.IO.Directory.Exists(System.IO.Path.Combine(bachupLocation, number)))
+                    count++;
+                else
+                {
+                    bachupLocation = System.IO.Path.Combine(bachupLocation, number);
+                    exists = false;
+                }
+            }
+
+            System.IO.Directory.CreateDirectory(bachupLocation);
+        }
+
+        /// <summary> Gets the current date in: 01201995 which is 01/20/1995
+        /// </summary>
+        /// <returns>Date as 01201995</returns>
+        internal static string CurrentDate()
+        {
+            string dayBuffer = "";
+            string monthBuffer = "";
+            DateTime datetime = DateTime.Now;
+            string year = datetime.Year.ToString();
+            string month = datetime.Month.ToString();
+            string day = datetime.Day.ToString();
+            if (Convert.ToInt32(day) < 10)
+                dayBuffer = "0";
+            if (Convert.ToInt32(month) < 10)
+                monthBuffer = "0";
+            return monthBuffer + month + dayBuffer + day + year;
+        }
+
+
+        // These are custom to each type. Each subtype will need to override these methods and implement a custom version
         public abstract bool IsFileLocked();
+        public abstract void RunBachup();
 
         #endregion 
     }
