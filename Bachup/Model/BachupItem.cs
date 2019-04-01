@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Bachup.View;
+using Bachup.ViewModel;
+using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -128,11 +131,24 @@ namespace Bachup.Model
             return _destinations.Contains(path);
         }
 
-        public bool CheckDestinationsConnection()
+        public async Task<bool> CheckDestinationsConnection(bool promptWithDialogToContinue)
         {
+            bool missingDestination = false;
+
             foreach (string destination in Destinations)
                 if (!System.IO.Directory.Exists(destination))
-                    return false;
+                    missingDestination = true;
+
+            if (missingDestination)
+            {
+                var view = new ConfirmChoiceView
+                {
+                    DataContext = new ConfirmChoiceViewModel("Bachup With Missing?",
+                    "There are destinations missing. You can choose to bachup with connected destinations.")
+                };
+                return (bool)await DialogHost.Show(view, "RootDialog");
+            }
+
             return true;
         }
 
@@ -142,7 +158,6 @@ namespace Bachup.Model
             string bachupLocation = System.IO.Path.Combine(destination, Name);
             bachupLocation = System.IO.Path.Combine(bachupLocation, CurrentDate());
             System.IO.Directory.CreateDirectory(bachupLocation);
-
 
             int count = 1;
             bool exists = true;

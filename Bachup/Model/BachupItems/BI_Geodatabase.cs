@@ -31,25 +31,23 @@ namespace Bachup.Model.BachupItems
             return false;
         }
 
-        public override void RunBachup()
+        public override async void RunBachup()
         {
             if (IsFileLocked())
                 return;
-
-            if (CheckDestinationsConnection())
+            bool isValid = await CheckDestinationsConnection(true);
+            if (isValid)
             {
-
-                // TODO: Implement a follow up asking if the user wants to backup to destinations that exist
-                
-            }
-
-            foreach (string destination in Destinations)
-            {
-                if (Directory.Exists(destination))
+                foreach (string destination in Destinations)
                 {
-                    GenerateBachupLocation(destination);
+                    if (Directory.Exists(destination))
+                    {
+                        GenerateBachupLocation(destination);
+                    }
                 }
             }
+
+            
 
         }
 
