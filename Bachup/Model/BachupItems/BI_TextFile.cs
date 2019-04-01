@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bachup.Model;
 
 namespace Bachup.Model.BachupItems
 {
-    class Geodatabase : BachupItem
+    class BI_TextFile : BachupItem
     {
-        public Geodatabase(string name, string source, Guid bachupGroupID) : base(name, source, bachupGroupID)
-        { 
+        public BI_TextFile(string name, string source, Guid bachupGroupID) : base(name, source, bachupGroupID)
+        {
 
         }
+
     }
 }

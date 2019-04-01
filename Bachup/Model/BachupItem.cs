@@ -128,6 +128,8 @@ namespace Bachup.Model
             return _destinations.Contains(path);
         }
 
+        public abstract bool IsFileLocked();
+
         #endregion 
     }
 }

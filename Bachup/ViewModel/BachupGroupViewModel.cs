@@ -119,8 +119,12 @@ namespace Bachup.ViewModel
 
         private async void AddBachupItem(object parameter)
         {
-            ShowMessage = true;
-            Message = "HIIIII";
+            var view = new AddBachupItemView
+            {
+                DataContext = new AddBachupItemViewModel(_bachupGroup)
+            };
+
+            await DialogHost.Show(view, "RootDialog");
         }
 
         private void CloseMessage(object o)

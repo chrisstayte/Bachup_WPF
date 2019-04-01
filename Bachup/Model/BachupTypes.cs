@@ -9,6 +9,7 @@ namespace Bachup.Model
     enum BachupType
     {
         NotSupported,
-        GDB
+        GDB,
+        TXT
     }
 }

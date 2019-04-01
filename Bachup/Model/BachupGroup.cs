@@ -104,7 +104,7 @@ namespace Bachup.Model
         // TODO: FLESH OUT BACHUP ITEM
         public void AddNewBachupItem(string name, Guid ID)
         {
-            BachupItem bi = new Geodatabase(name, @"X:\Projects\ToledoOH_Impervious\Team\Toledo.gdb", ID);
+            BachupItem bi = new BI_Geodatabase(name, @"X:\Projects\ToledoOH_Impervious\Team\Toledo.gdb", ID);
             bi.AddDestination(@"G:\GS\Projects\79631_ToledoOH_Stormwater\RemoteSensing\GIS\Team\backup\Chris");
             bi.AddDestination(@"X:\Projects\ToledoOH_Impervious\Team\backup");
             BachupItems.Add(bi);
