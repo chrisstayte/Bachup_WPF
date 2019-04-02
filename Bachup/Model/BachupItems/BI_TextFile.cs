@@ -13,6 +13,11 @@ namespace Bachup.Model.BachupItems
 
         }
 
+        public override void CopyData()
+        {
+            throw new NotImplementedException();
+        }
+
         #region Methods
 
         public override bool IsFileLocked()

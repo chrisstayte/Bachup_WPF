@@ -5,11 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bachup.Model;
+using Bachup.View;
+using Bachup.ViewModel;
+using MaterialDesignThemes.Wpf;
 
 namespace Bachup.Model.BachupItems
 {
     class BI_Geodatabase : BachupItem
     {
+
         public BI_Geodatabase(string name, string source, Guid bachupGroupID) : base(name, source, bachupGroupID)
         { 
 
@@ -35,20 +39,49 @@ namespace Bachup.Model.BachupItems
         {
             if (IsFileLocked())
                 return;
+
             bool isValid = await CheckDestinationsConnection(true);
             if (isValid)
             {
-                foreach (string destination in Destinations)
+                var view = new CopyBachupItemView()
                 {
-                    if (Directory.Exists(destination))
-                    {
-                        GenerateBachupLocation(destination);
-                    }
-                }
-            }
+                    DataContext = new CopyBachupItemViewModel(this)
+                };
+
+                await DialogHost.Show(view, "RootDialog");
+
+
+            }  
 
             
+        }
 
+
+        public override void CopyData()
+        {
+            foreach (string destination in Destinations)
+            {
+                if (Directory.Exists(destination))
+                {
+                    string bachupLocation = GenerateBachupLocation(destination);
+
+                    string geodatabaseName = Path.GetFileName(Source);
+
+                    string outputGeodatabase = System.IO.Path.Combine(bachupLocation, geodatabaseName);
+
+                    Directory.CreateDirectory(outputGeodatabase);
+
+                    string[] files = Directory.GetFiles(Source);
+
+                    Parallel.ForEach(files, (currentFile) =>
+                    {
+                        string fileName = Path.GetFileName(currentFile);
+                        string destFile = Path.Combine(outputGeodatabase, fileName);
+                        File.Copy(currentFile, destFile, true);
+                    });
+
+                }
+            }
         }
 
         #endregion

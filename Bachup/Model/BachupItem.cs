@@ -152,7 +152,7 @@ namespace Bachup.Model
             return true;
         }
 
-        public void GenerateBachupLocation(string destination)
+        public string  GenerateBachupLocation(string destination)
         {
             // Create Initial Named Folder
             string bachupLocation = System.IO.Path.Combine(destination, Name);
@@ -184,6 +184,8 @@ namespace Bachup.Model
             }
 
             System.IO.Directory.CreateDirectory(bachupLocation);
+
+            return bachupLocation;
         }
 
         /// <summary> Gets the current date in: 01201995 which is 01/20/1995
@@ -208,6 +210,7 @@ namespace Bachup.Model
         // These are custom to each type. Each subtype will need to override these methods and implement a custom version
         public abstract bool IsFileLocked();
         public abstract void RunBachup();
+        public abstract void CopyData();
 
         #endregion 
     }
