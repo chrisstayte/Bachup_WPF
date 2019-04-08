@@ -5,7 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace Bachup.ViewModel
 {
@@ -16,6 +19,7 @@ namespace Bachup.ViewModel
         {
             _bachupItem = bachupItem;
             ContentControlLoadedCommand = new RelayCommand(ContentControlLoaded);
+           
         }
 
         BachupItem _bachupItem;
@@ -27,10 +31,14 @@ namespace Bachup.ViewModel
 
         private void ContentControlLoaded(object o)
         {
-            _bachupItem.CopyData();
+            //_bachupItem.CopyData();
 
-            DialogHost.CloseDialogCommand.Execute(null, null);
+           // DialogHost.CloseDialogCommand.Execute(null, null);
         }
 
+        public void Close()
+        {
+            DialogHost.CloseDialogCommand.Execute(null, null);
+        }
     }
 }

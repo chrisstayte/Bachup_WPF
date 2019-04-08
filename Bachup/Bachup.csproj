@@ -83,6 +83,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\ThemeColorEnum.cs" />
     <Compile Include="ViewModel\CopyBachupItemViewModel.cs" />
     <Compile Include="View\CopyBachupItemView.xaml.cs">
       <DependentUpon>CopyBachupItemView.xaml</DependentUpon>

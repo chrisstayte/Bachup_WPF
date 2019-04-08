@@ -51,6 +51,17 @@
                         Margin="0,0,10,0"
                         Text="{Binding ThemeName}"/>
                     <Button
+                        Style="{StaticResource MaterialDesignToolForegroundButton}"
+                        ToolTip="MaterialDesignFloatingActionMiniLightButton"
+                        DockPanel.Dock="Right"
+                        Margin="0,0,20,0"
+                        Command="{Binding ChangeThemeColorCommand}">
+                        <materialDesign:PackIcon
+                            Kind="Colorize"
+                            Height="24"
+                            Width="24" />
+                    </Button>
+                    <Button
                         Style="{DynamicResource MaterialDesignToolForegroundButton}"
                         Margin="0 0 0 0"
                         Panel.ZIndex="0"
@@ -93,7 +104,7 @@
                 VerticalScrollBarVisibility="Auto" Grid.Column="1">
                 <ContentControl
                     Content="{Binding SelectedViewModel}" 
-                    HorizontalContentAlignment="Center"/>
+                    HorizontalContentAlignment="Center" />
             </ScrollViewer>
 
             

@@ -3,8 +3,10 @@
     using Bachup.Helpers;
     using Bachup.Model;
     using Bachup.View;
+    using MaterialDesignColors;
     using MaterialDesignThemes.Wpf;
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Windows;
@@ -46,10 +48,14 @@
             AddBachupGroupCommand = new RelayCommand(AddBachupGroup);
             SetThemeCommand = new RelayCommand(SetTheme);
             SelectItemCommand = new RelayCommand(SelectItem);
+            ChangeThemeColorCommand = new RelayCommand(ChangeThemeColor);
             
 
             DarkMode = true;
             ThemeName = "Dark";
+            _themeColor = ThemeColors.orange;
+
+            SetThemeColor();
 
             SetView(null);             
         }
@@ -96,6 +102,8 @@
             }
         }
 
+        private ThemeColors _themeColor;
+
         
 
 
@@ -104,6 +112,7 @@
         public RelayCommand AddBachupGroupCommand { get; private set; }
         public RelayCommand SetThemeCommand { get; private set; }
         public RelayCommand SelectItemCommand { get; private set; }
+        public RelayCommand ChangeThemeColorCommand { get; private set; }
        
        
 
@@ -165,6 +174,37 @@
         private void SelectItem(object sender)
         { 
             SetView(sender);            
+        }
+
+        private void ChangeThemeColor(object sender)
+        {
+            ThemeColors newColor = (ThemeColors)GetNextColor();
+            _themeColor = newColor;
+
+            
+            
+            Debug.WriteLine(GetNextColor());
+            SetThemeColor();
+        }
+
+        private void SetThemeColor()
+        {
+            new PaletteHelper().ReplaceAccentColor(_themeColor.ToString());
+            new PaletteHelper().ReplacePrimaryColor(_themeColor.ToString());
+        }
+
+        private int GetNextColor()
+        {
+            int currentColor = (int)_themeColor;
+            int TotalCount = Enum.GetNames(typeof(ThemeColors)).Length;
+            
+            if (currentColor < TotalCount)
+            {
+                int newColor = currentColor + 1;
+                return newColor;
+            }
+                
+            return 1;
         }
 
 

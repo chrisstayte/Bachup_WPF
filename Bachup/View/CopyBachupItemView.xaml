@@ -7,7 +7,7 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" Height="40" Width="40">
     <i:Interaction.Triggers>
-        <i:EventTrigger EventName="ContentRendered">
+        <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding ContentControlLoadedCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>

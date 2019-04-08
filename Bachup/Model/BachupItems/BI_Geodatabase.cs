@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Bachup.Model;
 using Bachup.View;
@@ -43,19 +45,49 @@ namespace Bachup.Model.BachupItems
             bool isValid = await CheckDestinationsConnection(true);
             if (isValid)
             {
-                var view = new CopyBachupItemView()
+                CopyBachupItemView view = new CopyBachupItemView()
                 {
-                    DataContext = new CopyBachupItemViewModel(this)
+                    DataContext = this
+                    
                 };
 
-                await DialogHost.Show(view, "RootDialog");
+                DialogHost.Show(view, "RootDialog");
 
+                await CopyData2();
 
-            }  
-
-            
+                DialogHost.CloseDialogCommand.Execute(null, null);
+                //CopyBachupItemViewModel test = (CopyBachupItemViewModel)view.DataContext;
+                //test.Close();
+            }            
         }
 
+        public async Task<bool> CopyData2()
+        {
+            foreach (string destination in Destinations)
+            {
+                if (Directory.Exists(destination))
+                {
+                    string bachupLocation = GenerateBachupLocation(destination);
+
+                    string geodatabaseName = Path.GetFileName(Source);
+
+                    string outputGeodatabase = System.IO.Path.Combine(bachupLocation, geodatabaseName);
+
+                    Directory.CreateDirectory(outputGeodatabase);
+
+                    string[] files = Directory.GetFiles(Source);
+
+                    Parallel.ForEach(files, (currentFile) =>
+                    {
+                        string fileName = Path.GetFileName(currentFile);
+                        string destFile = Path.Combine(outputGeodatabase, fileName);
+                        File.Copy(currentFile, destFile, true);
+                    });
+
+                }
+            }
+            return false; 
+        }
 
         public override void CopyData()
         {
