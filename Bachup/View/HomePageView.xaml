@@ -51,13 +51,17 @@
             Height="121"
             MaxWidth="150"
             VerticalAlignment="Top">
-            <TextBlock 
+            <TextBlock
                 x:Name="textBlock2" 
                 TextWrapping="Wrap" 
-                Text="Geodatabase"
                 VerticalAlignment="Top"
                 TextAlignment="Center"
-                Style="{StaticResource MaterialDesignCaptionTextBlock}"/>
+                Style="{StaticResource MaterialDesignCaptionTextBlock}">
+                Geodatabase
+                <LineBreak/>
+                Text File
+            </TextBlock>
+
         </GroupBox>
         <materialDesign:Badged
             Margin="202,0,200,10"
@@ -70,10 +74,10 @@
 
 
             <Button
-            x:Name="button" 
+                x:Name="button" 
             
-            FontSize="12" 
-            Command="{Binding ShowMySiteCommand}" Height="22" Width="98">Chris Stayte</Button>
-            </materialDesign:Badged>
+                FontSize="12" 
+                Command="{Binding ShowMySiteCommand}" Height="22" Width="98">Chris Stayte</Button>
+        </materialDesign:Badged>
     </Grid>
 </UserControl>
