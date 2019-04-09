@@ -37,34 +37,6 @@ namespace Bachup.Model.BachupItems
             return false;
         }
 
-        public override async void RunBachup()
-        {
-            if (await CheckRequirements())
-            {
-                if (IsFileLocked())
-                    return;
-
-                bool isValid = await CheckDestinationsConnection(true);
-                if (isValid)
-                {
-                    CopyBachupItemView view = new CopyBachupItemView()
-                    {
-                        DataContext = this
-
-                    };
-
-                    DialogHost.Show(view, "RootDialog");
-
-
-
-                    DialogHost.CloseDialogCommand.Execute(null, null);
-                    //CopyBachupItemViewModel test = (CopyBachupItemViewModel)view.DataContext;
-                    //test.Close();
-                }
-            }
-            
-        }
-
         public override void CopyData()
         {
             foreach (string destination in Destinations)
@@ -91,8 +63,6 @@ namespace Bachup.Model.BachupItems
                 }
             }
         }
-
-        
 
         #endregion
     }

@@ -244,9 +244,38 @@ namespace Bachup.Model
             return true;
         }
 
+        public async void RunBachup()
+        {
+            if (await CheckRequirements())
+            {
+                if (IsFileLocked())
+                    return;
+
+                bool isValid = await CheckDestinationsConnection(true);
+                if (isValid)
+                {
+                    CopyBachupItemView view = new CopyBachupItemView()
+                    {
+                        DataContext = new CopyBachupItemViewModel()
+
+                    };
+
+                    await DialogHost.Show(view, "RootDialog", new DialogOpenedEventHandler(async (object sender, DialogOpenedEventArgs args) =>
+                    {
+                        DialogSession session = args.Session;
+
+                        await Task.Run((Action)CopyData);
+
+                        session.Close();
+
+                    }));
+                }
+            }
+        }
+
         // These are custom to each type. Each subtype will need to override these methods and implement a custom version
         public abstract bool IsFileLocked();
-        public abstract void RunBachup();
+        
         public abstract void CopyData();
 
         #endregion 

@@ -16,29 +16,13 @@ namespace Bachup.ViewModel
     {
 
         public CopyBachupItemViewModel(BachupItem bachupItem)
-        {
-            _bachupItem = bachupItem;
-            ContentControlLoadedCommand = new RelayCommand(ContentControlLoaded);
+           {
            
         }
 
-        BachupItem _bachupItem;
 
         public CopyBachupItemViewModel() { }
 
 
-        public RelayCommand ContentControlLoadedCommand { get; private set; }
-
-        private void ContentControlLoaded(object o)
-        {
-            //_bachupItem.CopyData();
-
-           // DialogHost.CloseDialogCommand.Execute(null, null);
-        }
-
-        public void Close()
-        {
-            DialogHost.CloseDialogCommand.Execute(null, null);
-        }
     }
 }

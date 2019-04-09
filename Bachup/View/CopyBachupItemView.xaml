@@ -6,11 +6,6 @@
              xmlns:local="clr-namespace:Bachup.View"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" Height="40" Width="40">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding ContentControlLoadedCommand}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
     <Grid>
         <ProgressBar Width="24" Height="24"
                  Style="{DynamicResource MaterialDesignCircularProgressBar}"
