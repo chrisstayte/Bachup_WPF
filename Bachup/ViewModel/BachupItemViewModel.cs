@@ -181,6 +181,7 @@ namespace Bachup.ViewModel
             if ((bool)choice)
             {
                 _bachupItem.DeleteDestination(_selectedDestination);
+                MainViewModel.SaveData();
                 EnableDeleteButton = false;
             }
         }
@@ -216,6 +217,7 @@ namespace Bachup.ViewModel
             {
                 BachupGroup bg = Bachup.ViewModel.MainViewModel.Bachup.Where(o => o.ID.Equals(_bachupItem.BachupGroupID)).Single();
                 bg.RemoveBachupItem(_bachupItem);
+                MainViewModel.SaveData();
             }
         }
 

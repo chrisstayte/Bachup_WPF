@@ -86,6 +86,20 @@ namespace Bachup.Model
             }
         }
 
+        private bool _zipBachup;
+        public bool ZipBachup
+        {
+            get
+            {
+                return _zipBachup;
+            }
+            set
+            {
+                _zipBachup = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private ObservableCollection<string> _destinations = new ObservableCollection<string>();
         public ObservableCollection<string> Destinations
         {
@@ -106,6 +120,16 @@ namespace Bachup.Model
                 _scheduledbachups = value;
                 NotifyPropertyChanged();
             }
+        }
+
+        internal BachupType _bachupType;
+        public BachupType BachupType
+        {
+            get
+            {
+                return _bachupType;
+            }
+            
         }
 
 
@@ -131,7 +155,7 @@ namespace Bachup.Model
             return _destinations.Contains(path);
         }
 
-        public async Task<bool> CheckDestinationsConnection(bool promptWithDialogToContinue)
+        internal async Task<bool> CheckDestinationsConnection(bool promptWithDialogToContinue)
         {
             bool missingDestination = false;
 
@@ -148,7 +172,6 @@ namespace Bachup.Model
                 };
                 return (bool)await DialogHost.Show(view, "RootDialog");
             }
-
             return true;
         }
 
@@ -206,6 +229,20 @@ namespace Bachup.Model
             return monthBuffer + month + dayBuffer + day + year;
         }
 
+        internal async Task<bool> CheckRequirements()
+        {
+            if (Destinations.Count <= 0)
+            {
+                var view = new AlertView{
+                    DataContext = new AlertViewModel("There Are No Destinations")
+                };
+
+                await DialogHost.Show(view, "RootDialog");
+                return false;
+            }
+
+            return true;
+        }
 
         // These are custom to each type. Each subtype will need to override these methods and implement a custom version
         public abstract bool IsFileLocked();

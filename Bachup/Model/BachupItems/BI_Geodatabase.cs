@@ -17,8 +17,8 @@ namespace Bachup.Model.BachupItems
     {
 
         public BI_Geodatabase(string name, string source, Guid bachupGroupID) : base(name, source, bachupGroupID)
-        { 
-
+        {
+            _bachupType = BachupType.GDB;
         }
 
         #region Methods
@@ -39,54 +39,30 @@ namespace Bachup.Model.BachupItems
 
         public override async void RunBachup()
         {
-            if (IsFileLocked())
-                return;
-
-            bool isValid = await CheckDestinationsConnection(true);
-            if (isValid)
+            if (await CheckRequirements())
             {
-                CopyBachupItemView view = new CopyBachupItemView()
+                if (IsFileLocked())
+                    return;
+
+                bool isValid = await CheckDestinationsConnection(true);
+                if (isValid)
                 {
-                    DataContext = this
-                    
-                };
-
-                DialogHost.Show(view, "RootDialog");
-
-                await CopyData2();
-
-                DialogHost.CloseDialogCommand.Execute(null, null);
-                //CopyBachupItemViewModel test = (CopyBachupItemViewModel)view.DataContext;
-                //test.Close();
-            }            
-        }
-
-        public async Task<bool> CopyData2()
-        {
-            foreach (string destination in Destinations)
-            {
-                if (Directory.Exists(destination))
-                {
-                    string bachupLocation = GenerateBachupLocation(destination);
-
-                    string geodatabaseName = Path.GetFileName(Source);
-
-                    string outputGeodatabase = System.IO.Path.Combine(bachupLocation, geodatabaseName);
-
-                    Directory.CreateDirectory(outputGeodatabase);
-
-                    string[] files = Directory.GetFiles(Source);
-
-                    Parallel.ForEach(files, (currentFile) =>
+                    CopyBachupItemView view = new CopyBachupItemView()
                     {
-                        string fileName = Path.GetFileName(currentFile);
-                        string destFile = Path.Combine(outputGeodatabase, fileName);
-                        File.Copy(currentFile, destFile, true);
-                    });
+                        DataContext = this
 
+                    };
+
+                    DialogHost.Show(view, "RootDialog");
+
+
+
+                    DialogHost.CloseDialogCommand.Execute(null, null);
+                    //CopyBachupItemViewModel test = (CopyBachupItemViewModel)view.DataContext;
+                    //test.Close();
                 }
             }
-            return false; 
+            
         }
 
         public override void CopyData()
@@ -115,6 +91,8 @@ namespace Bachup.Model.BachupItems
                 }
             }
         }
+
+        
 
         #endregion
     }

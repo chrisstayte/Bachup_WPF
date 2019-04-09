@@ -115,12 +115,13 @@ namespace Bachup.ViewModel
                         _bachupGroup.AddBachupItem(new BI_Geodatabase(Name, Source, _bachupGroup.ID));       
                         break;
                     case BachupType.TXT:
-
+                        _bachupGroup.AddBachupItem(new BI_TextFile(Name, Source, _bachupGroup.ID));
                         break;
                     case BachupType.NotSupported:
-
-                        break;
+                        return;
+                        
                 }
+
                 DialogHost.CloseDialogCommand.Execute(null, null);
             }               
         }

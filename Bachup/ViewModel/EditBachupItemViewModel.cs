@@ -80,6 +80,7 @@ namespace Bachup.ViewModel
             if (CheckRequirements())
             {
                 _bachupItem.Name = Name;
+                MainViewModel.SaveData();
                 DialogHost.CloseDialogCommand.Execute(null, null);
             }
         }

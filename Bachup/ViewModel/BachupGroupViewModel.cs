@@ -1,4 +1,5 @@
-﻿using Bachup.Helpers;
+﻿
+using Bachup.Helpers;
 using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
@@ -23,8 +24,7 @@ namespace Bachup.ViewModel
 
             ShowMessage = false;
 
-            ShowBachupItems = _bachupGroup.BachupItems.Count > 0;
-            ShowAddBachupItems = _bachupGroup.BachupItems.Count <= 0;
+            UpdateView();
         }
 
         private BachupGroup _bachupGroup;
@@ -32,7 +32,6 @@ namespace Bachup.ViewModel
         {
             get { return _bachupGroup; }
         }
-
 
         private bool _showBachupItems;
         public bool ShowBachupItems
@@ -114,6 +113,8 @@ namespace Bachup.ViewModel
             if ((bool)choice == true)
             {
                 MainViewModel.Bachup.Remove(BachupGroup);
+                MainViewModel.SaveData();
+                UpdateView();
             }
         }
 
@@ -125,11 +126,22 @@ namespace Bachup.ViewModel
             };
 
             await DialogHost.Show(view, "RootDialog");
+            UpdateView();
         }
 
         private void CloseMessage(object o)
         {
             ShowMessage = false;
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void UpdateView()
+        {
+            ShowBachupItems = _bachupGroup.BachupItems.Count > 0;
+            ShowAddBachupItems = _bachupGroup.BachupItems.Count <= 0;
         }
 
         #endregion

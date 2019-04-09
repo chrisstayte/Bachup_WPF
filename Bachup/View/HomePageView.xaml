@@ -65,8 +65,11 @@
             VerticalAlignment="Bottom"
             HorizontalAlignment="Center"
             Width="98"
-            Badge="{materialDesign:PackIcon Kind=Heart}" BadgeColorZoneMode="Accent">
-        <Button
+            Badge="{materialDesign:PackIcon Kind=Heart}" BadgeColorZoneMode="Inverted">
+            
+
+
+            <Button
             x:Name="button" 
             
             FontSize="12" 

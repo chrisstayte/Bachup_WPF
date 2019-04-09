@@ -35,6 +35,7 @@
             Margin="0,10,10,0" 
             HorizontalAlignment="Right" 
             Width="56" 
+            PopupMode="Click"
             VerticalAlignment="Top">
             <materialDesign:PopupBox.ToggleContent>
                 <materialDesign:PackIcon Kind="DotsHorizontal" Height="24" Width="24" />

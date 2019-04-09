@@ -1,15 +1,15 @@
-﻿namespace Bachup.ViewModel
+﻿using Bachup.Helpers;
+using Bachup.Model;
+using Bachup.View;
+using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+
+namespace Bachup.ViewModel
 {
-    using Bachup.Helpers;
-    using Bachup.Model;
-    using Bachup.View;
-    using MaterialDesignColors;
-    using MaterialDesignThemes.Wpf;
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Diagnostics;
-    using System.Windows;
+
 
     /// <summary>
     /// Defines the <see cref="MainViewModel" />
@@ -21,48 +21,26 @@
         /// </summary>
         public MainViewModel()
         {
-            BachupGroup bg1 = new BachupGroup("Project 1");
-            bg1.AddNewBachupItem("Area 1", bg1.ID);
-            bg1.AddNewBachupItem("Area 2", bg1.ID);
-            bg1.AddNewBachupItem("Area 3", bg1.ID);
-            bg1.AddNewBachupItem("Area 4", bg1.ID);
-
-
-            BachupGroup bg2 = new BachupGroup("Project 2");
-            bg2.AddNewBachupItem("Area 1", bg2.ID);
-            bg2.AddNewBachupItem("Area 2", bg2.ID);
-            bg2.AddNewBachupItem("Area 3", bg2.ID);
-            bg2.AddNewBachupItem("Area 4", bg2.ID);
-
-
-            BachupGroup bg3 = new BachupGroup("Project 3");
-            bg3.AddNewBachupItem("Area 1", bg3.ID);
-            bg3.AddNewBachupItem("Area 2", bg3.ID);
-            bg3.AddNewBachupItem("Area 3", bg3.ID);
-            bg3.AddNewBachupItem("Area 4", bg3.ID);
-
-            Bachup.Add(bg1);
-            Bachup.Add(bg2);
-            Bachup.Add(bg3);
-
             AddBachupGroupCommand = new RelayCommand(AddBachupGroup);
             SetThemeCommand = new RelayCommand(SetTheme);
             SelectItemCommand = new RelayCommand(SelectItem);
             ChangeThemeColorCommand = new RelayCommand(ChangeThemeColor);
-            
 
-            DarkMode = true;
-            ThemeName = "Dark";
-            _themeColor = ThemeColors.orange;
+            Settings = new Settings();
+
+            LoadSettings();
+            LoadData();
 
             SetThemeColor();
-
-            SetView(null);             
+            SetThemeMode();
+            
+            SetView(null);
+            
         }
 
         // Properties
         static public ObservableCollection<BachupGroup> Bachup { get; set; } = new ObservableCollection<BachupGroup>();
-
+        public Settings Settings { get; set; } 
 
         private bool _darkMode;
         public bool DarkMode
@@ -71,8 +49,6 @@
             set
             {
                 _darkMode = value;
-                ThemeName = value ? "Dark" : "Light";
-
                 NotifyPropertyChanged();
             }
         }
@@ -102,19 +78,24 @@
             }
         }
 
+        private double _windowTop;
+        public double WindowTop
+        {
+            get { return _windowTop; }
+            set
+            {
+                _windowTop = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private ThemeColors _themeColor;
-
-        
-
-
 
         // Relay Commands
         public RelayCommand AddBachupGroupCommand { get; private set; }
         public RelayCommand SetThemeCommand { get; private set; }
-        public RelayCommand SelectItemCommand { get; private set; }
         public RelayCommand ChangeThemeColorCommand { get; private set; }
-       
-       
+        public RelayCommand SelectItemCommand { get; private set; }
 
         #region Events
 
@@ -130,17 +111,30 @@
             if (test != null)
             {
                 Bachup.Add((BachupGroup)test);
+                SaveData();
             }
             
         }
 
+        private void SelectItem(object sender)
+        {
+            SetView(sender);
+        }
 
         private void SetTheme(object o)
         {
-            new PaletteHelper().SetLightDark(DarkMode);
+            SetThemeMode();
+            SaveSettings();
         }
 
-        
+        private void ChangeThemeColor(object sender)
+        {
+            Settings.Color = (ThemeColors)GetNextColor();
+            _themeColor = Settings.Color;
+
+            SetThemeColor();
+            SaveSettings();
+        }
 
         #endregion
 
@@ -171,20 +165,11 @@
             SelectedViewModel = new HomePageView();
         }
 
-        private void SelectItem(object sender)
-        { 
-            SetView(sender);            
-        }
-
-        private void ChangeThemeColor(object sender)
+        private void SetThemeMode()
         {
-            ThemeColors newColor = (ThemeColors)GetNextColor();
-            _themeColor = newColor;
-
-            
-            
-            Debug.WriteLine(GetNextColor());
-            SetThemeColor();
+            new PaletteHelper().SetLightDark(DarkMode);
+            ThemeName = DarkMode ? "Dark" : "Light";
+            Settings.DarkMode = DarkMode;
         }
 
         private void SetThemeColor()
@@ -197,16 +182,97 @@
         {
             int currentColor = (int)_themeColor;
             int TotalCount = Enum.GetNames(typeof(ThemeColors)).Length;
-            
+            int newColor;
+
             if (currentColor < TotalCount)
             {
-                int newColor = currentColor + 1;
-                return newColor;
+                newColor = currentColor + 1;
             }
-                
-            return 1;
+            else
+            {
+                newColor = 1;
+            }
+
+            return newColor;
         }
 
+        private void LoadData()
+        {
+            try
+            {
+                if (File.Exists(SaveInfo.DataFile))
+                {
+                    string save = File.ReadAllText(SaveInfo.DataFile);
+                    Bachup = JsonConvert.DeserializeObject<ObservableCollection<BachupGroup>>(save, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.All
+                    });
+                }
+            }
+            catch
+            {
+
+            } 
+        }
+
+        public static void SaveData()
+        {
+            try
+            {
+                if (!Directory.Exists(SaveInfo.SaveFolder))
+                {
+                    Directory.CreateDirectory(SaveInfo.SaveFolder);
+                }
+
+                string save = JsonConvert.SerializeObject(Bachup, Formatting.Indented, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All
+                });
+                File.WriteAllText(SaveInfo.DataFile, save);
+            }
+            catch
+            {
+
+            }
+            
+        }
+
+        private void LoadSettings()
+        {
+            try
+            {
+                if (File.Exists(SaveInfo.SettingsFile))
+                {
+                    string save = File.ReadAllText(SaveInfo.SettingsFile);
+                    Settings = JsonConvert.DeserializeObject<Model.Settings>(save);
+                }
+            }
+            catch
+            {
+
+            }
+            
+            DarkMode = Settings.DarkMode;
+            _themeColor = Settings.Color;
+        }
+
+        private void SaveSettings()
+        {
+            try
+            {
+                if (!Directory.Exists(SaveInfo.SaveFolder))
+                {
+                    Directory.CreateDirectory(SaveInfo.SaveFolder);
+                }
+
+                string save = JsonConvert.SerializeObject(Settings);
+                File.WriteAllText(SaveInfo.SettingsFile, save);
+            }
+            catch
+            {
+
+            }
+        }
 
         #endregion
 

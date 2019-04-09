@@ -70,45 +70,19 @@ namespace Bachup.Model
             }
         }
 
-
         #region Methods
 
-        /// <summary>
-        /// Adds Existing Bachup Item
-        /// </summary>
-        /// <param name="bachupItem"></param>
         public void AddBachupItem(BachupItem bachupItem)
         {
-            _bachupItems.Add(bachupItem);
+            BachupItems.Add(bachupItem);
+            MainViewModel.SaveData();
         }
 
-        /// <summary>
-        /// Removes Bachup Item By Bachup Item
-        /// </summary>
-        /// <param name="bachupItem"></param>
         public void RemoveBachupItem(BachupItem bachupItem)
         {
-            _bachupItems.Remove(bachupItem);
+            BachupItems.Remove(bachupItem);
+            MainViewModel.SaveData();
         } 
-
-
-        /// <summary>
-        /// Removes Bachup Item By ID
-        /// </summary>
-        /// <param name="guid"></param>
-        public void RemoveBachupItem(Guid ID)
-        {
-
-        }
-
-        // TODO: FLESH OUT BACHUP ITEM
-        public void AddNewBachupItem(string name, Guid ID)
-        {
-            BachupItem bi = new BI_Geodatabase(name, @"X:\Projects\ToledoOH_Impervious\Team\Toledo.gdb", ID);
-            bi.AddDestination(@"G:\GS\Projects\79631_ToledoOH_Stormwater\RemoteSensing\GIS\Team\backup\Chris");
-            bi.AddDestination(@"X:\Projects\ToledoOH_Impervious\Team\backup");
-            BachupItems.Add(bi);
-        }
 
         private BachupType DetermineBachupType(string Source)
         {
@@ -120,25 +94,7 @@ namespace Bachup.Model
             {
                 return BachupType.NotSupported;
             }
-
-
         }
-
-        private async void AddBachupGroup(string message)
-        {
-            var view = new AddBachupGroupView
-            {
-                DataContext = new AddBachupGroupViewModel()
-            };
-
-            await DialogHost.Show(view, "RootDialog", ShowMessageCloseEventHandler);
-        }
-
-        private void ShowMessageCloseEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            Console.WriteLine("You can intercept the closing event, and cancel here.");
-        }
-
 
         #endregion
 

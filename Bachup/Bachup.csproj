@@ -57,6 +57,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Helpers\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ookii.Dialogs.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Helpers\Ookii.Dialogs.Wpf.dll</HintPath>
@@ -83,7 +86,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Helpers\ThemeColorEnum.cs" />
+    <Compile Include="Helpers\SaveInfo.cs" />
+    <Compile Include="Model\ThemeColors.cs" />
+    <Compile Include="Model\Settings.cs" />
     <Compile Include="ViewModel\CopyBachupItemViewModel.cs" />
     <Compile Include="View\CopyBachupItemView.xaml.cs">
       <DependentUpon>CopyBachupItemView.xaml</DependentUpon>

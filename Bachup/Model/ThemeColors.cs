@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bachup.Helpers
+namespace Bachup.Model
 {
     enum ThemeColors
     {

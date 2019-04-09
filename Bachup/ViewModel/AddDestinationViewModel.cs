@@ -72,12 +72,6 @@ namespace Bachup.ViewModel
 
         #region Events
 
-
-        #endregion
-
-
-        #region Methods
-
         private void Cancel(object o)
         {
             DialogHost.CloseDialogCommand.Execute(null, null);
@@ -96,14 +90,22 @@ namespace Bachup.ViewModel
             {
                 Message = "Destination Path Does Not Exist";
                 ShowMessage = true;
-                
+
                 return;
             }
 
             ShowMessage = false;
             _bachupItem.AddDestination(Destination);
+            MainViewModel.SaveData();
             DialogHost.CloseDialogCommand.Execute(null, null);
         }
+
+        #endregion
+
+
+        #region Methods
+
+
 
         private void AddDestination(object o)
         {
