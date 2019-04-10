@@ -377,7 +377,10 @@ namespace Bachup.Model
                     {
                         DialogSession session = args.Session;
 
-                        await Task.Run((Action)CopyData);
+                        if (ZipBachup)
+                            await Task.Run((Action)CopyDataWithZip);
+                        else
+                            await Task.Run((Action)CopyData);
 
                         session.Close();
                     }));
@@ -399,6 +402,7 @@ namespace Bachup.Model
         // These are custom to each type. Each subtype will need to override these methods and implement a custom version
         public abstract bool IsFileLocked();
         public abstract void CopyData();
+        public abstract void CopyDataWithZip();
         public abstract void RepairSource();
 
         #endregion 

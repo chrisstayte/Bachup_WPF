@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ionic.Zip;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,11 +26,11 @@ namespace Bachup.Model.BachupItems
 
         public override void CopyData()
         {
-            foreach (string destiation in Destinations)
+            foreach (string destination in Destinations)
             {
-                if (Directory.Exists(destiation))
+                if (Directory.Exists(destination))
                 {
-                    string bachupLocation = GenerateBachupLocation(destiation);
+                    string bachupLocation = GenerateBachupLocation(destination);
 
                     if (bachupLocation == "")
                         continue;
@@ -38,6 +39,30 @@ namespace Bachup.Model.BachupItems
                     string destFile = Path.Combine(bachupLocation, fileName);
 
                     File.Copy(Source, destFile);
+                }
+            }
+        }
+
+        public override void CopyDataWithZip()
+        {
+            foreach (string destination in Destinations)
+            {
+                if (Directory.Exists(destination))
+                { 
+
+                    using (ZipFile zip = new ZipFile())
+                    {
+                        string bachupLocation = GenerateBachupLocation(destination);
+
+                        if (bachupLocation == "")
+                            continue;
+
+                        string zippedBachupLocation = Path.Combine(bachupLocation, Path.GetFileNameWithoutExtension(Source) + ".zip");
+
+                        zip.CompressionLevel = Ionic.Zlib.CompressionLevel.BestCompression;
+                        zip.AddItem(Source, "");
+                        zip.Save(zippedBachupLocation);
+                    }
                 }
             }
         }
@@ -58,6 +83,8 @@ namespace Bachup.Model.BachupItems
                 }
             }
         }
+
+        
 
         #endregion
     }

@@ -28,8 +28,9 @@ namespace Bachup.ViewModel
             RunBachupCommand = new RelayCommand(RunBachup);
             ShowDestinationCommand = new RelayCommand(ShowDestination);
             RepairSourceCommand = new RelayCommand(RepairSource);
+            SetBachupItemZippedCommand = new RelayCommand(SetBachupItemZipped);
 
-            
+
             BachupItem = item;
             EnableDeleteButton = false;
 
@@ -167,6 +168,7 @@ namespace Bachup.ViewModel
         public RelayCommand RunBachupCommand { get; private set; }
         public RelayCommand ShowDestinationCommand { get; private set; }
         public RelayCommand RepairSourceCommand { get; private set; }
+        public RelayCommand SetBachupItemZippedCommand { get; private set; }
 
 
         #region Events
@@ -260,6 +262,11 @@ namespace Bachup.ViewModel
             BachupItem.RepairSource();
             MainViewModel.SaveData();
             ValidateSource();
+        }
+
+        private void SetBachupItemZipped(object parameter)
+        {
+            MainViewModel.SaveData();
         }
 
         #endregion

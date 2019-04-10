@@ -11,6 +11,7 @@ using Bachup.View;
 using Bachup.ViewModel;
 using MaterialDesignThemes.Wpf;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Ionic.Zip;
 
 namespace Bachup.Model.BachupItems
 {
@@ -47,6 +48,9 @@ namespace Bachup.Model.BachupItems
                 {
                     string bachupLocation = GenerateBachupLocation(destination);
 
+                    if (bachupLocation == "")
+                        continue;
+
                     string geodatabaseName = Path.GetFileName(Source);
 
                     string outputGeodatabase = System.IO.Path.Combine(bachupLocation, geodatabaseName);
@@ -64,6 +68,30 @@ namespace Bachup.Model.BachupItems
 
                 }
             }
+        }
+
+        public override void CopyDataWithZip()
+        {
+            foreach (string destination in Destinations)
+            {
+                if (Directory.Exists(destination))
+                {
+                    using (ZipFile zip = new ZipFile())
+                    {
+                        string bachupLocation = GenerateBachupLocation(destination);
+
+                        if (bachupLocation == "")
+                            continue;
+
+                        string zippedBachupLocation = Path.Combine(bachupLocation, Path.GetFileName(Source) + ".zip");
+
+                        zip.CompressionLevel = Ionic.Zlib.CompressionLevel.BestCompression;
+                        zip.AddDirectory(Source);
+                        zip.Save(zippedBachupLocation);
+                    }
+                }
+            }
+            
         }
 
         public override void RepairSource()

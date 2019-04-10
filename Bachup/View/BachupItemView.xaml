@@ -7,7 +7,8 @@
              mc:Ignorable="d" 
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             d:DesignWidth="800" d:DesignHeight="650">
+             d:DesignWidth="800" d:DesignHeight="850"
+             Padding="0, 0, 0, 50">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -189,7 +190,7 @@
                 ItemsSource="{Binding BachupItem.Destinations}"
                 SelectedItem="{Binding SelectedDestination}" Margin="0,0,0,2" />
         </GroupBox>
-        <GroupBox x:Name="bachupHistoryGroupBox" Header="Bachup History" Margin="10,338,71,0" Grid.Row="1" MaxHeight="230" Height="235" VerticalAlignment="Top">
+        <GroupBox x:Name="bachupHistoryGroupBox" Header="Bachup History" Margin="10,338,71,0" Grid.Row="1" Height="235" VerticalAlignment="Top">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <StackPanel
@@ -213,6 +214,30 @@
                 Margin="0,0,0,2"
                 />
         </GroupBox>
+        <TextBlock 
+            x:Name="textBlock"
+            Margin="10,589,10,0"
+            Grid.Row="1" 
+            TextWrapping="Wrap"
+            Text="Options" 
+            VerticalAlignment="Top"
+            Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
+        <TextBlock 
+            x:Name="textBlock_Copy"
+            Margin="10,635,0,0"
+            Grid.Row="1" 
+            TextWrapping="Wrap"
+            Text="ZIP Bachup" 
+            VerticalAlignment="Top"
+            Style="{StaticResource MaterialDesignBody1TextBlock}" HorizontalAlignment="Left" Width="74"/>
+        <ToggleButton
+            Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+            VerticalAlignment="Top"  
+            ToolTip="Toggle Color Mode"
+            IsChecked="{Binding BachupItem.ZipBachup}"
+            Command="{Binding SetBachupItemZippedCommand}" Margin="89,635,0,0" Grid.Row="1" HorizontalAlignment="Left" Width="44"/>
+        <Separator
+      Style="{StaticResource MaterialDesignLightSeparator}" Grid.Row="1" Margin="10,614,10,0" VerticalAlignment="Top"/>
 
 
     </Grid>
