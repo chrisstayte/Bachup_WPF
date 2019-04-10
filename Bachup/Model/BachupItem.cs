@@ -141,8 +141,6 @@ namespace Bachup.Model
             get { return _sourceType; }
         }
 
-
-
         #region Methods
 
         /// <summary>

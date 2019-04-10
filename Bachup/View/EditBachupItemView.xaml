@@ -29,6 +29,7 @@
         <Button
             x:Name="button" 
             Content="Cancel" 
+            IsCancel="True"
             Margin="0,0,90,10" 
             Height="32" 
             VerticalAlignment="Bottom" 
@@ -41,6 +42,7 @@
             Content="Save" 
             Margin="0,0,10,10" 
             Height="32" 
+            IsDefault="True"
             VerticalAlignment="Bottom" 
             HorizontalAlignment="Right" 
             Width="75"
