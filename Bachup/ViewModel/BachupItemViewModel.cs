@@ -2,34 +2,39 @@
 using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Threading;
 
 namespace Bachup.ViewModel
 {
     class BachupItemViewModel : BaseViewModel
     {
-
         public BachupItemViewModel(BachupItem item)
         {
             // Connect Commands On Creations
-            BachupBachupItemCommand = new RelayCommand(BachupBachupItem);
             AddDestinationCommand = new RelayCommand(AddDestination);
             DeleteDestinationCommand = new RelayCommand(DeleteDestination);
             ShowSourceCommand = new RelayCommand(ShowSource);
             DeleteBachupItemCommand = new RelayCommand(DeleteBachup);
             EditBachupItemCommand = new RelayCommand(EditBachupItem);
             RunBachupCommand = new RelayCommand(RunBachup);
+            ShowDestinationCommand = new RelayCommand(ShowDestination);
+            RepairSourceCommand = new RelayCommand(RepairSource);
 
-
+            
             BachupItem = item;
             EnableDeleteButton = false;
-            
+
+            ValidateSource();
+            ShowLastBachup();
         }
 
         private BachupItem _bachupItem;
@@ -117,54 +122,54 @@ namespace Bachup.ViewModel
             }
         }
 
-        // Relay Commands
+        private bool _enableRepairSourceButton;
+        public bool EnableRepairSourceButton
+        {
+            get { return _enableRepairSourceButton; }
+            set
+            {
+                _enableRepairSourceButton = value;
+                NotifyPropertyChanged();
+            }
+        }
 
-        public RelayCommand BachupBachupItemCommand { get; private set; }
+        private bool _enableShowSourceButton;
+        public bool EnableShowSourceButton
+        {
+            get { return _enableShowSourceButton; }
+            set
+            {
+                _enableShowSourceButton = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _lastBachupVisible;
+        public bool LastBachupVisible
+        {
+            get
+            {
+                return _lastBachupVisible;
+            }
+            set
+            {
+                _lastBachupVisible = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        // Relay Commands
         public RelayCommand AddDestinationCommand { get; private set; }
         public RelayCommand DeleteDestinationCommand { get; private set; }
         public RelayCommand ShowSourceCommand { get; private set; }
         public RelayCommand DeleteBachupItemCommand { get; private set; }
         public RelayCommand EditBachupItemCommand { get; private set; }
         public RelayCommand RunBachupCommand { get; private set; }
-
+        public RelayCommand ShowDestinationCommand { get; private set; }
+        public RelayCommand RepairSourceCommand { get; private set; }
 
 
         #region Events
-
-        private void BachupBachupItem(object parameter)
-        {
-            if (IsSaveComplete == true)
-            {
-                IsSaveComplete = false;
-                return;
-            }
-
-            if (SaveProgress != 0) return;
-
-            var started = DateTime.Now;
-            IsSaving = true;
-
-            new DispatcherTimer(
-                   TimeSpan.FromMilliseconds(50),
-                   DispatcherPriority.Normal,
-                   new EventHandler((o, e) =>
-                   {
-                       var totalDuration = started.AddSeconds(3).Ticks - started.Ticks;
-                       var currentProgress = DateTime.Now.Ticks - started.Ticks;
-                       var currentProgressPercent = 100.0 / totalDuration * currentProgress;
-
-                       SaveProgress = currentProgressPercent;
-
-                       if (SaveProgress >= 100)
-                       {
-                           IsSaveComplete = true;
-                           IsSaving = false;
-                           SaveProgress = 0;
-                           ((DispatcherTimer)o).Stop();
-                       }
-
-                   }), Dispatcher.CurrentDispatcher);
-        }
 
         private async void DeleteDestination(object parameter)
         {
@@ -198,7 +203,10 @@ namespace Bachup.ViewModel
 
         private void ShowSource(object parameter)
         {
-            Process.Start("explorer.exe", _bachupItem.Source);
+            if (Directory.Exists(_bachupItem.Source) || File.Exists(_bachupItem.Source))
+            {
+                Process.Start("explorer.exe", _bachupItem.Source);
+            }            
         }
 
         private async void DeleteBachup(object parameter)
@@ -234,10 +242,44 @@ namespace Bachup.ViewModel
         private void RunBachup(object parameter)
         {
             _bachupItem.RunBachup();
+            ShowLastBachup();
+            ValidateSource();
+            NotifyPropertyChanged("LastBachup");
+        }
+
+        private void ShowDestination(object parameter)
+        {
+            if (Directory.Exists(_selectedDestination))
+            {
+                Process.Start("explorer.exe", _selectedDestination);
+            }
+        }
+
+        private void RepairSource(object parameter)
+        {
+            BachupItem.RepairSource();
+            MainViewModel.SaveData();
+            ValidateSource();
         }
 
         #endregion
 
-        
+        #region Methods
+
+        private void ValidateSource()
+        {
+            EnableRepairSourceButton = !Directory.Exists(BachupItem.Source) ^ File.Exists(BachupItem.Source);
+            EnableShowSourceButton = !EnableRepairSourceButton;
+        }
+
+        private void ShowLastBachup()
+        {
+            bool result = BachupItem.LastBachup.Year > 2000;
+            LastBachupVisible = result;
+        }
+
+        #endregion
+
+
     }
 }

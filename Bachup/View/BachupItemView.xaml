@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             d:DesignWidth="800" d:DesignHeight="602">
+             d:DesignWidth="800" d:DesignHeight="650">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -70,6 +71,28 @@
                 </Button>
             </StackPanel>
         </materialDesign:PopupBox>
+        <materialDesign:Chip
+            Content="Source Broken"           
+            Margin="100,52,0,0" 
+            ToolTip="Repair Source"
+            Grid.Row="1" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top"
+            Command="{Binding RepairSourceCommand}" 
+            Visibility="{Binding Path=EnableRepairSourceButton, Converter={StaticResource BoolToVis}}"
+            Width="138" >
+            <materialDesign:Chip.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Red.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </materialDesign:Chip.Resources>
+            <materialDesign:Chip.Icon>
+                <materialDesign:PackIcon
+                    Kind="ReportProblem"></materialDesign:PackIcon>
+            </materialDesign:Chip.Icon>
+        </materialDesign:Chip>
         <TextBlock 
             x:Name="BachupItemName" 
             Margin="10,10,71,12" 
@@ -87,14 +110,15 @@
             Margin="10,10,10,0"
             TextWrapping="Wrap" 
             Text="{Binding LastBachup}"
+            Visibility="{Binding Path=LastBachupVisible, Converter={StaticResource BoolToVis}}"
             Style="{StaticResource MaterialDesignBody1TextBlock}" Height="17" VerticalAlignment="Top" Grid.Row="1"/>
         <TextBlock 
             x:Name="textBlock1" 
-            Margin="10,58,10,0"
+            Margin="10,58,0,0"
             TextWrapping="Wrap" 
             Text="Source Path" 
             VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignSubheadingTextBlock}" Grid.Row="1" Height="20"/>
+            Style="{StaticResource MaterialDesignSubheadingTextBlock}" Grid.Row="1" Height="20" HorizontalAlignment="Left" Width="85"/>
         <TextBox 
             x:Name="textBox"
             Height="23" Margin="10,92,71,0" 
@@ -104,11 +128,12 @@
             IsReadOnly="True" Grid.Row="1"/>
         <Button
             Style="{StaticResource MaterialDesignRaisedButton}"
-            Content="{wpf:PackIcon FolderUpload}"
+            Content="{wpf:PackIcon Kind=FolderUpload}"
             ToolTip="Show Source"
             Margin="0,83,10,0"
             HorizontalAlignment="Right"
             Width="56" 
+            IsEnabled="{Binding EnableShowSourceButton}"
             VerticalAlignment="Top" 
             Command="{Binding ShowSourceCommand}" Grid.Row="1"/>
         <Button
@@ -119,6 +144,7 @@
             HorizontalAlignment="Right"
             Width="56" 
             VerticalAlignment="Top" 
+            
             Command="{Binding AddDestinationCommand}" Grid.Row="1"/>
         <Button
             Style="{StaticResource MaterialDesignRaisedButton}"
@@ -130,7 +156,17 @@
             VerticalAlignment="Top"
             IsEnabled="{Binding EnableDeleteButton}"
             Command="{Binding DeleteDestinationCommand}" Grid.Row="1"/>
-        <GroupBox x:Name="destinationGroupBox" Header="Destinations" Margin="10,133,71,10" Grid.Row="1" MinHeight="300">
+        <Button
+            Style="{StaticResource MaterialDesignRaisedButton}"
+            Content="{materialDesign:PackIcon FolderUpload}"
+            ToolTip="Show Selected Destination"
+            Margin="0,258,10,0"
+            HorizontalAlignment="Right"
+            Width="56" 
+            VerticalAlignment="Top"
+            IsEnabled="{Binding EnableDeleteButton}"
+            Command="{Binding ShowDestinationCommand}" Grid.Row="1"/>
+        <GroupBox x:Name="destinationGroupBox" Header="Destinations" Margin="10,133,71,0" Grid.Row="1"  Height="200" VerticalAlignment="Top">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <StackPanel
@@ -151,7 +187,33 @@
             <ListBox 
                 x:Name="listBox" 
                 ItemsSource="{Binding BachupItem.Destinations}"
-                SelectedItem="{Binding SelectedDestination}" Height="275" VerticalAlignment="Top" />
+                SelectedItem="{Binding SelectedDestination}" Margin="0,0,0,2" />
         </GroupBox>
+        <GroupBox x:Name="bachupHistoryGroupBox" Header="Bachup History" Margin="10,338,71,0" Grid.Row="1" MaxHeight="230" Height="235" VerticalAlignment="Top">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Kind="History"
+                            Height="32"
+                            Width="32"
+                            VerticalAlignment="Center" />
+                        <TextBlock
+                            Margin="8,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignSubheadingTextBlock}"
+                            Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <ListBox 
+                x:Name="BachupHistoryGroupBox" 
+                ItemsSource="{Binding BachupItem.BachupHistory}"
+                Margin="0,0,0,2"
+                />
+        </GroupBox>
+
+
     </Grid>
 </UserControl>

@@ -5,8 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,8 +64,8 @@ namespace Bachup.Model
             }
         }
 
-        private List<DateTime> _bachupHistory;
-        public List<DateTime> BachupHistory
+        private ObservableCollection<DateTime> _bachupHistory;
+        public ObservableCollection<DateTime> BachupHistory
         {
             get
             {
@@ -129,7 +132,13 @@ namespace Bachup.Model
             {
                 return _bachupType;
             }
-            
+
+        }
+
+        internal BachupItemSourceTypes _sourceType;
+        public BachupItemSourceTypes SourceType
+        {
+            get { return _sourceType; }
         }
 
 
@@ -141,7 +150,7 @@ namespace Bachup.Model
         /// </summary>
         /// <param name="path"></param>
         public void AddDestination(string path)
-        { 
+        {
             _destinations.Add(path);
         }
 
@@ -172,15 +181,56 @@ namespace Bachup.Model
                 };
                 return (bool)await DialogHost.Show(view, "RootDialog");
             }
+
+            bool unauthorizedAccessDestinations = false;
+
+            foreach (string destination in Destinations)
+            {
+                string tempFile = Path.Combine(destination, "bachup.tmp");
+                try
+                {
+                    
+                    using (FileStream fs = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
+                    {
+                        fs.WriteByte(0xFF);
+                    }
+
+                    if (File.Exists(tempFile))
+                    {
+                        File.Delete(tempFile);
+                    }
+                    else
+                    {
+                        unauthorizedAccessDestinations = true;
+                    }
+                }
+                catch
+                {
+                    unauthorizedAccessDestinations = true;
+                }
+                
+
+            }
+
+            if (unauthorizedAccessDestinations)
+            {
+                var view = new ConfirmChoiceView
+                {
+                    DataContext = new ConfirmChoiceViewModel("Continue?",
+                "There are destinations that have no access. Continue with ones that do?")
+                };
+                return (bool)await DialogHost.Show(view, "RootDialog");
+            }
+
             return true;
         }
 
-        public string  GenerateBachupLocation(string destination)
+        public string GenerateBachupLocation(string destination)
         {
             // Create Initial Named Folder
             string bachupLocation = System.IO.Path.Combine(destination, Name);
             bachupLocation = System.IO.Path.Combine(bachupLocation, CurrentDate());
-            System.IO.Directory.CreateDirectory(bachupLocation);
+
 
             int count = 1;
             bool exists = true;
@@ -205,8 +255,15 @@ namespace Bachup.Model
                     exists = false;
                 }
             }
+            try
+            {
+                System.IO.Directory.CreateDirectory(bachupLocation);
+            }
+            catch
+            {
+                return "";
+            }
 
-            System.IO.Directory.CreateDirectory(bachupLocation);
 
             return bachupLocation;
         }
@@ -231,33 +288,91 @@ namespace Bachup.Model
 
         internal async Task<bool> CheckRequirements()
         {
+            if (!Directory.Exists(Source) ^ File.Exists(Source))
+            {
+                var view = new AlertView
+                {
+                    DataContext = new AlertViewModel("Repair The Source")
+                };
+                await DialogHost.Show(view, "RootDialog");
+                return false;
+            }
+
+
             if (Destinations.Count <= 0)
             {
-                var view = new AlertView{
+                var view = new AlertView
+                {
                     DataContext = new AlertViewModel("There Are No Destinations")
+                };
+                await DialogHost.Show(view, "RootDialog");
+                return false;
+            }
+
+            if (IsFileLocked())
+            {
+                var view = new AlertView
+                {
+                    DataContext = new AlertViewModel("Bachup Item Is Locked")
                 };
 
                 await DialogHost.Show(view, "RootDialog");
                 return false;
             }
-
             return true;
+        }
+
+        internal bool HasPermission(string path)
+        {
+            var writeAllow = false;
+            var writeDeny = false;
+            try
+            {
+                var accessControlList = Directory.GetAccessControl(path);
+
+                if (accessControlList == null)
+                {
+                    return false;
+                }
+
+                var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+
+                if (accessRules == null)
+                {
+                    return false;
+                }
+
+                foreach (FileSystemAccessRule rule in accessRules)
+                {
+                    if ((FileSystemRights.Write & rule.FileSystemRights) != FileSystemRights.Write)
+                        continue;
+
+                    if (rule.AccessControlType == AccessControlType.Allow)
+                        writeAllow = true;
+                    else if (rule.AccessControlType == AccessControlType.Deny)
+                        writeDeny = true;
+                }
+
+                return writeAllow && writeDeny;
+
+
+
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return false;
+            }
         }
 
         public async void RunBachup()
         {
             if (await CheckRequirements())
             {
-                if (IsFileLocked())
-                    return;
-
-                bool isValid = await CheckDestinationsConnection(true);
-                if (isValid)
+                if (await CheckDestinationsConnection(true))
                 {
                     CopyBachupItemView view = new CopyBachupItemView()
                     {
                         DataContext = new CopyBachupItemViewModel()
-
                     };
 
                     await DialogHost.Show(view, "RootDialog", new DialogOpenedEventHandler(async (object sender, DialogOpenedEventArgs args) =>
@@ -267,16 +382,26 @@ namespace Bachup.Model
                         await Task.Run((Action)CopyData);
 
                         session.Close();
-
                     }));
+
+                    DateTime completedDateTime = DateTime.Now;
+                    LastBachup = completedDateTime;
+
+                    if (BachupHistory == null)
+                        BachupHistory = new ObservableCollection<DateTime>();
+
+                    BachupHistory.Insert(0, completedDateTime);
+
+                    MainViewModel.SaveData();
                 }
             }
         }
 
+
         // These are custom to each type. Each subtype will need to override these methods and implement a custom version
         public abstract bool IsFileLocked();
-        
         public abstract void CopyData();
+        public abstract void RepairSource();
 
         #endregion 
     }

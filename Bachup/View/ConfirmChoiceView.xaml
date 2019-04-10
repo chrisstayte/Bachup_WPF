@@ -25,6 +25,7 @@
         <Button
             x:Name="YesButton"
             Content="Yes"
+            IsDefault="True"
             Margin="0,0,10,10"
             Height="32" 
             VerticalAlignment="Bottom" 
@@ -34,6 +35,7 @@
         <Button 
             x:Name="NoButton"
             Content="No" 
+            IsCancel="True"
             Margin="0,0,90,10" 
             Height="32"
             VerticalAlignment="Bottom"

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Bachup.Model.BachupItems
 {
@@ -12,9 +13,8 @@ namespace Bachup.Model.BachupItems
         public BI_TextFile(string name, string source, Guid bachupGroupID) : base(name, source, bachupGroupID)
         {
             _bachupType = BachupType.TXT;
+            _sourceType = BachupItemSourceTypes.File;
         }
-
-        
 
         #region Methods
 
@@ -31,7 +31,8 @@ namespace Bachup.Model.BachupItems
                 {
                     string bachupLocation = GenerateBachupLocation(destiation);
 
-                    Directory.CreateDirectory(bachupLocation);
+                    if (bachupLocation == "")
+                        continue;
 
                     string fileName = Path.GetFileName(Source);
                     string destFile = Path.Combine(bachupLocation, fileName);
@@ -40,6 +41,24 @@ namespace Bachup.Model.BachupItems
                 }
             }
         }
+
+        public override void RepairSource()
+        {
+            using (System.Windows.Forms.OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "txt files (*.txt)|*.txt";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    Source = openFileDialog.FileName;
+                }
+            }
+        }
+
         #endregion
     }
 }

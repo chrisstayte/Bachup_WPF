@@ -10,6 +10,7 @@ using Bachup.Model;
 using Bachup.View;
 using Bachup.ViewModel;
 using MaterialDesignThemes.Wpf;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Bachup.Model.BachupItems
 {
@@ -19,6 +20,7 @@ namespace Bachup.Model.BachupItems
         public BI_Geodatabase(string name, string source, Guid bachupGroupID) : base(name, source, bachupGroupID)
         {
             _bachupType = BachupType.GDB;
+            _sourceType = BachupItemSourceTypes.Folder;
         }
 
         #region Methods
@@ -61,6 +63,19 @@ namespace Bachup.Model.BachupItems
                     });
 
                 }
+            }
+        }
+
+        public override void RepairSource()
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            if (Directory.Exists(Source))
+                dialog.DefaultDirectory = Source;
+
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                Source = dialog.FileName;
             }
         }
 

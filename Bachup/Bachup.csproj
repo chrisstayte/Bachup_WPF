@@ -87,6 +87,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\SaveInfo.cs" />
+    <Compile Include="Model\BachupItemSourceTypes.cs" />
     <Compile Include="Model\ThemeColors.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="ViewModel\CopyBachupItemViewModel.cs" />
