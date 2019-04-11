@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:Bachup.View"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="Bachup.View.AddBachupItemView"
-    mc:Ignorable="d" Width="653" Height="205.43">
+    mc:Ignorable="d" Width="653" Height="250">
     <Grid>
         <TextBlock
             x:Name="textBlock" 
@@ -77,6 +77,18 @@
             Message="{Binding Message}"
             IsActive="{Binding ShowMessage}"
             x:Name="SnackbarOne" />
-
+        <TextBlock 
+            x:Name="textBlock_Copy"
+            Margin="10,162,0,0" 
+            TextWrapping="Wrap"
+            Text="ZIP Bachup" 
+            VerticalAlignment="Top"
+            Style="{StaticResource MaterialDesignBody1TextBlock}" HorizontalAlignment="Left" Width="74" RenderTransformOrigin="5.751,0.003"/>
+        <ToggleButton
+            Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+            VerticalAlignment="Top"  
+            ToolTip="Toggle Color Mode"
+            IsChecked="{Binding ZipBachupItem}"
+            Margin="89,162,0,0" HorizontalAlignment="Left" Width="44"/>
     </Grid>
 </UserControl>
