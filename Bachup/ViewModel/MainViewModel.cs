@@ -11,16 +11,8 @@ using System.Linq;
 
 namespace Bachup.ViewModel
 {
-
-
-    /// <summary>
-    /// Defines the <see cref="MainViewModel" />
-    /// </summary>
     internal class MainViewModel : BaseViewModel
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainViewModel"/> class.
-        /// </summary>
         public MainViewModel()
         {
             AddBachupGroupCommand = new RelayCommand(AddBachupGroup);
@@ -494,7 +486,6 @@ namespace Bachup.ViewModel
         {
             return Bachup.FirstOrDefault(Group => Group.Name.ToLower() == name.ToLower()) != null;
         }
-
 
         #endregion
 
