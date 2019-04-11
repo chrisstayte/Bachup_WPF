@@ -88,6 +88,17 @@ namespace Bachup.ViewModel
             }
         }
 
+        private bool _zipBachupItem;
+        public bool ZipBachupItem
+        {
+            get { return _zipBachupItem; }
+            set
+            {
+                _zipBachupItem = value;
+                NotifyPropertyChanged();
+            }
+        }
+
 
         // Relay Commands
         public RelayCommand AddCommand { get; private set; }
@@ -109,13 +120,22 @@ namespace Bachup.ViewModel
                     ShowMessage = true;
                 }
 
+                
+
                 switch (bachupType)
                 {
                     case BachupType.GDB:
-                        _bachupGroup.AddBachupItem(new BI_Geodatabase(Name, Source, _bachupGroup.ID));       
+                        _bachupGroup.AddBachupItem(new BI_Geodatabase(Name, Source, _bachupGroup.ID)
+                        {
+                            ZipBachup = _zipBachupItem
+                        }
+                        );       
                         break;
                     case BachupType.TXT:
-                        _bachupGroup.AddBachupItem(new BI_TextFile(Name, Source, _bachupGroup.ID));
+                        _bachupGroup.AddBachupItem(new BI_TextFile(Name, Source, _bachupGroup.ID)
+                        {
+                            ZipBachup = _zipBachupItem
+                        });
                         break;
                     case BachupType.NotSupported:
                         return;
@@ -170,6 +190,13 @@ namespace Bachup.ViewModel
             if (String.IsNullOrEmpty(Name))
             {
                 Message = "Enter A Name";
+                ShowMessage = true;
+                return false;
+            }
+
+            if (_bachupGroup.DoesItemExist(Name))
+            {
+                Message = "Item With That Name Exists";
                 ShowMessage = true;
                 return false;
             }

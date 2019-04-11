@@ -20,6 +20,7 @@
             Text="{Binding VersionNumber}" 
             TextAlignment="Center" 
             Height="14"
+            Style="{StaticResource MaterialDesignButtonTextBlock}"
             VerticalAlignment="Bottom" 
             />
         <Image 
@@ -64,18 +65,14 @@
 
         </GroupBox>
         <materialDesign:Badged
-            Margin="202,0,200,10"
+            Margin="0,0,0,10"
             Height="22" 
             VerticalAlignment="Bottom"
             HorizontalAlignment="Center"
-            Width="98"
-            Badge="{materialDesign:PackIcon Kind=Heart}" BadgeColorZoneMode="Inverted">
-            
-
+            Badge="{materialDesign:PackIcon Kind=Heart}" BadgeColorZoneMode="Inverted" Width="98">
 
             <Button
                 x:Name="button" 
-            
                 FontSize="12" 
                 Command="{Binding ShowMySiteCommand}" Height="22" Width="98">Chris Stayte</Button>
         </materialDesign:Badged>

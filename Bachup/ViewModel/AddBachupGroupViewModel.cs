@@ -126,6 +126,13 @@ namespace Bachup.ViewModel
                 return false;
             }
 
+            if (MainViewModel.DoesBachupGroupExist(_name))
+            {
+                Message = "Group With That Name Exists";
+                ShowMessage = true;
+                return false;
+            }
+
             ShowMessage = false;
             return true;
         }

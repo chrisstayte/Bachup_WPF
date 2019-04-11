@@ -94,6 +94,15 @@ namespace Bachup.ViewModel
                 return false;
             }
 
+            BachupGroup bg = MainViewModel.Bachup.First(group => group.ID == _bachupItem.BachupGroupID);
+
+            if (bg.DoesItemExist(_name))
+            {
+                Message = "Item With That Name Exists";
+                ShowMessage = true;
+                return false;
+            }
+
             ShowMessage = false;
 
             return true;

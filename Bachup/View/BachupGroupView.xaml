@@ -7,7 +7,8 @@
              xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
              xmlns:local="clr-namespace:Bachup.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:converter="clr-namespace:Bachup.Helpers">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -22,6 +23,7 @@
 
             </ResourceDictionary.MergedDictionaries>
             <materialDesignConverters:BooleanToVisibilityConverter x:Key="BooleanToVisiblityConverter" TrueValue="Visible" FalseValue="Hidden"></materialDesignConverters:BooleanToVisibilityConverter>
+            <converter:DateConverter x:Key="DateConverter"/>
         </ResourceDictionary>
 
     </UserControl.Resources>
@@ -104,7 +106,7 @@
                     CanUserReorder="True"
                     ElementStyle="{StaticResource MaterialDesignBody2TextBlock}"/>
                 <DataGridTextColumn 
-                    Binding="{Binding LastBachup}"
+                    Binding="{Binding LastBachup, Converter={StaticResource DateConverter}}"
                     Header="Last Bachup"
                     IsReadOnly="True"
                     CanUserReorder="True"
