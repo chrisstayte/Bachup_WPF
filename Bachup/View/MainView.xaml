@@ -17,7 +17,8 @@
     TextOptions.TextRenderingMode="Auto"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{DynamicResource MaterialDesignFont}"
-    MinWidth="635" MinHeight="550">
+    MinWidth="635" MinHeight="550"
+    Topmost="{Binding Settings.KeepOnTop}">
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel"/>
     </Window.Resources>
@@ -35,16 +36,16 @@
                         ShowGridLines="False"
                         >
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="15"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -52,26 +53,10 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock 
-                            Text="{Binding ThemeName}"
-                            Style="{StaticResource MaterialDesignBody2TextBlock}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            Grid.Column="1"
-                            />
-                        <ToggleButton
-                            Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
-                            VerticalAlignment="Center"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            HorizontalAlignment="Center"
-                            ToolTip="Toggle Color Mode"
-                            IsChecked="{Binding DarkMode}"
-                            Command="{Binding SetThemeCommand}" Width="44"/>
-                        <TextBlock 
                             Text="Colors"
-                            Grid.Row="3"
+                            Grid.Row="0"
                             Grid.Column="1"
-                            VerticalAlignment="Center"
+                            VerticalAlignment="Top"
                             HorizontalAlignment="Center"
                             Style="{StaticResource MaterialDesignBody2TextBlock}"
                             />
@@ -79,10 +64,10 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             IsChecked="{Binding YellowActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.yellow}"
                             ToolTip="Yellow"
-                            Grid.Row="5"
+                            Grid.Row="2"
                             Grid.Column="2"
                             Height="28"
                             Width="28">
@@ -98,12 +83,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             ToolTip="Amber"
-                            Grid.Row="5"
+                            Grid.Row="2"
                             Grid.Column="1"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding AmberActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.amber}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -117,12 +102,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             ToolTip="Deep Orange"
-                            Grid.Row="4"
+                            Grid.Row="1"
                             Grid.Column="2"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding DeepOrangeActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.deeporange}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -136,12 +121,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             ToolTip="Light Blue"
-                            Grid.Row="7"
+                            Grid.Row="4"
                             Grid.Column="1"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding LightBlueActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.lightblue}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -155,12 +140,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"                           
                             ToolTip="Teal"
-                            Grid.Row="6"
+                            Grid.Row="3"
                             Grid.Column="2"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding TealActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.teal}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -174,12 +159,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             ToolTip="Cyan"
-                            Grid.Row="7"
+                            Grid.Row="4"
                             Grid.Column="2"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding CyanActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.cyan}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -193,12 +178,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             ToolTip="Pink"
-                            Grid.Row="4"
+                            Grid.Row="1"
                             Grid.Column="1"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding PinkActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.pink}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -212,12 +197,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             ToolTip="Green"
-                            Grid.Row="6"
+                            Grid.Row="3"
                             Grid.Column="1"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding GreenActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.green}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -231,12 +216,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             ToolTip="Deep Purple"
-                            Grid.Row="8"
+                            Grid.Row="5"
                             Grid.Column="1"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding DeepPurpleActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.deeppurple}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -250,12 +235,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             ToolTip="Blue"
-                            Grid.Row="7"
+                            Grid.Row="4"
                             Grid.Column="0"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding BlueActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.blue}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -269,12 +254,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             ToolTip="Lime"
-                            Grid.Row="6"
+                            Grid.Row="3"
                             Grid.Column="0"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding LimeActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.lime}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -288,12 +273,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             ToolTip="Red"
-                            Grid.Row="4"
+                            Grid.Row="1"
                             Grid.Column="0"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding RedActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.red}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -307,12 +292,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             ToolTip="Orange"
-                            Grid.Row="5"
+                            Grid.Row="2"
                             Grid.Column="0"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding OrangeActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.orange}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -326,12 +311,12 @@
                             Content=""
                             Style="{StaticResource MaterialDesignActionToggleButton}"
                             ToolTip="Purple"
-                            Grid.Row="8"
+                            Grid.Row="5"
                             Grid.Column="0"
                             Height="28"
                             Width="28"
                             IsChecked="{Binding PurpleActive}"
-                            Command="{Binding SetThemeColorCommand}"
+                            Command="{Binding SetThemeCommand}"
                             CommandParameter="{x:Static model:ThemeColors.purple}">
                             <ToggleButton.Resources>
                                 <ResourceDictionary>
@@ -341,6 +326,40 @@
                                 </ResourceDictionary>
                             </ToggleButton.Resources>
                         </ToggleButton>
+                        <TextBlock 
+                            Text="{Binding ThemeName}"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Grid.Column="0"
+                            Grid.Row="7"
+                            />
+                        <ToggleButton
+                            Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                            VerticalAlignment="Center"
+                            Grid.Row="8"
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            ToolTip="Toggle Color Mode"
+                            IsChecked="{Binding Settings.DarkMode}"
+                            Command="{Binding SetDarkModeCommand}" Width="44"/>
+                        <TextBlock 
+                            Text="Keep On Top"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Grid.Row="7"
+                            Grid.Column="1"/>
+                        <ToggleButton
+                            Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                            VerticalAlignment="Center"
+                            Grid.Row="8"
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            ToolTip="Toggle Color Mode"
+                            IsChecked="{Binding Settings.KeepOnTop}"
+                            Command="{Binding SaveSettingsCommand}"
+                            Width="44"/>
                     </Grid>
                 </DockPanel>
             </materialDesign:DrawerHost.RightDrawerContent>
