@@ -15,7 +15,8 @@ namespace Bachup.ViewModel
             Message = "Thanks For Using Bachup";
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            VersionNumber = String.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+            //VersionNumber = String.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+            VersionNumber = String.Format("{0}.{1}", version.Major, version.Minor);
 
             ShowMySiteCommand = new RelayCommand(ShowMySite );
         }
