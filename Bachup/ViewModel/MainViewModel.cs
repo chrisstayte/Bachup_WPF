@@ -7,6 +7,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace Bachup.ViewModel
 {
@@ -277,9 +278,6 @@ namespace Bachup.ViewModel
             }
         }
 
-
-
-
         #endregion
 
         private ThemeColors _themeColor;
@@ -477,6 +475,11 @@ namespace Bachup.ViewModel
         private void ShowSettings(object o)
         {
             SettingsShown = !_settingsShown;
+        }
+
+        public static bool DoesBachupGroupExist(string name)
+        {
+            return Bachup.FirstOrDefault(Group => Group.Name.ToLower() == name.ToLower()) != null;
         }
 
 
