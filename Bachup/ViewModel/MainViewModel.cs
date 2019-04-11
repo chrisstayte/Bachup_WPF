@@ -5,6 +5,7 @@ using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 
 namespace Bachup.ViewModel
@@ -24,15 +25,20 @@ namespace Bachup.ViewModel
             AddBachupGroupCommand = new RelayCommand(AddBachupGroup);
             SetThemeCommand = new RelayCommand(SetTheme);
             SelectItemCommand = new RelayCommand(SelectItem);
-            ChangeThemeColorCommand = new RelayCommand(ChangeThemeColor);
+            SetThemeColorCommand = new RelayCommand(SetThemeColor);
+            ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             Settings = new Settings();
 
             LoadSettings();
             LoadData();
 
+            SetColorThemeStatus();
+
             SetThemeColor();
             SetThemeMode();
+
+            
             
             SetView(null);
             
@@ -78,24 +84,214 @@ namespace Bachup.ViewModel
             }
         }
 
-        private double _windowTop;
-        public double WindowTop
+        private bool _settingsShown;
+        public bool SettingsShown
         {
-            get { return _windowTop; }
+            get
+            {
+                return _settingsShown;
+            }
             set
             {
-                _windowTop = value;
+                _settingsShown = value;
                 NotifyPropertyChanged();
             }
         }
+
+
+        #region Color Properties
+
+        private bool _yellowActive;
+        public bool YellowActive
+        {
+            get { return _yellowActive; }
+            set
+            {
+                _yellowActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _amberActive;
+        public bool AmberActive
+        {
+            get { return _amberActive; }
+            set
+            {
+                _amberActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _deepOrangeActive;
+        public bool DeepOrangeActive
+        {
+            get { return _deepOrangeActive; }
+            set
+            {
+                _deepOrangeActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _lightBlueActive;
+        public bool LightBlueActive
+        {
+            get { return _lightBlueActive; }
+            set
+            {
+                _lightBlueActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _tealActive;
+        public bool TealActive
+        {
+            get { return _tealActive; }
+            set
+            {
+                _tealActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _cyanActive;
+        public bool CyanActive
+        {
+            get { return _cyanActive; }
+            set
+            {
+                _cyanActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _pinkActive;
+        public bool PinkActive
+        {
+            get { return _pinkActive; }
+            set
+            {
+                _pinkActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _greenActive;
+        public bool GreenActive
+        {
+            get { return _greenActive; }
+            set
+            {
+                _greenActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _deepPurpleActive;
+        public bool DeepPurpleActive
+        {
+            get { return _deepPurpleActive; }
+            set
+            {
+                _deepPurpleActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _indigoActive;
+        public bool IndigoActive
+        {
+            get { return _indigoActive; }
+            set
+            {
+                _indigoActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _lightGreenActive;
+        public bool LightGreenActive
+        {
+            get { return _lightGreenActive; }
+            set
+            {
+                _lightGreenActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _blueActive;
+        public bool BlueActive
+        {
+            get { return _blueActive; }
+            set
+            {
+                _blueActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _limeActive;
+        public bool LimeActive
+        {
+            get { return _limeActive; }
+            set
+            {
+                _limeActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _redActive;
+        public bool RedActive
+        {
+            get { return _redActive; }
+            set
+            {
+                _redActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _orangeActive;
+        public bool OrangeActive
+        {
+            get { return _orangeActive; }
+            set
+            {
+                _orangeActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _purpleActive;
+        public bool PurpleActive
+        {
+            get { return _purpleActive; }
+            set
+            {
+                _purpleActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
+
+        #endregion
 
         private ThemeColors _themeColor;
 
         // Relay Commands
         public RelayCommand AddBachupGroupCommand { get; private set; }
         public RelayCommand SetThemeCommand { get; private set; }
-        public RelayCommand ChangeThemeColorCommand { get; private set; }
         public RelayCommand SelectItemCommand { get; private set; }
+        public RelayCommand ShowSettingsCommand { get; private set; }
+
+        // Color Commands
+        public RelayCommand SetThemeColorCommand { get; private set; }
 
         #region Events
 
@@ -127,11 +323,12 @@ namespace Bachup.ViewModel
             SaveSettings();
         }
 
-        private void ChangeThemeColor(object sender)
+        private void SetThemeColor(object o)
         {
-            Settings.Color = (ThemeColors)GetNextColor();
+            Settings.Color = (ThemeColors)o;
             _themeColor = Settings.Color;
 
+            SetColorThemeStatus();
             SetThemeColor();
             SaveSettings();
         }
@@ -176,24 +373,6 @@ namespace Bachup.ViewModel
         {
             new PaletteHelper().ReplaceAccentColor(_themeColor.ToString());
             new PaletteHelper().ReplacePrimaryColor(_themeColor.ToString());
-        }
-
-        private int GetNextColor()
-        {
-            int currentColor = (int)_themeColor;
-            int TotalCount = Enum.GetNames(typeof(ThemeColors)).Length;
-            int newColor;
-
-            if (currentColor < TotalCount)
-            {
-                newColor = currentColor + 1;
-            }
-            else
-            {
-                newColor = 1;
-            }
-
-            return newColor;
         }
 
         private void LoadData()
@@ -274,6 +453,31 @@ namespace Bachup.ViewModel
             }
         }
         
+        private void SetColorThemeStatus()
+        {
+            YellowActive = _themeColor == ThemeColors.yellow;
+            AmberActive = _themeColor == ThemeColors.amber;
+            DeepOrangeActive = _themeColor == ThemeColors.deeporange;
+            LightBlueActive = _themeColor == ThemeColors.lightblue;
+            TealActive = _themeColor == ThemeColors.teal;
+            CyanActive = _themeColor == ThemeColors.cyan;
+            PinkActive = _themeColor == ThemeColors.pink;
+            GreenActive = _themeColor == ThemeColors.green;
+            DeepPurpleActive = _themeColor == ThemeColors.deeppurple;
+            IndigoActive = _themeColor == ThemeColors.indigo;
+            LightGreenActive = _themeColor == ThemeColors.lightgreen;
+            BlueActive = _themeColor == ThemeColors.blue;
+            LimeActive = _themeColor == ThemeColors.lime;
+            RedActive = _themeColor == ThemeColors.red;
+            OrangeActive = _themeColor == ThemeColors.orange;
+            PurpleActive = _themeColor == ThemeColors.purple;
+
+        }
+
+        private void ShowSettings(object o)
+        {
+            SettingsShown = !_settingsShown;
+        }
 
 
         #endregion

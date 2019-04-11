@@ -5,6 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:model="clr-namespace:Bachup.Model"
     xmlns:vm="clr-namespace:Bachup.ViewModel"
+    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
     x:Class="Bachup.View.MainView"
     DataContext="{DynamicResource MainViewModel}"
     Title="Bachup" Height="729" Width="844"
@@ -15,98 +17,405 @@
     TextOptions.TextRenderingMode="Auto"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{DynamicResource MaterialDesignFont}"
-    MinWidth="635" MinHeight="550"
-    Top="{Binding WindowTop}">
+    MinWidth="635" MinHeight="550">
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel"/>
     </Window.Resources>
     <materialDesign:DialogHost Identifier="RootDialog">
-        <Grid>
-            <Grid.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
-                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
-                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
-            </Grid.Resources>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="277"/>
-                <ColumnDefinition Width="559*"/>
-            </Grid.ColumnDefinitions>
-            <materialDesign:ColorZone
-                Mode="PrimaryMid"
-                Padding="16" Grid.ColumnSpan="2">
-                <DockPanel>
-                    <ToggleButton
-                        Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
-                        VerticalAlignment="Center"
-                        DockPanel.Dock="Right" 
-                        ToolTip="Toggle Color Mode"
-                        IsChecked="{Binding DarkMode}"
-                        Command="{Binding SetThemeCommand}"/>
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        DockPanel.Dock="Right"
-                        Style="{StaticResource MaterialDesignBody2TextBlock}"
-                        Margin="0,0,10,0"
-                        Text="{Binding ThemeName}"/>
-                    <Button
-                        Style="{StaticResource MaterialDesignToolForegroundButton}"
-                        DockPanel.Dock="Right"
-                        Margin="0,0,20,0"
-                        ToolTip="Change Theme Color"
-                        Command="{Binding ChangeThemeColorCommand}">
-                        <materialDesign:PackIcon
-                            Kind="Colorize"
-                            Height="24"
-                            Width="24" />
+        <materialDesign:DrawerHost IsRightDrawerOpen="{Binding SettingsShown}" d:IsLocked="True">
+            <materialDesign:DrawerHost.RightDrawerContent>
+                <DockPanel MinWidth="300">
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                            DockPanel.Dock="Top"
+                            HorizontalAlignment="Right" Margin="16"
+                            Command="{Binding ShowSettingsCommand}">
+                        <materialDesign:PackIcon Kind="Close"/>
                     </Button>
-                    <Button
-                        Style="{DynamicResource MaterialDesignToolForegroundButton}"
-                        Margin="0 0 0 0"
-                        Panel.ZIndex="0"
-                        Command="{Binding AddBachupGroupCommand}">
-                        <materialDesign:PackIcon
-                            Kind="Plus" Height="28" Width="28" RenderTransformOrigin="0.536,-0.345" />
-                    </Button>
-                    <StackPanel
-                        Orientation="Horizontal"
-                        materialDesign:RippleAssist.IsCentered="True"/>
+                    <Grid 
+                        ShowGridLines="False"
+                        >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock 
+                            Text="{Binding ThemeName}"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Grid.Column="1"
+                            />
+                        <ToggleButton
+                            Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                            VerticalAlignment="Center"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            ToolTip="Toggle Color Mode"
+                            IsChecked="{Binding DarkMode}"
+                            Command="{Binding SetThemeCommand}" Width="44"/>
+                        <TextBlock 
+                            Text="Colors"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                            />
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            IsChecked="{Binding YellowActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.yellow}"
+                            ToolTip="MaterialDesignActionAccentToggleButton"
+                            Grid.Row="4"
+                            Height="28"
+                            Width="28">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Yellow.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            ToolTip="MaterialDesignActionAccentToggleButton"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding AmberActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.amber}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Amber.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            ToolTip="MaterialDesignActionAccentToggleButton"
+                            Grid.Row="4"
+                            Grid.Column="2"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding DeepOrangeActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.deeporange}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepOrange.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            ToolTip="MaterialDesignActionAccentToggleButton"
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding LightBlueActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.lightblue}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.LightBlue.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"                           
+                            ToolTip="MaterialDesignActionAccentToggleButton"
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding TealActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.teal}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Teal.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            ToolTip="MaterialDesignActionAccentToggleButton"
+                            Grid.Row="5"
+                            Grid.Column="2"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding CyanActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.cyan}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Cyan.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            ToolTip="MaterialDesignActionAccentToggleButton"
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding PinkActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.pink}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Pink.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            ToolTip="MaterialDesignActionAccentToggleButton"
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding GreenActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.green}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Green.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            ToolTip="MaterialDesignActionAccentToggleButton"
+                            Grid.Row="6"
+                            Grid.Column="2"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding DeepPurpleActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.deeppurple}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            ToolTip="MaterialDesignActionAccentToggleButton"
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding BlueActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.blue}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            ToolTip="Lime"
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding LimeActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.lime}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Lime.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            ToolTip="Red"
+                            Grid.Row="7"
+                            Grid.Column="2"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding RedActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.red}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Red.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            ToolTip="Orange"
+                            Grid.Row="8"
+                            Grid.Column="0"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding OrangeActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.orange}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Orange.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                        <ToggleButton
+                            Content=""
+                            Style="{StaticResource MaterialDesignActionToggleButton}"
+                            ToolTip="Purple"
+                            Grid.Row="8"
+                            Grid.Column="1"
+                            Height="28"
+                            Width="28"
+                            IsChecked="{Binding PurpleActive}"
+                            Command="{Binding SetThemeColorCommand}"
+                            CommandParameter="{x:Static model:ThemeColors.purple}">
+                            <ToggleButton.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Purple.xaml"/>
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+                    </Grid>
                 </DockPanel>
-            </materialDesign:ColorZone>
-            <TreeView 
-                x:Name="treeView" 
-                Margin="0,64,0,0"
-                ItemsSource="{Binding Bachup}"
-                Background="{DynamicResource MaterialDesignFlatButtonClick}"
-                BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="0, 0, .5, 0"            
-                >
-                <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type model:BachupGroup}" ItemsSource="{Binding BachupItems}">
-                        <TextBlock Text="{Binding Name}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
-                    </HierarchicalDataTemplate>
-                    <DataTemplate DataType="{x:Type model:BachupItem}">
-                        <TextBlock Text="{Binding Name}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
-                    </DataTemplate>
-                </TreeView.Resources>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectedItemChanged">
-                        <i:InvokeCommandAction Command="{Binding SelectItemCommand}" CommandParameter="{Binding ElementName=treeView, Path=SelectedItem}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </TreeView>
-            <ScrollViewer 
-                Margin="0,64,0,0"
-                HorizontalScrollBarVisibility="Disabled"
+            </materialDesign:DrawerHost.RightDrawerContent>
+            <Grid>
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                            <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                            <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="277"/>
+                    <ColumnDefinition Width="559*"/>
+                </Grid.ColumnDefinitions>
+                <materialDesign:ColorZone
+                    Mode="PrimaryMid"
+                    Padding="16" Grid.ColumnSpan="2">
+                    <DockPanel>
+                        <Button
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Right"
+                            Style="{StaticResource MaterialDesignToolForegroundButton}"
+                            Margin="0,0,10,0"
+                            Command="{Binding ShowSettingsCommand}">
+                            <materialDesign:PackIcon
+                                Kind="Settings" Height="24" Width="24"/>
+                        </Button>
+                        <Button
+                            Style="{DynamicResource MaterialDesignToolForegroundButton}"
+                            Margin="0 0 0 0"
+                            Panel.ZIndex="0"
+                            Command="{Binding AddBachupGroupCommand}">
+                            <materialDesign:PackIcon
+                                Kind="Plus" Height="28" Width="28"  />
+                        </Button>
+                        <StackPanel
+                            Orientation="Horizontal"
+                            materialDesign:RippleAssist.IsCentered="True"/>
+                    </DockPanel>
+                </materialDesign:ColorZone>
+                <TreeView 
+                    x:Name="treeView" 
+                    Margin="0,64,0,0"
+                    ItemsSource="{Binding Bachup}"
+                    Background="{DynamicResource MaterialDesignFlatButtonClick}"
+                    BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="0, 0, .5, 0"            
+                    >
+                    <TreeView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type model:BachupGroup}" ItemsSource="{Binding BachupItems}">
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                        </HierarchicalDataTemplate>
+                        <DataTemplate DataType="{x:Type model:BachupItem}">
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                        </DataTemplate>
+                    </TreeView.Resources>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectedItemChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectItemCommand}" CommandParameter="{Binding SelectedItem, ElementName=treeView}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TreeView>
+                <ScrollViewer 
+                    Margin="0,64,0,0"
+                    HorizontalScrollBarVisibility="Disabled"
                 
-                VerticalScrollBarVisibility="Auto" Grid.Column="1">
-                <ContentControl
-                    Content="{Binding SelectedViewModel}" 
-                    HorizontalContentAlignment="Center" />
-            </ScrollViewer>
+                    VerticalScrollBarVisibility="Auto" Grid.Column="1">
+                    <ContentControl
+                        Content="{Binding SelectedViewModel}" 
+                        HorizontalContentAlignment="Center" />
+                </ScrollViewer>
 
-        </Grid>
+
+            </Grid>
+        </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
 </Window>

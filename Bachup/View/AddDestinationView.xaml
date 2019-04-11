@@ -23,12 +23,13 @@
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="Destination" 
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-            Text="{Binding Path=Destination, Mode=TwoWay, TargetNullValue=''}"
+            Text="{Binding Path=Destination, Mode=TwoWay, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}"
             >
         </TextBox>
         <Button
             x:Name="button" 
             Content="Cancel" 
+            IsCancel="True"
             Margin="0,0,90,10" 
             Height="32" 
             VerticalAlignment="Bottom" 
@@ -44,6 +45,7 @@
             VerticalAlignment="Bottom" 
             HorizontalAlignment="Right" 
             Width="75"
+            IsDefault="True"
             Command="{Binding AddCommand}">
         </Button>
         <materialDesign:Snackbar
