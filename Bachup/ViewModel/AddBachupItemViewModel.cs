@@ -109,6 +109,8 @@ namespace Bachup.ViewModel
                     ShowMessage = true;
                 }
 
+                
+
                 switch (bachupType)
                 {
                     case BachupType.GDB:
@@ -170,6 +172,13 @@ namespace Bachup.ViewModel
             if (String.IsNullOrEmpty(Name))
             {
                 Message = "Enter A Name";
+                ShowMessage = true;
+                return false;
+            }
+
+            if (_bachupGroup.DoesItemExist(Name))
+            {
+                Message = "Item With That Name Exists";
                 ShowMessage = true;
                 return false;
             }

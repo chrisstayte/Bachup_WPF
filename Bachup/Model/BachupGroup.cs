@@ -96,6 +96,11 @@ namespace Bachup.Model
             }
         }
 
+        public bool DoesItemExist(string name)
+        {
+            return _bachupItems.FirstOrDefault(item => item.Name.ToLower() == name.ToLower()) != null;
+        }
+
         #endregion
 
 
