@@ -170,7 +170,6 @@ namespace Bachup.ViewModel
         public RelayCommand RepairSourceCommand { get; private set; }
         public RelayCommand SetBachupItemZippedCommand { get; private set; }
 
-
         #region Events
 
         private async void DeleteDestination(object parameter)

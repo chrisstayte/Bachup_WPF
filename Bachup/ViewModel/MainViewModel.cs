@@ -11,23 +11,16 @@ using System.Linq;
 
 namespace Bachup.ViewModel
 {
-
-
-    /// <summary>
-    /// Defines the <see cref="MainViewModel" />
-    /// </summary>
     internal class MainViewModel : BaseViewModel
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainViewModel"/> class.
-        /// </summary>
         public MainViewModel()
         {
             AddBachupGroupCommand = new RelayCommand(AddBachupGroup);
             SetThemeCommand = new RelayCommand(SetTheme);
             SelectItemCommand = new RelayCommand(SelectItem);
-            SetThemeColorCommand = new RelayCommand(SetThemeColor);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
+            SaveSettingsCommand = new RelayCommand(SaveSettings);
+            SetDarkModeCommand = new RelayCommand(DarkMode);
 
             Settings = new Settings();
 
@@ -36,10 +29,8 @@ namespace Bachup.ViewModel
 
             SetColorThemeStatus();
 
-            SetThemeColor();
-            SetThemeMode();
-
-            
+            SetTheme();
+            DarkMode();
             
             SetView(null);
             
@@ -47,18 +38,8 @@ namespace Bachup.ViewModel
 
         // Properties
         static public ObservableCollection<BachupGroup> Bachup { get; set; } = new ObservableCollection<BachupGroup>();
-        public Settings Settings { get; set; } 
+        static public Settings Settings { get; set; } 
 
-        private bool _darkMode;
-        public bool DarkMode
-        {
-            get { return _darkMode; }
-            set
-            {
-                _darkMode = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         private string _themeName;
         public string ThemeName
@@ -280,13 +261,13 @@ namespace Bachup.ViewModel
 
         #endregion
 
-        private ThemeColors _themeColor;
-
         // Relay Commands
         public RelayCommand AddBachupGroupCommand { get; private set; }
         public RelayCommand SetThemeCommand { get; private set; }
         public RelayCommand SelectItemCommand { get; private set; }
         public RelayCommand ShowSettingsCommand { get; private set; }
+        public RelayCommand SaveSettingsCommand { get; private set; }
+        public RelayCommand SetDarkModeCommand { get; private set; }
 
         // Color Commands
         public RelayCommand SetThemeColorCommand { get; private set; }
@@ -315,25 +296,65 @@ namespace Bachup.ViewModel
             SetView(sender);
         }
 
-        private void SetTheme(object o)
+        private void DarkMode(object o)
         {
-            SetThemeMode();
+            DarkMode();
             SaveSettings();
         }
 
-        private void SetThemeColor(object o)
+        private void SetTheme(object o)
         {
+           
             Settings.Color = (ThemeColors)o;
-            _themeColor = Settings.Color;
+
+            SetTheme();
 
             SetColorThemeStatus();
-            SetThemeColor();
+
+            SaveSettings();
+        }
+
+        private void SaveSettings(object o)
+        {
             SaveSettings();
         }
 
         #endregion
 
         #region Methods
+
+        private void DarkMode()
+        {
+            try
+            {
+                new PaletteHelper().SetLightDark(Settings.DarkMode);
+                ThemeName = Settings.DarkMode ? "Dark" : "Light";
+            }
+            catch
+            {
+                Settings.ResetSettings();
+                new PaletteHelper().SetLightDark(Settings.DarkMode);
+                ThemeName = Settings.DarkMode ? "Dark" : "Light";
+            }
+        }
+
+        private void SetTheme()
+        {
+            try
+            {
+                new PaletteHelper().ReplaceAccentColor(Settings.Color.ToString());
+                new PaletteHelper().ReplacePrimaryColor(Settings.Color.ToString());
+
+            }
+            catch
+            {
+                Settings.ResetSettings();
+                new PaletteHelper().ReplaceAccentColor(Settings.Color.ToString());
+                new PaletteHelper().ReplacePrimaryColor(Settings.Color.ToString());
+
+
+            }
+        }
 
         private void SetView(object Item)
         {
@@ -358,20 +379,7 @@ namespace Bachup.ViewModel
             }
 
             SelectedViewModel = new HomePageView();
-        }
-
-        private void SetThemeMode()
-        {
-            new PaletteHelper().SetLightDark(DarkMode);
-            ThemeName = DarkMode ? "Dark" : "Light";
-            Settings.DarkMode = DarkMode;
-        }
-
-        private void SetThemeColor()
-        {
-            new PaletteHelper().ReplaceAccentColor(_themeColor.ToString());
-            new PaletteHelper().ReplacePrimaryColor(_themeColor.ToString());
-        }
+        }      
 
         private void LoadData()
         {
@@ -427,13 +435,10 @@ namespace Bachup.ViewModel
             catch
             {
 
-            }
-            
-            DarkMode = Settings.DarkMode;
-            _themeColor = Settings.Color;
+            }   
         }
 
-        private void SaveSettings()
+        public static void SaveSettings()
         {
             try
             {
@@ -453,22 +458,22 @@ namespace Bachup.ViewModel
         
         private void SetColorThemeStatus()
         {
-            YellowActive = _themeColor == ThemeColors.yellow;
-            AmberActive = _themeColor == ThemeColors.amber;
-            DeepOrangeActive = _themeColor == ThemeColors.deeporange;
-            LightBlueActive = _themeColor == ThemeColors.lightblue;
-            TealActive = _themeColor == ThemeColors.teal;
-            CyanActive = _themeColor == ThemeColors.cyan;
-            PinkActive = _themeColor == ThemeColors.pink;
-            GreenActive = _themeColor == ThemeColors.green;
-            DeepPurpleActive = _themeColor == ThemeColors.deeppurple;
-            IndigoActive = _themeColor == ThemeColors.indigo;
-            LightGreenActive = _themeColor == ThemeColors.lightgreen;
-            BlueActive = _themeColor == ThemeColors.blue;
-            LimeActive = _themeColor == ThemeColors.lime;
-            RedActive = _themeColor == ThemeColors.red;
-            OrangeActive = _themeColor == ThemeColors.orange;
-            PurpleActive = _themeColor == ThemeColors.purple;
+            YellowActive = Settings.Color == ThemeColors.yellow;
+            AmberActive = Settings.Color == ThemeColors.amber;
+            DeepOrangeActive = Settings.Color == ThemeColors.deeporange;
+            LightBlueActive = Settings.Color == ThemeColors.lightblue;
+            TealActive = Settings.Color == ThemeColors.teal;
+            CyanActive = Settings.Color == ThemeColors.cyan;
+            PinkActive = Settings.Color == ThemeColors.pink;
+            GreenActive = Settings.Color == ThemeColors.green;
+            DeepPurpleActive = Settings.Color == ThemeColors.deeppurple;
+            IndigoActive = Settings.Color == ThemeColors.indigo;
+            LightGreenActive = Settings.Color == ThemeColors.lightgreen;
+            BlueActive = Settings.Color == ThemeColors.blue;
+            LimeActive = Settings.Color == ThemeColors.lime;
+            RedActive = Settings.Color == ThemeColors.red;
+            OrangeActive = Settings.Color == ThemeColors.orange;
+            PurpleActive = Settings.Color == ThemeColors.purple;
 
         }
 
@@ -481,7 +486,6 @@ namespace Bachup.ViewModel
         {
             return Bachup.FirstOrDefault(Group => Group.Name.ToLower() == name.ToLower()) != null;
         }
-
 
         #endregion
 
