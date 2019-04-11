@@ -28,7 +28,7 @@
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="Name" 
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-            Text="{Binding Path=Name, Mode=TwoWay, TargetNullValue=''}">
+            Text="{Binding Path=Name, Mode=TwoWay, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}">
         </TextBox>
         <Button
             x:Name="button" 

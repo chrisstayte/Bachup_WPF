@@ -23,7 +23,7 @@
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="Name" 
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-            Text="{Binding Name, Mode=TwoWay, TargetNullValue=''}"/>
+            Text="{Binding Name, Mode=TwoWay, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox 
             x:Name="textBox_Copy"
             Height="38" Margin="10,104,114,0" 
@@ -31,7 +31,7 @@
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="Source" 
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-            Text="{Binding Source, Mode=TwoWay, TargetNullValue=''}"/>
+            Text="{Binding Source, Mode=TwoWay, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}"/>
         <Button 
             x:Name="button"
             ToolTip="Folder"
