@@ -1,10 +1,6 @@
 ﻿using Ionic.Zip;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bachup.Model.BachupItems
@@ -49,7 +45,6 @@ namespace Bachup.Model.BachupItems
             {
                 if (Directory.Exists(destination))
                 { 
-
                     using (ZipFile zip = new ZipFile())
                     {
                         string bachupLocation = GenerateBachupLocation(destination);

@@ -6,11 +6,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
-using System.Security.Principal;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Bachup.Model
@@ -151,7 +148,7 @@ namespace Bachup.Model
         {
             _destinations.Add(path);
         }
-
+        
         public void DeleteDestination(string path)
         {
             _destinations.Remove(path);

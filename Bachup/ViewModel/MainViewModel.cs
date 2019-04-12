@@ -3,9 +3,7 @@ using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
-using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -32,14 +30,12 @@ namespace Bachup.ViewModel
             SetTheme();
             DarkMode();
             
-            SetView(null);
-            
+            SetView(null);          
         }
 
         // Properties
         static public ObservableCollection<BachupGroup> Bachup { get; set; } = new ObservableCollection<BachupGroup>();
         static public Settings Settings { get; set; } 
-
 
         private string _themeName;
         public string ThemeName
@@ -79,7 +75,6 @@ namespace Bachup.ViewModel
                 NotifyPropertyChanged();
             }
         }
-
 
         #region Color Properties
 
@@ -488,7 +483,5 @@ namespace Bachup.ViewModel
         }
 
         #endregion
-
-
     }
 }

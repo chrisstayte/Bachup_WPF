@@ -263,9 +263,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Helpers\Microsoft.WindowsAPICodePack.dll" />
-    <Content Include="Helpers\Microsoft.WindowsAPICodePack.Shell.dll" />
-    <Content Include="Helpers\Ookii.Dialogs.Wpf.dll" />
+    <Content Include="DLL\Microsoft.WindowsAPICodePack.dll" />
+    <Content Include="DLL\Microsoft.WindowsAPICodePack.Shell.dll" />
+    <Content Include="DLL\Ookii.Dialogs.Wpf.dll" />
     <Resource Include="Russian Accordion_64px.png" />
   </ItemGroup>
   <ItemGroup>
