@@ -3,9 +3,12 @@ using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Bachup.ViewModel
 {
@@ -30,8 +33,34 @@ namespace Bachup.ViewModel
             SetTheme();
             DarkMode();
             
-            SetView(null);          
+            SetView(null);
+
+            SysTrayApp();
+            
         }
+
+        public void SysTrayApp()
+        {
+            trayMenu = new ContextMenu();
+
+            trayMenu.MenuItems.Add("Exit", (object sender, EventArgs e) =>
+            {
+                Application.Exit();
+                Environment.Exit(1);
+            });
+
+            trayIcon = new NotifyIcon();
+            trayIcon.Text = "Bachup";
+            trayIcon.Icon = new System.Drawing.Icon(SystemIcons.Application, 40, 40);
+
+            trayIcon.ContextMenu = trayMenu;
+            trayIcon.Visible = true;
+        }
+
+        
+
+        private NotifyIcon trayIcon;
+        private ContextMenu trayMenu;
 
         // Properties
         static public ObservableCollection<BachupGroup> Bachup { get; set; } = new ObservableCollection<BachupGroup>();
@@ -276,14 +305,12 @@ namespace Bachup.ViewModel
             };
 
             var test = await DialogHost.Show(view, "RootDialog");
-            
-            
+                     
             if (test != null)
             {
                 Bachup.Add((BachupGroup)test);
                 SaveData();
-            }
-            
+            }           
         }
 
         private void SelectItem(object sender)
