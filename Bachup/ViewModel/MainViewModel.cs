@@ -41,7 +41,7 @@ namespace Bachup.ViewModel
 
         public void SysTrayApp()
         {
-            trayMenu = new ContextMenu();
+            ContextMenu trayMenu = new ContextMenu();
 
             trayMenu.MenuItems.Add("Exit", (object sender, EventArgs e) =>
             {
@@ -49,18 +49,22 @@ namespace Bachup.ViewModel
                 Environment.Exit(1);
             });
 
-            trayIcon = new NotifyIcon();
-            trayIcon.Text = "Bachup";
-            trayIcon.Icon = new System.Drawing.Icon(SystemIcons.Application, 40, 40);
+            TrayMenu = trayMenu;
 
-            trayIcon.ContextMenu = trayMenu;
-            trayIcon.Visible = true;
         }
 
         
 
-        private NotifyIcon trayIcon;
-        private ContextMenu trayMenu;
+        private ContextMenu _trayMenu;
+        public ContextMenu TrayMenu
+        {
+            get { return _trayMenu; }
+            set
+            {
+                _trayMenu = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // Properties
         static public ObservableCollection<BachupGroup> Bachup { get; set; } = new ObservableCollection<BachupGroup>();
