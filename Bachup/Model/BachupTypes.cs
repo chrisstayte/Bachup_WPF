@@ -4,6 +4,7 @@
     {
         NotSupported,
         GDB,
-        TXT
+        TXT,
+        LAS
     }
 }

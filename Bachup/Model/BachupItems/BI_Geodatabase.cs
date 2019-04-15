@@ -56,7 +56,6 @@ namespace Bachup.Model.BachupItems
                         string destFile = Path.Combine(outputGeodatabase, fileName);
                         File.Copy(currentFile, destFile, true);
                     });
-
                 }
             }
         }

@@ -10,7 +10,7 @@ namespace Bachup.Model.BachupItems
 
         public BI_LASFile(string name, string source, Guid bachupGroupID) : base(name, source, bachupGroupID)
         {
-            _bachupType = BachupType.TXT;
+            _bachupType = BachupType.LAS;
             _sourceType = BachupItemSourceTypes.File;
         }
 
@@ -68,7 +68,7 @@ namespace Bachup.Model.BachupItems
             using (System.Windows.Forms.OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "las file (*.las)|*.las";
+                openFileDialog.Filter = "las file(*.las)|*.las";
                 openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = true;
 
