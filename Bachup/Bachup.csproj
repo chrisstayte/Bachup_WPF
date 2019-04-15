@@ -27,6 +27,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <PublisherName>Chris Stayte</PublisherName>
+    <TrustUrlParameters>true</TrustUrlParameters>
     <ApplicationRevision>16</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
@@ -42,6 +44,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -65,7 +68,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=3.3.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
@@ -124,7 +127,8 @@
     <Compile Include="Helpers\DateConverter.cs" />
     <Compile Include="Helpers\SaveInfo.cs" />
     <Compile Include="Model\BachupItemSourceTypes.cs" />
-    <Compile Include="Model\BachupItems\BI_LASFile.cs" />
+    <Compile Include="Model\BachupItems\BI_LAS.cs" />
+    <Compile Include="Model\BachupItems\BI_Shapefile.cs" />
     <Compile Include="Model\ThemeColors.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="ViewModel\CopyBachupItemViewModel.cs" />
@@ -186,7 +190,7 @@
     <Compile Include="Model\BachupGroup.cs" />
     <Compile Include="Model\BachupItem.cs" />
     <Compile Include="Model\BachupItems\BI_Geodatabase.cs" />
-    <Compile Include="Model\BachupItems\BI_TextFile.cs" />
+    <Compile Include="Model\BachupItems\BI_Text.cs" />
     <Compile Include="Model\BachupTypes.cs" />
     <Compile Include="ViewModel\AddBachupGroupViewModel.cs" />
     <Compile Include="ViewModel\AddBachupItemViewModel.cs" />

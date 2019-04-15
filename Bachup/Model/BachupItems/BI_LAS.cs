@@ -5,20 +5,16 @@ using System.Windows.Forms;
 
 namespace Bachup.Model.BachupItems
 {
-    class BI_TextFile : BachupItem
+    class BI_LAS : BachupItem
     {
-        public BI_TextFile(string name, string source, Guid bachupGroupID) : base(name, source, bachupGroupID)
+
+        public BI_LAS(string name, string source, Guid bachupGroupID) : base(name, source, bachupGroupID)
         {
-            _bachupType = BachupType.TXT;
+            _bachupType = BachupType.LAS;
             _sourceType = BachupItemSourceTypes.File;
         }
 
         #region Methods
-
-        public override bool IsFileLocked()
-        {
-            return false;
-        }
 
         public override void CopyData()
         {
@@ -44,7 +40,7 @@ namespace Bachup.Model.BachupItems
             foreach (string destination in Destinations)
             {
                 if (Directory.Exists(destination))
-                { 
+                {
                     using (ZipFile zip = new ZipFile())
                     {
                         string bachupLocation = GenerateBachupLocation(destination);
@@ -62,13 +58,18 @@ namespace Bachup.Model.BachupItems
             }
         }
 
+        public override bool IsFileLocked()
+        {
+            return false;
+        }
+
         public override void RepairSource()
         {
             using (System.Windows.Forms.OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "txt file (*.txt)|*.txt";
-                openFileDialog.FilterIndex = 2;
+                openFileDialog.Filter = "las file(*.las)|*.las";
+                openFileDialog.FilterIndex = 1;
                 openFileDialog.RestoreDirectory = true;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -78,8 +79,6 @@ namespace Bachup.Model.BachupItems
                 }
             }
         }
-
-        
 
         #endregion
     }

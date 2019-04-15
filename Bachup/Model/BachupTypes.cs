@@ -5,6 +5,7 @@
         NotSupported,
         GDB,
         TXT,
-        LAS
+        LAS,
+        SHP
     }
 }

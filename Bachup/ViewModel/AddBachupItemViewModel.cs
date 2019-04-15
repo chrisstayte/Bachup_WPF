@@ -116,34 +116,29 @@ namespace Bachup.ViewModel
                     ShowMessage = true;
                 }
 
-                
-
                 switch (bachupType)
                 {
                     case BachupType.GDB:
                         _bachupGroup.AddBachupItem(new BI_Geodatabase(Name, Source, _bachupGroup.ID)
                         {
                             ZipBachup = _zipBachupItem
-                        }
-                        );       
+                        });       
                         break;
                     case BachupType.TXT:
-                        _bachupGroup.AddBachupItem(new BI_TextFile(Name, Source, _bachupGroup.ID)
+                        _bachupGroup.AddBachupItem(new BI_Text(Name, Source, _bachupGroup.ID)
                         {
                             ZipBachup = _zipBachupItem
                         });
                         break;
                     case BachupType.LAS:
-                        _bachupGroup.AddBachupItem(new BI_LASFile(Name, Source, _bachupGroup.ID)
+                        _bachupGroup.AddBachupItem(new BI_LAS(Name, Source, _bachupGroup.ID)
                             {
                             ZipBachup = _zipBachupItem
                         });
                         break;
                     case BachupType.NotSupported:
-                        return;
-                        
+                        return;                       
                 }
-
                 DialogHost.CloseDialogCommand.Execute(null, null);
             }               
         }
