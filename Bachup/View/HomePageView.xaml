@@ -61,6 +61,10 @@
                 Geodatabase
                 <LineBreak/>
                 Text File
+                <LineBreak/>
+                LAS File
+                <LineBreak/>
+                SHP File
             </TextBlock>
 
         </GroupBox>

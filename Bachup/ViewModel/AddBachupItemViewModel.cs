@@ -136,6 +136,12 @@ namespace Bachup.ViewModel
                             ZipBachup = _zipBachupItem
                         });
                         break;
+                    case BachupType.SHP:
+                        _bachupGroup.AddBachupItem(new BI_Shapefile(Name, Source, _bachupGroup.ID)
+                        {
+                            ZipBachup = _zipBachupItem
+                        });
+                        break;
                     case BachupType.NotSupported:
                         return;                       
                 }
@@ -153,7 +159,7 @@ namespace Bachup.ViewModel
             using (System.Windows.Forms.OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "All Bachup Items|*.txt;*.las|LAS|*.las|TXT|*.txt";
+                openFileDialog.Filter = "All Bachup Items|*.txt;*.las;*.shp|LAS|*.las|TXT|*.txt|SHP|*.shp";
                 openFileDialog.FilterIndex = 1;
                 openFileDialog.RestoreDirectory = true;
 
@@ -228,6 +234,8 @@ namespace Bachup.ViewModel
                     return BachupType.TXT;
                 case "las":
                     return BachupType.LAS;
+                case "shp":
+                    return BachupType.SHP;
                 default:
                     return BachupType.NotSupported;
             }
