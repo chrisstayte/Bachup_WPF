@@ -198,10 +198,21 @@ namespace Bachup.ViewModel
 
         private void ShowSource(object parameter)
         {
-            if (Directory.Exists(_bachupItem.Source) || File.Exists(_bachupItem.Source))
+            if (_bachupItem.SourceType == BachupItemSourceTypes.Folder)
             {
-                Process.Start("explorer.exe", _bachupItem.Source);
-            }            
+                if (Directory.Exists(_bachupItem.Source))
+                {
+                    Process.Start("explorer.exe", _bachupItem.Source);
+                }
+            }
+            else
+            {
+                if (File.Exists(_bachupItem.Source))
+                {
+                    Process.Start("explorer.exe", Path.GetDirectoryName(_bachupItem.Source));
+                }
+            }
+                      
         }
 
         private async void DeleteBachup(object parameter)

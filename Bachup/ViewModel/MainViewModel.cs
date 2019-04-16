@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Bachup.ViewModel
@@ -22,6 +23,7 @@ namespace Bachup.ViewModel
             ShowSettingsCommand = new RelayCommand(ShowSettings);
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             SetDarkModeCommand = new RelayCommand(DarkMode);
+            ShowMySiteCommand = new RelayCommand(ShowMySite);
 
             Settings = new Settings();
 
@@ -36,7 +38,11 @@ namespace Bachup.ViewModel
             SetView(null);
 
             SysTrayApp();
-            
+
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            //VersionNumber = String.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+            VersionNumber = String.Format("Version {0}.{1}", version.Major, version.Minor);
+
         }
 
         public void SysTrayApp()
@@ -51,9 +57,7 @@ namespace Bachup.ViewModel
 
             TrayMenu = trayMenu;
 
-        }
-
-        
+        }  
 
         private ContextMenu _trayMenu;
         public ContextMenu TrayMenu
@@ -105,6 +109,17 @@ namespace Bachup.ViewModel
             set
             {
                 _settingsShown = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _versionNumber;
+        public string VersionNumber
+        {
+            get { return _versionNumber; }
+            set
+            {
+                _versionNumber = value;
                 NotifyPropertyChanged();
             }
         }
@@ -296,6 +311,7 @@ namespace Bachup.ViewModel
         public RelayCommand ShowSettingsCommand { get; private set; }
         public RelayCommand SaveSettingsCommand { get; private set; }
         public RelayCommand SetDarkModeCommand { get; private set; }
+        public RelayCommand ShowMySiteCommand { get; private set; }
 
         // Color Commands
         public RelayCommand SetThemeColorCommand { get; private set; }
@@ -343,6 +359,11 @@ namespace Bachup.ViewModel
         private void SaveSettings(object o)
         {
             SaveSettings();
+        }
+
+        private void ShowMySite(object o)
+        {
+            System.Diagnostics.Process.Start("http://chrisstayte.com");
         }
 
         #endregion
