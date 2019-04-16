@@ -2,16 +2,10 @@
 using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Threading;
 
 namespace Bachup.ViewModel
 {

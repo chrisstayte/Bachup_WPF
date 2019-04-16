@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bachup.Helpers;
-using Ookii.Dialogs;
-using Microsoft.Win32;
-using Ookii.Dialogs.Wpf;
-using System.IO;
-using System.Diagnostics;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using MaterialDesignThemes.Wpf;
+﻿using Bachup.Helpers;
 using Bachup.Model;
+using MaterialDesignThemes.Wpf;
+using System;
+using System.Diagnostics;
 
 namespace Bachup.ViewModel
 {
@@ -69,32 +59,6 @@ namespace Bachup.ViewModel
         public RelayCommand AddCommand { get; private set; }
 
         #region Events
-
-        //private void BrowseSourceFolder(object parameter)
-        //{ 
-        //    CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-        //    if (Directory.Exists(//SourcePath))
-        //        dialog.DefaultDirectory = //SourcePath;
-
-        //    dialog.IsFolderPicker = true;
-        //    if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-        //    {
-        //       // SourcePath = dialog.FileName;
-        //    }
-        //}
-
-        //private void BrowseSourceFile(object parameter)
-        //{
-        //    CommonOpenFileDialog dialog = new CommonOpenFileDialog
-        //    {
-        //        IsFolderPicker = false
-        //    };
-
-        //    if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-        //    {
-        //        //SourcePath = dialog.FileName;
-        //    }
-        //}
 
         private void Cancel(object parameter)
         {

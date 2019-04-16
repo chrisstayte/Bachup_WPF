@@ -6,11 +6,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
-using System.Security.Principal;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Bachup.Model
@@ -37,9 +34,34 @@ namespace Bachup.Model
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Guid ID { get; }
-        public DateTime DateCreated { get; }
+        private Guid _id;
+        public Guid ID
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+                NotifyPropertyChanged();
+            }
+        }
 
+        private DateTime _dateCreated;
+        public DateTime DateCreated
+        {
+            get
+            {
+                return _dateCreated;
+            }
+            set
+            {
+                _dateCreated = value;
+                NotifyPropertyChanged();
+            }
+        }
+        
         public Guid BachupGroupID { get; }
 
         private string _name;
@@ -151,7 +173,7 @@ namespace Bachup.Model
         {
             _destinations.Add(path);
         }
-
+        
         public void DeleteDestination(string path)
         {
             _destinations.Remove(path);

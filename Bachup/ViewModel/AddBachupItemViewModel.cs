@@ -4,11 +4,7 @@ using Bachup.Model.BachupItems;
 using MaterialDesignThemes.Wpf;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bachup.ViewModel
@@ -120,28 +116,35 @@ namespace Bachup.ViewModel
                     ShowMessage = true;
                 }
 
-                
-
                 switch (bachupType)
                 {
                     case BachupType.GDB:
                         _bachupGroup.AddBachupItem(new BI_Geodatabase(Name, Source, _bachupGroup.ID)
                         {
                             ZipBachup = _zipBachupItem
-                        }
-                        );       
+                        });       
                         break;
                     case BachupType.TXT:
-                        _bachupGroup.AddBachupItem(new BI_TextFile(Name, Source, _bachupGroup.ID)
+                        _bachupGroup.AddBachupItem(new BI_Text(Name, Source, _bachupGroup.ID)
+                        {
+                            ZipBachup = _zipBachupItem
+                        });
+                        break;
+                    case BachupType.LAS:
+                        _bachupGroup.AddBachupItem(new BI_LAS(Name, Source, _bachupGroup.ID)
+                            {
+                            ZipBachup = _zipBachupItem
+                        });
+                        break;
+                    case BachupType.SHP:
+                        _bachupGroup.AddBachupItem(new BI_Shapefile(Name, Source, _bachupGroup.ID)
                         {
                             ZipBachup = _zipBachupItem
                         });
                         break;
                     case BachupType.NotSupported:
-                        return;
-                        
+                        return;                       
                 }
-
                 DialogHost.CloseDialogCommand.Execute(null, null);
             }               
         }
@@ -156,8 +159,8 @@ namespace Bachup.ViewModel
             using (System.Windows.Forms.OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "txt files (*.txt)|*.txt";
-                openFileDialog.FilterIndex = 2;
+                openFileDialog.Filter = "All Bachup Items|*.txt;*.las;*.shp|LAS|*.las|TXT|*.txt|SHP|*.shp";
+                openFileDialog.FilterIndex = 1;
                 openFileDialog.RestoreDirectory = true;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -229,6 +232,10 @@ namespace Bachup.ViewModel
                     return BachupType.GDB;
                 case "txt":
                     return BachupType.TXT;
+                case "las":
+                    return BachupType.LAS;
+                case "shp":
+                    return BachupType.SHP;
                 default:
                     return BachupType.NotSupported;
             }

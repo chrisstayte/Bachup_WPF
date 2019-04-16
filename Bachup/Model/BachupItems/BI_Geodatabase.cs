@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Bachup.Model;
-using Bachup.View;
-using Bachup.ViewModel;
-using MaterialDesignThemes.Wpf;
+﻿using Ionic.Zip;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using Ionic.Zip;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Bachup.Model.BachupItems
 {
@@ -65,7 +56,6 @@ namespace Bachup.Model.BachupItems
                         string destFile = Path.Combine(outputGeodatabase, fileName);
                         File.Copy(currentFile, destFile, true);
                     });
-
                 }
             }
         }

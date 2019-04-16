@@ -5,9 +5,10 @@ using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Bachup.ViewModel
 {
@@ -33,13 +34,41 @@ namespace Bachup.ViewModel
             DarkMode();
             
             SetView(null);
+
+            SysTrayApp();
             
+        }
+
+        public void SysTrayApp()
+        {
+            ContextMenu trayMenu = new ContextMenu();
+
+            trayMenu.MenuItems.Add("Exit", (object sender, EventArgs e) =>
+            {
+                Application.Exit();
+                Environment.Exit(1);
+            });
+
+            TrayMenu = trayMenu;
+
+        }
+
+        
+
+        private ContextMenu _trayMenu;
+        public ContextMenu TrayMenu
+        {
+            get { return _trayMenu; }
+            set
+            {
+                _trayMenu = value;
+                NotifyPropertyChanged();
+            }
         }
 
         // Properties
         static public ObservableCollection<BachupGroup> Bachup { get; set; } = new ObservableCollection<BachupGroup>();
         static public Settings Settings { get; set; } 
-
 
         private string _themeName;
         public string ThemeName
@@ -79,7 +108,6 @@ namespace Bachup.ViewModel
                 NotifyPropertyChanged();
             }
         }
-
 
         #region Color Properties
 
@@ -281,14 +309,12 @@ namespace Bachup.ViewModel
             };
 
             var test = await DialogHost.Show(view, "RootDialog");
-            
-            
+                     
             if (test != null)
             {
                 Bachup.Add((BachupGroup)test);
                 SaveData();
-            }
-            
+            }           
         }
 
         private void SelectItem(object sender)
@@ -488,7 +514,5 @@ namespace Bachup.ViewModel
         }
 
         #endregion
-
-
     }
 }

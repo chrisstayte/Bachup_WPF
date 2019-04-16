@@ -27,7 +27,9 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>15</ApplicationRevision>
+    <PublisherName>Chris Stayte</PublisherName>
+    <TrustUrlParameters>true</TrustUrlParameters>
+    <ApplicationRevision>16</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -42,6 +44,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -65,11 +68,14 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=3.3.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.3.3.2\lib\net40\Costura.dll</HintPath>
+    </Reference>
+    <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net45\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\packages\Ionic.Zip.1.9.1.8\lib\Ionic.Zip.dll</HintPath>
@@ -97,6 +103,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
@@ -120,6 +127,8 @@
     <Compile Include="Helpers\DateConverter.cs" />
     <Compile Include="Helpers\SaveInfo.cs" />
     <Compile Include="Model\BachupItemSourceTypes.cs" />
+    <Compile Include="Model\BachupItems\BI_LAS.cs" />
+    <Compile Include="Model\BachupItems\BI_Shapefile.cs" />
     <Compile Include="Model\ThemeColors.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="ViewModel\CopyBachupItemViewModel.cs" />
@@ -181,7 +190,7 @@
     <Compile Include="Model\BachupGroup.cs" />
     <Compile Include="Model\BachupItem.cs" />
     <Compile Include="Model\BachupItems\BI_Geodatabase.cs" />
-    <Compile Include="Model\BachupItems\BI_TextFile.cs" />
+    <Compile Include="Model\BachupItems\BI_Text.cs" />
     <Compile Include="Model\BachupTypes.cs" />
     <Compile Include="ViewModel\AddBachupGroupViewModel.cs" />
     <Compile Include="ViewModel\AddBachupItemViewModel.cs" />
@@ -263,9 +272,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Helpers\Microsoft.WindowsAPICodePack.dll" />
-    <Content Include="Helpers\Microsoft.WindowsAPICodePack.Shell.dll" />
-    <Content Include="Helpers\Ookii.Dialogs.Wpf.dll" />
+    <Content Include="DLL\Microsoft.WindowsAPICodePack.dll" />
+    <Content Include="DLL\Microsoft.WindowsAPICodePack.Shell.dll" />
+    <Content Include="DLL\Ookii.Dialogs.Wpf.dll" />
     <Resource Include="Russian Accordion_64px.png" />
   </ItemGroup>
   <ItemGroup>

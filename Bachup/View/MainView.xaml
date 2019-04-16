@@ -7,6 +7,7 @@
     xmlns:vm="clr-namespace:Bachup.ViewModel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
     x:Class="Bachup.View.MainView"
+    xmlns:tb="http://www.hardcodet.net/taskbar"
     DataContext="{DynamicResource MainViewModel}"
     Title="Bachup" Height="729" Width="844"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -23,6 +24,7 @@
     </Window.Resources>
     <materialDesign:DialogHost Identifier="RootDialog">
         <materialDesign:DrawerHost IsRightDrawerOpen="{Binding SettingsShown}" d:IsLocked="True">
+            
             <materialDesign:DrawerHost.RightDrawerContent>
                 <DockPanel MinWidth="300">
                     <Button Style="{StaticResource MaterialDesignFlatButton}" 
@@ -363,6 +365,7 @@
                 </DockPanel>
             </materialDesign:DrawerHost.RightDrawerContent>
             <Grid>
+                
                 <Grid.Resources>
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
@@ -432,8 +435,6 @@
                         Content="{Binding SelectedViewModel}" 
                         HorizontalContentAlignment="Center" />
                 </ScrollViewer>
-
-
             </Grid>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>

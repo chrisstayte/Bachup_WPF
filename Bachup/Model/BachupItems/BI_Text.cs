@@ -1,17 +1,13 @@
 ﻿using Ionic.Zip;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bachup.Model.BachupItems
 {
-    class BI_TextFile : BachupItem
+    class BI_Text : BachupItem
     {
-        public BI_TextFile(string name, string source, Guid bachupGroupID) : base(name, source, bachupGroupID)
+        public BI_Text(string name, string source, Guid bachupGroupID) : base(name, source, bachupGroupID)
         {
             _bachupType = BachupType.TXT;
             _sourceType = BachupItemSourceTypes.File;
@@ -49,7 +45,6 @@ namespace Bachup.Model.BachupItems
             {
                 if (Directory.Exists(destination))
                 { 
-
                     using (ZipFile zip = new ZipFile())
                     {
                         string bachupLocation = GenerateBachupLocation(destination);
@@ -72,7 +67,7 @@ namespace Bachup.Model.BachupItems
             using (System.Windows.Forms.OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "txt files (*.txt)|*.txt";
+                openFileDialog.Filter = "txt file (*.txt)|*.txt";
                 openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = true;
 

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace Bachup.Helpers
@@ -15,9 +11,7 @@ namespace Bachup.Helpers
             if (value == null)
                 return "--/--/----";
 
-            DateTime returnVal;
-
-            if (DateTime.TryParse(value.ToString(), out returnVal))
+            if (DateTime.TryParse(value.ToString(), out DateTime returnVal))
             {
                 if (returnVal != DateTime.MinValue)
                     return returnVal;
@@ -33,11 +27,10 @@ namespace Bachup.Helpers
             if (value == null)
                 return DateTime.MinValue;
 
-            DateTime val;
             if (value.ToString() == "--/--/----")
                 return DateTime.MinValue;
 
-            if (DateTime.TryParse(value.ToString(), out val))
+            if (DateTime.TryParse(value.ToString(), out DateTime val))
                 return val;
             else
                 return DateTime.MinValue;
