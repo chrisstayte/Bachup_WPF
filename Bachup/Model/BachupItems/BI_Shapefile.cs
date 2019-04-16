@@ -15,7 +15,7 @@ namespace Bachup.Model.BachupItems
             _sourceType = BachupItemSourceTypes.File;
         }
 
-        List<string> extensions = new List<string>(new string[]
+        readonly List<string> extensions = new List<string>(new string[]
         {
             "shp",
             "shx",

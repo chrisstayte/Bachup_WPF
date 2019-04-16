@@ -46,7 +46,7 @@
                             <RowDefinition Height="15"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
-                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -361,7 +361,33 @@
                             IsChecked="{Binding Settings.KeepOnTop}"
                             Command="{Binding SaveSettingsCommand}"
                             Width="44"/>
+                        <TextBlock 
+                            x:Name="versionNumber" 
+                            Margin="10,0,10,42" 
+                            TextWrapping="Wrap"
+                            Text="{Binding VersionNumber}" 
+                            TextAlignment="Center" 
+                            Height="14"
+                            Style="{StaticResource MaterialDesignButtonTextBlock}"
+                            VerticalAlignment="Bottom" 
+                            Grid.Row="11"
+                            Grid.ColumnSpan="3"
+                            />
+                        <materialDesign:Badged
+                            Margin="0,0,0,10"
+                            Height="22" 
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Center"
+                            Grid.ColumnSpan="3"
+                            Grid.Row="11"
+                            Badge="{materialDesign:PackIcon Kind=Heart}" BadgeColorZoneMode="Inverted" Width="98">
+                            <Button
+                                x:Name="button" 
+                                FontSize="12" 
+                                Command="{Binding ShowMySiteCommand}" Height="22" Width="98">Chris Stayte</Button>
+                        </materialDesign:Badged>
                     </Grid>
+                    
                 </DockPanel>
             </materialDesign:DrawerHost.RightDrawerContent>
             <Grid>
@@ -435,6 +461,7 @@
                         Content="{Binding SelectedViewModel}" 
                         HorizontalContentAlignment="Center" />
                 </ScrollViewer>
+                <Grid Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="303,69,0,0" VerticalAlignment="Top" Width="100"/>
             </Grid>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>

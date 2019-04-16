@@ -13,16 +13,7 @@
         <vm:HomePageViewModel x:Key="HomePageViewModel"/>
     </UserControl.Resources>
     <Grid>
-        <TextBlock 
-            x:Name="versionNumber" 
-            Margin="10,0,10,37" 
-            TextWrapping="Wrap"
-            Text="{Binding VersionNumber}" 
-            TextAlignment="Center" 
-            Height="14"
-            Style="{StaticResource MaterialDesignButtonTextBlock}"
-            VerticalAlignment="Bottom" 
-            />
+        
         <Image 
             x:Name="image" 
             Margin="10,10,10,0" 
@@ -68,7 +59,19 @@
             </TextBlock>
 
         </GroupBox>
+        <TextBlock 
+            x:Name="versionNumber" 
+            Margin="10,0,10,37" 
+            TextWrapping="Wrap"
+            Text="{Binding VersionNumber}" 
+            TextAlignment="Center" 
+            Height="14"
+            Style="{StaticResource MaterialDesignButtonTextBlock}"
+            VerticalAlignment="Bottom" 
+            Visibility="Hidden"
+            />
         <materialDesign:Badged
+            Visibility="Hidden"
             Margin="0,0,0,10"
             Height="22" 
             VerticalAlignment="Bottom"
