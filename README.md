@@ -3,7 +3,7 @@ Windows Backup Utility
 
 This tool was created to make it eaiser to bachup data. 
 
-## Features
+### Features
 
 * Zip Bachups
 * Auto Saves
@@ -12,7 +12,7 @@ This tool was created to make it eaiser to bachup data.
 * Dark/Light Theme
 
 
-## Supported Backup File Types
+### Supported Backup File Types
 * GDB
 * TXT
 * LAS
