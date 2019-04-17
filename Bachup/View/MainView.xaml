@@ -367,7 +367,7 @@
                             Width="44"/>
                         <TextBlock 
                             x:Name="versionNumber" 
-                            Margin="10,0,10,42" 
+                            Margin="10,0,10,62" 
                             TextWrapping="Wrap"
                             Text="{Binding VersionNumber}" 
                             TextAlignment="Center" 
@@ -378,7 +378,7 @@
                             Grid.ColumnSpan="3"
                             />
                         <materialDesign:Badged
-                            Margin="0,0,0,10"
+                            Margin="0,0,0,20"
                             Height="22" 
                             VerticalAlignment="Bottom"
                             HorizontalAlignment="Center"
@@ -414,20 +414,15 @@
                     Padding="16" Grid.ColumnSpan="2"
                     MouseDown="ColorZone_MouseDown"
                     >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseDown" >
-                            <i:InvokeCommandAction Command="{Binding MouseDownCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
                     <DockPanel>
                         <Button
                             Name="Close"
                             Click="Close_Click"
+                            ToolTip="Close"
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right"
                             Style="{StaticResource MaterialDesignToolForegroundButton}"
-                            Margin="0,0,10,0"
-                            Command="{Binding CloseCommand}">
+                            Margin="0,0,10,0">
                             <materialDesign:PackIcon
                                 Kind="Close" Height="24" Width="24"/>
                         </Button>
@@ -436,9 +431,9 @@
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right"
                             Click="Maximize_Click"
+                            ToolTip="Maximize"
                             Style="{StaticResource MaterialDesignToolForegroundButton}"
-                            Margin="0,0,10,0"
-                            Command="{Binding MaximizeCommand}">
+                            Margin="0,0,10,0">
                             <materialDesign:PackIcon
                                 Kind="WindowMaximize" Height="24" Width="24"/>
                         </Button>
@@ -449,13 +444,14 @@
                             Style="{StaticResource MaterialDesignToolForegroundButton}"
                             Margin="0,0,10,0"
                             Click="Minimize_Click"
-                            Command="{Binding MinimizeCommand}">
+                            ToolTip="Minimize">
                             <materialDesign:PackIcon
                                 Kind="WindowMinimize" Height="24" Width="24"/>
                         </Button>
                         <Button
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right"
+                            ToolTip="Settings"
                             Style="{StaticResource MaterialDesignToolForegroundButton}"
                             Margin="0,0,10,0"
                             Command="{Binding ShowSettingsCommand}">
@@ -466,7 +462,8 @@
                             Style="{DynamicResource MaterialDesignToolForegroundButton}"
                             Margin="0 0 0 0"
                             Panel.ZIndex="0"
-                            Command="{Binding AddBachupGroupCommand}">
+                            Command="{Binding AddBachupGroupCommand}"
+                            ToolTip="Add Bachup Group">
                             <materialDesign:PackIcon
                                 Kind="Plus" Height="28" Width="28"  />
                         </Button>

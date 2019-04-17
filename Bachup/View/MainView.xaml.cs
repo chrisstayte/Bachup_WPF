@@ -29,7 +29,10 @@ namespace Bachup.View
         private void ColorZone_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
+            {
                 this.DragMove();
+            }
+                
         }
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
@@ -51,7 +54,7 @@ namespace Bachup.View
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            base.Close();
         }
     }
 }
