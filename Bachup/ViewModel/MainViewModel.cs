@@ -5,6 +5,7 @@ using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace Bachup.ViewModel
 
             SetTheme();
             DarkMode();
-            
+
             SetView(null);
 
             SysTrayApp();
@@ -57,7 +58,7 @@ namespace Bachup.ViewModel
 
             TrayMenu = trayMenu;
 
-        }  
+        }
 
         private ContextMenu _trayMenu;
         public ContextMenu TrayMenu
@@ -72,7 +73,7 @@ namespace Bachup.ViewModel
 
         // Properties
         static public ObservableCollection<BachupGroup> Bachup { get; set; } = new ObservableCollection<BachupGroup>();
-        static public Settings Settings { get; set; } 
+        static public Settings Settings { get; set; }
 
         private string _themeName;
         public string ThemeName
@@ -365,6 +366,7 @@ namespace Bachup.ViewModel
         {
             System.Diagnostics.Process.Start("http://chrisstayte.com");
         }
+
 
         #endregion
 
