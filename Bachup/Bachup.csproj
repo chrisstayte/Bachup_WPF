@@ -29,7 +29,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <PublisherName>Chris Stayte</PublisherName>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>18</ApplicationRevision>
+    <ApplicationRevision>19</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -56,7 +56,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icons8_Russian_Accordion.ico</ApplicationIcon>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>FB6A53744BDF3BD4B0D6BE8918B0DE4071FA3392</ManifestCertificateThumbprint>
@@ -275,10 +275,10 @@
     <Content Include="DLL\Microsoft.WindowsAPICodePack.dll" />
     <Content Include="DLL\Microsoft.WindowsAPICodePack.Shell.dll" />
     <Content Include="DLL\Ookii.Dialogs.Wpf.dll" />
-    <Resource Include="Russian Accordion_64px.png" />
+    <Resource Include="logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icons8_Russian_Accordion.ico" />
+    <Resource Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

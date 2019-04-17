@@ -19,6 +19,10 @@
     FontFamily="{DynamicResource MaterialDesignFont}"
     MinWidth="635" MinHeight="550"
     Topmost="{Binding Settings.KeepOnTop}">
+    <WindowChrome.WindowChrome>
+        <WindowChrome x:Name="chrome" ResizeBorderThickness="6" CaptionHeight="0"
+                      GlassFrameThickness="0" CornerRadius="0" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel"/>
     </Window.Resources>
@@ -407,8 +411,48 @@
                 </Grid.ColumnDefinitions>
                 <materialDesign:ColorZone
                     Mode="PrimaryMid"
-                    Padding="16" Grid.ColumnSpan="2">
+                    Padding="16" Grid.ColumnSpan="2"
+                    MouseDown="ColorZone_MouseDown"
+                    >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDown" >
+                            <i:InvokeCommandAction Command="{Binding MouseDownCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <DockPanel>
+                        <Button
+                            Name="Close"
+                            Click="Close_Click"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Right"
+                            Style="{StaticResource MaterialDesignToolForegroundButton}"
+                            Margin="0,0,10,0"
+                            Command="{Binding CloseCommand}">
+                            <materialDesign:PackIcon
+                                Kind="Close" Height="24" Width="24"/>
+                        </Button>
+                        <Button
+                            x:Name="Maximize"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Right"
+                            Click="Maximize_Click"
+                            Style="{StaticResource MaterialDesignToolForegroundButton}"
+                            Margin="0,0,10,0"
+                            Command="{Binding MaximizeCommand}">
+                            <materialDesign:PackIcon
+                                Kind="WindowMaximize" Height="24" Width="24"/>
+                        </Button>
+                        <Button
+                            x:Name="Minimize"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Right"
+                            Style="{StaticResource MaterialDesignToolForegroundButton}"
+                            Margin="0,0,10,0"
+                            Click="Minimize_Click"
+                            Command="{Binding MinimizeCommand}">
+                            <materialDesign:PackIcon
+                                Kind="WindowMinimize" Height="24" Width="24"/>
+                        </Button>
                         <Button
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right"
