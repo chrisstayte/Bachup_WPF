@@ -58,6 +58,8 @@ namespace Bachup.ViewModel
 
             TrayMenu = trayMenu;
 
+            
+
         }
 
         private ContextMenu _trayMenu;
@@ -366,7 +368,6 @@ namespace Bachup.ViewModel
         {
             System.Diagnostics.Process.Start("http://chrisstayte.com");
         }
-
 
         #endregion
 

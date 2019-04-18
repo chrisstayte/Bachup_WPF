@@ -27,9 +27,13 @@
         <vm:MainViewModel x:Key="MainViewModel"/>
     </Window.Resources>
     <materialDesign:DialogHost Identifier="RootDialog">
+        
         <materialDesign:DrawerHost IsRightDrawerOpen="{Binding SettingsShown}" d:IsLocked="True">
             
+            
             <materialDesign:DrawerHost.RightDrawerContent>
+                
+            
                 <DockPanel MinWidth="300">
                     <Button Style="{StaticResource MaterialDesignFlatButton}" 
                             DockPanel.Dock="Top"
@@ -503,6 +507,15 @@
                         HorizontalContentAlignment="Center" />
                 </ScrollViewer>
                 <Grid Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="303,69,0,0" VerticalAlignment="Top" Width="100"/>
+                <tb:TaskbarIcon 
+                    x:Name="notifcationIcon"
+                    Visibility="Visible"
+                    ToolTipText="Bachup"
+                    IconSource="/Bachup;component/icon.ico"
+                    ContextMenu="{Binding TrayMenu}"                              
+                    MenuActivation="LeftOrRightClick"                   
+                    PopupActivation="DoubleClick"                              
+                    />
             </Grid>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>

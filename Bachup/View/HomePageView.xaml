@@ -8,7 +8,7 @@
              DataContext="{DynamicResource HomePageViewModel}"
              FontFamily="{DynamicResource MaterialDesignFont}" 
              xmlns:local="clr-namespace:Bachup.View"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600">
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400">
     <UserControl.Resources>
         <vm:HomePageViewModel x:Key="HomePageViewModel"/>
     </UserControl.Resources>
