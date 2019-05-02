@@ -24,7 +24,6 @@ namespace Bachup.ViewModel
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             SetDarkModeCommand = new RelayCommand(DarkMode);
             ShowMySiteCommand = new RelayCommand(ShowMySite);
-            TreeViewExpandedCommand = new RelayCommand(TreeViewExpanded);
 
             Settings = new Settings();
 
@@ -32,9 +31,7 @@ namespace Bachup.ViewModel
             LoadData();
 
             if (Bachup == null)
-            {
                 Bachup = new ObservableCollection<BachupGroup>();
-            }
 
             SetColorThemeStatus();
 
@@ -57,9 +54,7 @@ namespace Bachup.ViewModel
             //SysTrayApp();
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            //VersionNumber = String.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
-            VersionNumber = String.Format("Version {0}.{1}", version.Major, version.Minor);
-
+            VersionNumber = $"Version {version.Major}.{version.Minor}";
         }
 
         public void SysTrayApp()
@@ -331,7 +326,6 @@ namespace Bachup.ViewModel
         public RelayCommand SaveSettingsCommand { get; private set; }
         public RelayCommand SetDarkModeCommand { get; private set; }
         public RelayCommand ShowMySiteCommand { get; private set; }
-        public RelayCommand TreeViewExpandedCommand { get; private set; }
 
         // Color Commands
         public RelayCommand SetThemeColorCommand { get; private set; }
@@ -388,17 +382,9 @@ namespace Bachup.ViewModel
             System.Diagnostics.Process.Start("http://chrisstayte.com");
         }
 
-        private void TreeViewExpanded(object o)
-        {
-            Debug.WriteLine("EXPANDED");
-            SaveSettings();
-            SaveData();
-        }
-
         #endregion
 
         #region Methods
-
 
         private void DarkMode()
         {
@@ -435,7 +421,6 @@ namespace Bachup.ViewModel
 
         private void SetView(object item)
         {
-
             if (!(item is BachupGroup))
             {
                 if (item is BachupItem)
@@ -448,7 +433,6 @@ namespace Bachup.ViewModel
                     };
                     return;
                 }
-
                 SelectedViewModel = new HomePageView();
             }
             else
@@ -528,7 +512,7 @@ namespace Bachup.ViewModel
                     Directory.CreateDirectory(SaveInfo.SaveFolder);
                 }
 
-                string save = JsonConvert.SerializeObject(Settings, Formatting.Indented, new JsonSerializerSettings
+                var save = JsonConvert.SerializeObject(Settings, Formatting.Indented, new JsonSerializerSettings
                 {
                     TypeNameHandling = TypeNameHandling.All
                 });
@@ -561,41 +545,34 @@ namespace Bachup.ViewModel
 
         }
 
-        private void ShowSettings(object o)
-        {
-            SettingsShown = !_settingsShown;
-        }
+        private void ShowSettings(object o) => SettingsShown = !_settingsShown;
 
-        public static bool DoesBachupGroupExist(string name)
-        {
-            return Bachup.FirstOrDefault(Group => Group.Name.ToLower() == name.ToLower()) != null;
-        }
+        public static bool DoesBachupGroupExist(string name) => Bachup.FirstOrDefault(Group => Group.Name.ToLower() == name.ToLower()) != null;
 
         public object ExpandAndSelectLastOpened()
         {
-            if (Settings.LastOpened == null)
-            {
-                return null;
-            }
-            else
+            if (Settings.LastOpened != null)
             {
                 foreach (BachupGroup bg in Bachup)
                 {
-                    if (bg.ID == Settings.LastOpened)
+                    if (bg.ID != Settings.LastOpened)
+                    {
+                        foreach (BachupItem bi in bg.BachupItems)
+                        {
+                            if (bi.ID == Settings.LastOpened)
+                            {
+                                bg.IsExpanded = true;
+                                bi.IsSelected = true;
+                                return bi;
+                            }
+                            continue;
+                        }
+                    }
+                    else
                     {
                         bg.IsExpanded = false;
                         bg.IsSelected = true;
                         return bg;
-                    }
-
-                    foreach (BachupItem bi in bg.BachupItems)
-                    {
-                        if (bi.ID == Settings.LastOpened)
-                        {
-                            bg.IsExpanded = true;
-                            bi.IsSelected = true;
-                            return bi;
-                        }
                     }
                 }
             }

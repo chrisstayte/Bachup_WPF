@@ -9,6 +9,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Bachup.Model
 {
@@ -213,13 +214,12 @@ namespace Bachup.Model
             }
 
             bool unauthorizedAccessDestinations = false;
-
-            foreach (string destination in Destinations)
+            foreach (var tempFile in from string destination in Destinations
+                                     let tempFile = Path.Combine(destination, "bachup.tmp")
+                                     select tempFile)
             {
-                string tempFile = Path.Combine(destination, "bachup.tmp");
                 try
                 {
-                    
                     using (FileStream fs = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
                     {
                         fs.WriteByte(0xFF);
@@ -238,8 +238,6 @@ namespace Bachup.Model
                 {
                     unauthorizedAccessDestinations = true;
                 }
-                
-
             }
 
             if (unauthorizedAccessDestinations)
@@ -277,7 +275,7 @@ namespace Bachup.Model
                     number = String.Format("{0}", count);
                 }
 
-                if (System.IO.Directory.Exists(System.IO.Path.Combine(bachupLocation, number)))
+                if (Directory.Exists(System.IO.Path.Combine(bachupLocation, number)))
                     count++;
                 else
                 {
