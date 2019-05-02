@@ -291,8 +291,6 @@ namespace Bachup.Model
             {
                 return "";
             }
-
-
             return bachupLocation;
         }
 
