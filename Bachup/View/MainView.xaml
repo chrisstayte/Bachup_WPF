@@ -28,7 +28,6 @@
     </Window.Resources>
     <materialDesign:DialogHost Identifier="RootDialog">
         <materialDesign:DrawerHost IsRightDrawerOpen="{Binding SettingsShown}" d:IsLocked="True">
-            
             <materialDesign:DrawerHost.RightDrawerContent>
                 <DockPanel MinWidth="300">
                     <Button Style="{StaticResource MaterialDesignFlatButton}" 
@@ -366,8 +365,25 @@
                             Command="{Binding SaveSettingsCommand}"
                             Width="44"/>
                         <TextBlock 
+                            Text="Save View"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Grid.Row="7"
+                            Grid.Column="2"/>
+                        <ToggleButton
+                            Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                            VerticalAlignment="Center"
+                            Grid.Row="8"
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            ToolTip="Toggle Color Mode"
+                            IsChecked="{Binding Settings.OpenToLastSelected}"
+                            Command="{Binding SaveSettingsCommand}"
+                            Width="44"/>
+                        <TextBlock 
                             x:Name="versionNumber" 
-                            Margin="10,0,10,42" 
+                            Margin="10,0,10,62" 
                             TextWrapping="Wrap"
                             Text="{Binding VersionNumber}" 
                             TextAlignment="Center" 
@@ -378,7 +394,7 @@
                             Grid.ColumnSpan="3"
                             />
                         <materialDesign:Badged
-                            Margin="0,0,0,10"
+                            Margin="0,0,0,20"
                             Height="22" 
                             VerticalAlignment="Bottom"
                             HorizontalAlignment="Center"
@@ -414,20 +430,15 @@
                     Padding="16" Grid.ColumnSpan="2"
                     MouseDown="ColorZone_MouseDown"
                     >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseDown" >
-                            <i:InvokeCommandAction Command="{Binding MouseDownCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
                     <DockPanel>
                         <Button
                             Name="Close"
                             Click="Close_Click"
+                            ToolTip="Close"
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right"
                             Style="{StaticResource MaterialDesignToolForegroundButton}"
-                            Margin="0,0,10,0"
-                            Command="{Binding CloseCommand}">
+                            Margin="0,0,10,0">
                             <materialDesign:PackIcon
                                 Kind="Close" Height="24" Width="24"/>
                         </Button>
@@ -436,9 +447,9 @@
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right"
                             Click="Maximize_Click"
+                            ToolTip="Maximize"
                             Style="{StaticResource MaterialDesignToolForegroundButton}"
-                            Margin="0,0,10,0"
-                            Command="{Binding MaximizeCommand}">
+                            Margin="0,0,10,0">
                             <materialDesign:PackIcon
                                 Kind="WindowMaximize" Height="24" Width="24"/>
                         </Button>
@@ -449,13 +460,14 @@
                             Style="{StaticResource MaterialDesignToolForegroundButton}"
                             Margin="0,0,10,0"
                             Click="Minimize_Click"
-                            Command="{Binding MinimizeCommand}">
+                            ToolTip="Minimize">
                             <materialDesign:PackIcon
                                 Kind="WindowMinimize" Height="24" Width="24"/>
                         </Button>
                         <Button
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right"
+                            ToolTip="Settings"
                             Style="{StaticResource MaterialDesignToolForegroundButton}"
                             Margin="0,0,10,0"
                             Command="{Binding ShowSettingsCommand}">
@@ -466,7 +478,8 @@
                             Style="{DynamicResource MaterialDesignToolForegroundButton}"
                             Margin="0 0 0 0"
                             Panel.ZIndex="0"
-                            Command="{Binding AddBachupGroupCommand}">
+                            Command="{Binding AddBachupGroupCommand}"
+                            ToolTip="Add Bachup Group">
                             <materialDesign:PackIcon
                                 Kind="Plus" Height="28" Width="28"  />
                         </Button>
@@ -480,8 +493,16 @@
                     Margin="0,64,0,0"
                     ItemsSource="{Binding Bachup}"
                     Background="{DynamicResource MaterialDesignFlatButtonClick}"
-                    BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="0, 0, .5, 0"            
+                    BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="0, 0, .5, 0"   
                     >
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="TreeViewItem" BasedOn="{StaticResource MaterialDesignTreeViewItem}">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <EventSetter Event="Expanded" Handler="TreeViewItem_Expanded_Collapsed"/>
+                            <EventSetter Event="Collapsed" Handler="TreeViewItem_Expanded_Collapsed" />
+                        </Style>
+                    </TreeView.ItemContainerStyle>
                     <TreeView.Resources>
                         <HierarchicalDataTemplate DataType="{x:Type model:BachupGroup}" ItemsSource="{Binding BachupItems}">
                             <TextBlock Text="{Binding Name}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
@@ -493,6 +514,9 @@
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedItemChanged">
                             <i:InvokeCommandAction Command="{Binding SelectItemCommand}" CommandParameter="{Binding SelectedItem, ElementName=treeView}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="OnExpanded">
+                            <i:InvokeCommandAction Command="{Binding TreeViewExpandedCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TreeView>
@@ -506,6 +530,15 @@
                         HorizontalContentAlignment="Center" />
                 </ScrollViewer>
                 <Grid Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="303,69,0,0" VerticalAlignment="Top" Width="100"/>
+                <!--<tb:TaskbarIcon 
+                    x:Name="notifcationIcon"
+                    Visibility="Visible"
+                    ToolTipText="Bachup"
+                    IconSource="/Bachup;component/icon.ico"
+                    ContextMenu="{Binding TrayMenu}"                              
+                    MenuActivation="LeftOrRightClick"                   
+                    PopupActivation="DoubleClick"                              
+                    />-->
             </Grid>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>

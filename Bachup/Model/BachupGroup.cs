@@ -50,6 +50,28 @@ namespace Bachup.Model
             }
         }
 
+        private bool _isExpanded;
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                _isExpanded = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private ObservableCollection<BachupItem> _bachupItems;
         public ObservableCollection<BachupItem> BachupItems
         {

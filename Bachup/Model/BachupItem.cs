@@ -14,7 +14,6 @@ namespace Bachup.Model
 {
     abstract class BachupItem : INotifyPropertyChanged
     {
-
         public BachupItem(string name, string source, Guid groupID)
         {
             ID = Guid.NewGuid();
@@ -82,6 +81,17 @@ namespace Bachup.Model
             set
             {
                 _source = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
                 NotifyPropertyChanged();
             }
         }

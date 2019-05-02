@@ -8,21 +8,20 @@
              DataContext="{DynamicResource HomePageViewModel}"
              FontFamily="{DynamicResource MaterialDesignFont}" 
              xmlns:local="clr-namespace:Bachup.View"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="429.645">
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400">
     <UserControl.Resources>
         <vm:HomePageViewModel x:Key="HomePageViewModel"/>
     </UserControl.Resources>
     <Grid>
-        
         <Image 
             x:Name="image" 
-            Margin="10,10,10,0" 
-            Source="/Bachup;component/Russian Accordion_64px.png" 
+            Margin="10,29,10,0" 
+            Source="/Bachup;component/logo.png" 
             Height="64"
             VerticalAlignment="Top"/>
         <TextBlock
             x:Name="textBlock" 
-            Margin="10,88,10,0"
+            Margin="10,98,10,0"
             TextWrapping="Wrap"
             Text="Bachup" 
             VerticalAlignment="Top"
@@ -30,7 +29,7 @@
             TextAlignment="Center"/>
         <TextBlock
             x:Name="textBlock1" 
-            Margin="10,134,10,0" 
+            Margin="10,144,10,0" 
             TextWrapping="Wrap"
             Text="Your All In One Bachup Solution" 
             VerticalAlignment="Top"
@@ -39,7 +38,7 @@
         <GroupBox 
             x:Name="groupBox" 
             Header="Supported Bachup Types"
-            Margin="10,187,10,0"
+            Margin="10,171,10,0"
             Height="121"
             MaxWidth="150"
             VerticalAlignment="Top">
@@ -57,7 +56,6 @@
                 <LineBreak/>
                 SHP File
             </TextBlock>
-
         </GroupBox>
         <TextBlock 
             x:Name="versionNumber" 

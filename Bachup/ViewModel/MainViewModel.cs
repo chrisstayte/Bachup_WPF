@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -25,20 +24,37 @@ namespace Bachup.ViewModel
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             SetDarkModeCommand = new RelayCommand(DarkMode);
             ShowMySiteCommand = new RelayCommand(ShowMySite);
+            TreeViewExpandedCommand = new RelayCommand(TreeViewExpanded);
 
             Settings = new Settings();
 
             LoadSettings();
             LoadData();
 
+            if (Bachup == null)
+            {
+                Bachup = new ObservableCollection<BachupGroup>();
+            }
+
             SetColorThemeStatus();
 
             SetTheme();
             DarkMode();
 
-            SetView(null);
+            if (Settings.OpenToLastSelected)
+            {
+                Settings.DeselectAll();
+                Settings.ExpandAll(false);
+                SetView(ExpandAndSelectLastOpened());
+            }
+            else
+            {
+                Settings.DeselectAll();
+                Settings.ExpandAll(false);
+                SetView(null);
+            }
 
-            SysTrayApp();
+            //SysTrayApp();
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             //VersionNumber = String.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
@@ -57,6 +73,8 @@ namespace Bachup.ViewModel
             });
 
             TrayMenu = trayMenu;
+
+            
 
         }
 
@@ -313,6 +331,7 @@ namespace Bachup.ViewModel
         public RelayCommand SaveSettingsCommand { get; private set; }
         public RelayCommand SetDarkModeCommand { get; private set; }
         public RelayCommand ShowMySiteCommand { get; private set; }
+        public RelayCommand TreeViewExpandedCommand { get; private set; }
 
         // Color Commands
         public RelayCommand SetThemeColorCommand { get; private set; }
@@ -335,8 +354,10 @@ namespace Bachup.ViewModel
         }
 
         private void SelectItem(object sender)
-        {
+        { 
             SetView(sender);
+            SaveSettings();
+            SaveData();
         }
 
         private void DarkMode(object o)
@@ -367,10 +388,17 @@ namespace Bachup.ViewModel
             System.Diagnostics.Process.Start("http://chrisstayte.com");
         }
 
+        private void TreeViewExpanded(object o)
+        {
+            Debug.WriteLine("EXPANDED");
+            SaveSettings();
+            SaveData();
+        }
 
         #endregion
 
         #region Methods
+
 
         private void DarkMode()
         {
@@ -405,30 +433,35 @@ namespace Bachup.ViewModel
             }
         }
 
-        private void SetView(object Item)
+        private void SetView(object item)
         {
-            if (Item is BachupGroup)
-            {
 
+            if (!(item is BachupGroup))
+            {
+                if (item is BachupItem)
+                {
+                    BachupItem bi = (BachupItem)item;
+                    Settings.LastOpened = bi.ID;
+                    SelectedViewModel = new BachupItemView()
+                    {
+                        DataContext = new BachupItemViewModel(bi)
+                    };
+                    return;
+                }
+
+                SelectedViewModel = new HomePageView();
+            }
+            else
+            {
+                BachupGroup bg = (BachupGroup)item;
+                Settings.LastOpened = bg.ID;
                 SelectedViewModel = new BachupGroupView()
                 {
-                    DataContext = new BachupGroupViewModel((BachupGroup)Item)
+                    DataContext = new BachupGroupViewModel(bg)
                 };
                 return;
             }
-
-
-            if (Item is BachupItem)
-            {
-                SelectedViewModel = new BachupItemView()
-                {
-                    DataContext = new BachupItemViewModel((BachupItem)Item)
-                };
-                return;
-            }
-
-            SelectedViewModel = new HomePageView();
-        }      
+        }
 
         private void LoadData()
         {
@@ -468,7 +501,6 @@ namespace Bachup.ViewModel
             {
 
             }
-            
         }
 
         private void LoadSettings()
@@ -496,7 +528,10 @@ namespace Bachup.ViewModel
                     Directory.CreateDirectory(SaveInfo.SaveFolder);
                 }
 
-                string save = JsonConvert.SerializeObject(Settings);
+                string save = JsonConvert.SerializeObject(Settings, Formatting.Indented, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All
+                });
                 File.WriteAllText(SaveInfo.SettingsFile, save);
             }
             catch
@@ -534,6 +569,37 @@ namespace Bachup.ViewModel
         public static bool DoesBachupGroupExist(string name)
         {
             return Bachup.FirstOrDefault(Group => Group.Name.ToLower() == name.ToLower()) != null;
+        }
+
+        public object ExpandAndSelectLastOpened()
+        {
+            if (Settings.LastOpened == null)
+            {
+                return null;
+            }
+            else
+            {
+                foreach (BachupGroup bg in Bachup)
+                {
+                    if (bg.ID == Settings.LastOpened)
+                    {
+                        bg.IsExpanded = false;
+                        bg.IsSelected = true;
+                        return bg;
+                    }
+
+                    foreach (BachupItem bi in bg.BachupItems)
+                    {
+                        if (bi.ID == Settings.LastOpened)
+                        {
+                            bg.IsExpanded = true;
+                            bi.IsSelected = true;
+                            return bi;
+                        }
+                    }
+                }
+            }
+            return null;
         }
 
         #endregion
