@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,6 +56,12 @@ namespace Bachup.View
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             base.Close();
+        }
+
+        private void TreeViewItem_Expanded_Collapsed(object sender, RoutedEventArgs e)
+        {
+            Bachup.ViewModel.MainViewModel.SaveSettings();
+            Bachup.ViewModel.MainViewModel.SaveData();
         }
     }
 }

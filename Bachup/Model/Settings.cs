@@ -11,6 +11,7 @@ namespace Bachup.Model
             DarkMode = false;
             KeepOnTop = false;
             Color = ThemeColors.red;
+            LastOpened = null;
         }
 
         public void ResetSettings()
@@ -18,6 +19,7 @@ namespace Bachup.Model
             DarkMode = false;
             Color = ThemeColors.red;
             KeepOnTop = false;
+            LastOpened = null;
         }
 
         // Basic ViewModelBase
@@ -69,6 +71,51 @@ namespace Bachup.Model
             }
         }
 
+        private bool _openToLastSelected;
+        public bool OpenToLastSelected
+        {
+            get
+            {
+                return _openToLastSelected;
+            }
+            set
+            {
+                _openToLastSelected = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private Nullable<Guid> _lastOpened;
+        public Nullable<Guid> LastOpened
+        {
+            get { return _lastOpened; }
+            set
+            {
+                _lastOpened = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public void ExpandAll(bool expand)
+        {
+            foreach (BachupGroup bg in Bachup.ViewModel.MainViewModel.Bachup)
+            {
+                bg.IsExpanded = expand;
+            }
+        }
+
+        public void DeselectAll()
+        {
+            foreach (BachupGroup bg in Bachup.ViewModel.MainViewModel.Bachup)
+            {
+                bg.IsSelected = false;
+                
+                foreach (BachupItem bi in bg.BachupItems)
+                {
+                    bi.IsSelected = false;
+                }
+            }
+        }
        
     }
 }

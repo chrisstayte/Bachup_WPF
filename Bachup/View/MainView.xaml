@@ -365,6 +365,23 @@
                             Command="{Binding SaveSettingsCommand}"
                             Width="44"/>
                         <TextBlock 
+                            Text="Save View"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Grid.Row="7"
+                            Grid.Column="2"/>
+                        <ToggleButton
+                            Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                            VerticalAlignment="Center"
+                            Grid.Row="8"
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            ToolTip="Toggle Color Mode"
+                            IsChecked="{Binding Settings.OpenToLastSelected}"
+                            Command="{Binding SaveSettingsCommand}"
+                            Width="44"/>
+                        <TextBlock 
                             x:Name="versionNumber" 
                             Margin="10,0,10,62" 
                             TextWrapping="Wrap"
@@ -476,8 +493,16 @@
                     Margin="0,64,0,0"
                     ItemsSource="{Binding Bachup}"
                     Background="{DynamicResource MaterialDesignFlatButtonClick}"
-                    BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="0, 0, .5, 0"            
+                    BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="0, 0, .5, 0"   
                     >
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="TreeViewItem" BasedOn="{StaticResource MaterialDesignTreeViewItem}">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <EventSetter Event="Expanded" Handler="TreeViewItem_Expanded_Collapsed"/>
+                            <EventSetter Event="Collapsed" Handler="TreeViewItem_Expanded_Collapsed" />
+                        </Style>
+                    </TreeView.ItemContainerStyle>
                     <TreeView.Resources>
                         <HierarchicalDataTemplate DataType="{x:Type model:BachupGroup}" ItemsSource="{Binding BachupItems}">
                             <TextBlock Text="{Binding Name}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
@@ -489,6 +514,9 @@
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedItemChanged">
                             <i:InvokeCommandAction Command="{Binding SelectItemCommand}" CommandParameter="{Binding SelectedItem, ElementName=treeView}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="OnExpanded">
+                            <i:InvokeCommandAction Command="{Binding TreeViewExpandedCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TreeView>
@@ -502,7 +530,7 @@
                         HorizontalContentAlignment="Center" />
                 </ScrollViewer>
                 <Grid Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="303,69,0,0" VerticalAlignment="Top" Width="100"/>
-                <tb:TaskbarIcon 
+                <!--<tb:TaskbarIcon 
                     x:Name="notifcationIcon"
                     Visibility="Visible"
                     ToolTipText="Bachup"
@@ -510,7 +538,7 @@
                     ContextMenu="{Binding TrayMenu}"                              
                     MenuActivation="LeftOrRightClick"                   
                     PopupActivation="DoubleClick"                              
-                    />
+                    />-->
             </Grid>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
