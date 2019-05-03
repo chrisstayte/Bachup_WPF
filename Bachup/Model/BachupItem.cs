@@ -259,7 +259,6 @@ namespace Bachup.Model
             string bachupLocation = System.IO.Path.Combine(destination, Name);
             bachupLocation = System.IO.Path.Combine(bachupLocation, CurrentDate());
 
-
             int count = 1;
             bool exists = true;
 

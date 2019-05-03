@@ -9,9 +9,11 @@
              xmlns:helpers="clr-namespace:Bachup.Helpers"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              FontFamily="{DynamicResource MaterialDesignFont}" 
-             Height="167" Width="653">
-
-
+             Height="167" Width="653"
+             Background="{DynamicResource MaterialDesignPaper}"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             
+             >
     <Grid Height="167" VerticalAlignment="Bottom">
         <TextBlock
             x:Name="textBlock" 

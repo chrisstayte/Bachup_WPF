@@ -27,7 +27,7 @@
         <vm:MainViewModel x:Key="MainViewModel"/>
     </Window.Resources>
     <materialDesign:DialogHost Identifier="RootDialog">
-        <materialDesign:DrawerHost IsRightDrawerOpen="{Binding SettingsShown}" d:IsLocked="True">
+        <materialDesign:DrawerHost IsRightDrawerOpen="{Binding SettingsShown}" d:IsLocked="True" >
             <materialDesign:DrawerHost.RightDrawerContent>
                 <DockPanel MinWidth="300">
                     <Button Style="{StaticResource MaterialDesignFlatButton}" 
