@@ -18,7 +18,13 @@ This tool was created to make it eaiser to bachup data.
 * LAS
 * SHP
 
+### Screenshots
+
+#### The Main Screen
 ![alt MainApp](Images/MainProgram.PNG)
+
+#### Settings
+![alt MainApp](Images/Settings.PNG)
 
 
 Copyright 2019 Chris Stayte
