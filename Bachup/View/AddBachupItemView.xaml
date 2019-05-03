@@ -5,7 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:Bachup.View"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="Bachup.View.AddBachupItemView"
-    mc:Ignorable="d" Width="653" Height="250">
+    mc:Ignorable="d" Width="653" Height="250"
+    
+    >
     <Grid>
         <TextBlock
             x:Name="textBlock" 

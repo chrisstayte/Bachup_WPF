@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Costura.Fody.3.3.2\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.3.3.2\build\Costura.Fody.props')" />
+  <Import Project="..\packages\Costura.Fody.4.0.0\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.4.0.0\build\Costura.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -29,7 +29,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <PublisherName>Chris Stayte</PublisherName>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>20</ApplicationRevision>
+    <ApplicationRevision>21</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -71,8 +71,8 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Costura, Version=3.3.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Costura.Fody.3.3.2\lib\net40\Costura.dll</HintPath>
+    <Reference Include="Costura, Version=4.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Costura.Fody.4.0.0\lib\net40\Costura.dll</HintPath>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net45\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
@@ -83,8 +83,8 @@
     <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.0.1205, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.2.5.0.1205\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.1.1345, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.5.1\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -95,7 +95,7 @@
       <HintPath>Helpers\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ookii.Dialogs.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -288,12 +288,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Fody.3.3.5\build\Fody.targets" Condition="Exists('..\packages\Fody.3.3.5\build\Fody.targets')" />
+  <Import Project="..\packages\Fody.5.0.3\build\Fody.targets" Condition="Exists('..\packages\Fody.5.0.3\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.3.3.5\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.3.5\build\Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\Costura.Fody.3.3.2\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.3.3.2\build\Costura.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\Fody.5.0.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.5.0.3\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Costura.Fody.4.0.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.4.0.0\build\Costura.Fody.props'))" />
   </Target>
 </Project>
