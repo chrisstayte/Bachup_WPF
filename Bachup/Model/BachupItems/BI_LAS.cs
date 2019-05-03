@@ -79,6 +79,15 @@ namespace Bachup.Model.BachupItems
                 }
             }
         }
+        
+        public override void GetSize()
+        {
+            if (CheckSourceExistence())
+            {
+                FileInfo info = new FileInfo(Source);
+                SizeInMB = (info.Length/ 1024f) / 1024f;
+            }
+        }
 
         #endregion
     }

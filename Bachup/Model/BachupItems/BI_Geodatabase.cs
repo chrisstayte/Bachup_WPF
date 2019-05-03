@@ -2,6 +2,7 @@
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bachup.Model.BachupItems
@@ -94,6 +95,15 @@ namespace Bachup.Model.BachupItems
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 Source = dialog.FileName;
+            }
+        }
+
+        public override void GetSize()
+        {
+            if (CheckSourceExistence())
+            {
+                DirectoryInfo info = new DirectoryInfo(Source);
+                SizeInMB = (info.EnumerateFiles().Sum(file => file.Length) / 1024f )  / 1024f;
             }
         }
 

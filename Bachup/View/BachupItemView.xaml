@@ -110,8 +110,15 @@
             x:Name="lastbachup" 
             Margin="10,10,10,0"
             TextWrapping="Wrap" 
+            Text="{Binding SizeInMB}"
+            Visibility="{Binding Path=EnableShowSourceButton, Converter={StaticResource BoolToVis}}"
+            Style="{StaticResource MaterialDesignBody1TextBlock}" Height="17" VerticalAlignment="Top" Grid.Row="1"/>
+        <TextBlock 
+            x:Name="lastbachup_Copy" 
+            Margin="10,27,10,0"
+            TextWrapping="Wrap" 
             Text="{Binding LastBachup}"
-            Visibility="{Binding Path=LastBachupVisible, Converter={StaticResource BoolToVis}}"
+            Visibility="{Binding LastBachupVisible, Converter={StaticResource BoolToVis}}"
             Style="{StaticResource MaterialDesignBody1TextBlock}" Height="17" VerticalAlignment="Top" Grid.Row="1"/>
         <TextBlock 
             x:Name="textBlock1" 
@@ -238,6 +245,7 @@
             Command="{Binding SetBachupItemZippedCommand}" Margin="89,635,0,0" Grid.Row="1" HorizontalAlignment="Left" Width="44"/>
         <Separator
       Style="{StaticResource MaterialDesignLightSeparator}" Grid.Row="1" Margin="10,614,10,0" VerticalAlignment="Top"/>
+        
 
 
     </Grid>
