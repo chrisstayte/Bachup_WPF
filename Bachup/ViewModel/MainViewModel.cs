@@ -15,7 +15,7 @@ namespace Bachup.ViewModel
 {
     internal class MainViewModel : BaseViewModel
     {
-        public MainViewModel()
+        public MainViewModel() : base()
         {
             AddBachupGroupCommand = new RelayCommand(AddBachupGroup);
             SetThemeCommand = new RelayCommand(SetTheme);

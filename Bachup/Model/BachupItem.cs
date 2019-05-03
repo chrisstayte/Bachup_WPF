@@ -174,6 +174,17 @@ namespace Bachup.Model
             get { return _sourceType; }
         }
 
+        private double _sizeInMB;
+        public double SizeInMB
+        {
+            get { return _sizeInMB; }
+            set
+            {
+                _sizeInMB = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #region Methods
 
         /// <summary>
@@ -313,7 +324,7 @@ namespace Bachup.Model
 
         internal async Task<bool> CheckRequirements()
         {
-            if (!Directory.Exists(Source) ^ File.Exists(Source))
+            if (!CheckSourceExistence())
             {
                 var view = new AlertView
                 {
@@ -425,12 +436,17 @@ namespace Bachup.Model
             }
         }
 
+        public bool CheckSourceExistence()
+        {
+            return !(!Directory.Exists(Source) ^ File.Exists(Source));
+        }
 
         // These are custom to each type. Each subtype will need to override these methods and implement a custom version
         public abstract bool IsFileLocked();
         public abstract void CopyData();
         public abstract void CopyDataWithZip();
         public abstract void RepairSource();
+        public abstract void GetSize();
 
         #endregion 
     }

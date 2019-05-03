@@ -30,6 +30,7 @@ namespace Bachup.ViewModel
 
             ValidateSource();
             ShowLastBachup();
+            BachupItem.GetSize();
         }
 
         private BachupItem _bachupItem;
@@ -49,6 +50,14 @@ namespace Bachup.ViewModel
             get
             {
                 return String.Format("Last Bachup: {0}", BachupItem.LastBachup);
+            }
+        }
+
+        public string SizeInMB
+        {
+            get
+            {
+                return String.Format("Size: {0} mb", Math.Round(BachupItem.SizeInMB, 2));
             }
         }
 
@@ -249,8 +258,8 @@ namespace Bachup.ViewModel
         {
             _bachupItem.RunBachup();
             ShowLastBachup();
-            ValidateSource();
             NotifyPropertyChanged("LastBachup");
+            ValidateSource();             
         }
 
         private void ShowDestination(object parameter)
@@ -265,6 +274,8 @@ namespace Bachup.ViewModel
         {
             BachupItem.RepairSource();
             MainViewModel.SaveData();
+            BachupItem.GetSize();
+            NotifyPropertyChanged("SizeInMB");
             ValidateSource();
         }
 
@@ -279,8 +290,8 @@ namespace Bachup.ViewModel
 
         private void ValidateSource()
         {
-            EnableRepairSourceButton = !Directory.Exists(BachupItem.Source) ^ File.Exists(BachupItem.Source);
-            EnableShowSourceButton = !EnableRepairSourceButton;
+            EnableRepairSourceButton = !BachupItem.CheckSourceExistence();
+            EnableShowSourceButton = BachupItem.CheckSourceExistence();
         }
 
         private void ShowLastBachup()
