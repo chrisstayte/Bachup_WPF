@@ -411,7 +411,6 @@
                 </DockPanel>
             </materialDesign:DrawerHost.RightDrawerContent>
             <Grid>
-                
                 <Grid.Resources>
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
