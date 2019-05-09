@@ -377,7 +377,7 @@
                             Grid.Row="8"
                             Grid.Column="2"
                             HorizontalAlignment="Center"
-                            ToolTip="Toggle Color Mode"
+                            ToolTip="Will Remember Last Opened Bachup Option"
                             IsChecked="{Binding Settings.OpenToLastSelected}"
                             Command="{Binding SaveSettingsCommand}"
                             Width="44"/>
