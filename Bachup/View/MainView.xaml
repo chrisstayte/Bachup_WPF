@@ -420,6 +420,7 @@
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </Grid.Resources>
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="277"/>
                     <ColumnDefinition Width="559*"/>
@@ -488,6 +489,17 @@
                             materialDesign:RippleAssist.IsCentered="True"/>
                     </DockPanel>
                 </materialDesign:ColorZone>
+                <!--<tb:TaskbarIcon               
+                    ToolTipText="Bachup"
+                    IconSource="/Bachup;component/icon.ico"
+                    ContextMenu="{Binding TrayMenu}">,
+                    <tb:TaskbarIcon.Style>
+                        <Style TargetType="tb:TaskbarIcon">
+                            <Setter Property="Width" Value="100"/>
+                        </Style>
+                        
+                    </tb:TaskbarIcon.Style>
+                </tb:TaskbarIcon>-->
                 <TreeView 
                     x:Name="treeView" 
                     Margin="0,48,0,0"
@@ -530,16 +542,9 @@
                         HorizontalContentAlignment="Center" />
                 </ScrollViewer>
                 <Grid Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="303,69,0,0" VerticalAlignment="Top" Width="100"/>
-                <tb:TaskbarIcon 
-                    x:Name="notifcationIcon"
-                    Visibility="Visible"
-                    ToolTipText="Bachup"
-                    IconSource="/Bachup;component/icon.ico"
-                    ContextMenu="{Binding TrayMenu}"                              
-                    MenuActivation="LeftOrRightClick"                   
-                    PopupActivation="DoubleClick"                              
-                    />
+                
             </Grid>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
+    
 </Window>
