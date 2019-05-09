@@ -428,6 +428,7 @@
                     Mode="PrimaryMid"
                     Padding="8" Grid.ColumnSpan="2"
                     MouseDown="ColorZone_MouseDown"
+                    MouseDoubleClick="ColorZone_MouseDoubleClick"
                     >
                     <DockPanel>
                         <Button
@@ -529,7 +530,7 @@
                         HorizontalContentAlignment="Center" />
                 </ScrollViewer>
                 <Grid Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="303,69,0,0" VerticalAlignment="Top" Width="100"/>
-                <!--<tb:TaskbarIcon 
+                <tb:TaskbarIcon 
                     x:Name="notifcationIcon"
                     Visibility="Visible"
                     ToolTipText="Bachup"
@@ -537,7 +538,7 @@
                     ContextMenu="{Binding TrayMenu}"                              
                     MenuActivation="LeftOrRightClick"                   
                     PopupActivation="DoubleClick"                              
-                    />-->
+                    />
             </Grid>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>

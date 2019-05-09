@@ -43,14 +43,7 @@ namespace Bachup.View
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-            if (WindowState.ToString() == "Normal")
-            {
-                this.WindowState = WindowState.Maximized;
-            }
-            else
-            {
-                this.WindowState = WindowState.Normal;
-            }
+            MaximizeToggle();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -62,6 +55,23 @@ namespace Bachup.View
         {
             Bachup.ViewModel.MainViewModel.SaveSettings();
             Bachup.ViewModel.MainViewModel.SaveData();
+        }
+
+        private void ColorZone_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MaximizeToggle();
+        }
+
+        private void MaximizeToggle()
+        {
+            if (WindowState.ToString() == "Normal")
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                this.WindowState = WindowState.Normal;
+            }
         }
     }
 }

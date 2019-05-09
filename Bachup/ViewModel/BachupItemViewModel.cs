@@ -67,8 +67,11 @@ namespace Bachup.ViewModel
             get { return _isSaving; }
             set
             {
-                _isSaving = value;
-                NotifyPropertyChanged();
+                if (_isSaving != value)
+                {
+                    _isSaving = value;
+                    NotifyPropertyChanged();
+                }               
             }
         }
 
@@ -78,8 +81,11 @@ namespace Bachup.ViewModel
             get { return _saveProgress; }
             set
             {
-                _saveProgress = value;
-                NotifyPropertyChanged();
+                if (_saveProgress != value)
+                {
+                    _saveProgress = value;
+                    NotifyPropertyChanged();
+                }              
             }
         }
 

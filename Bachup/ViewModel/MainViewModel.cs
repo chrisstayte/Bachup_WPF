@@ -51,7 +51,7 @@ namespace Bachup.ViewModel
                 SetView(null);
             }
 
-            //SysTrayApp();
+            SysTrayApp();
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             VersionNumber = $"Version {version.Major}.{version.Minor}";
@@ -67,9 +67,9 @@ namespace Bachup.ViewModel
                 Environment.Exit(1);
             });
 
-            TrayMenu = trayMenu;
 
-            
+
+            TrayMenu = trayMenu;
 
         }
 
