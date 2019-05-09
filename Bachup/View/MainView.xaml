@@ -426,7 +426,7 @@
                 </Grid.ColumnDefinitions>
                 <materialDesign:ColorZone
                     Mode="PrimaryMid"
-                    Padding="9" Grid.ColumnSpan="2"
+                    Padding="8" Grid.ColumnSpan="2"
                     MouseDown="ColorZone_MouseDown"
                     >
                     <DockPanel>
@@ -489,7 +489,7 @@
                 </materialDesign:ColorZone>
                 <TreeView 
                     x:Name="treeView" 
-                    Margin="0,50,0,0"
+                    Margin="0,48,0,0"
                     ItemsSource="{Binding Bachup}"
                     Background="{DynamicResource MaterialDesignFlatButtonClick}"
                     BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="0, 0, .5, 0"   
@@ -520,7 +520,7 @@
                     </i:Interaction.Triggers>
                 </TreeView>
                 <ScrollViewer 
-                    Margin="0,50,0,0"
+                    Margin="0,48,0,0"
                     HorizontalScrollBarVisibility="Disabled"
                 
                     VerticalScrollBarVisibility="Auto" Grid.Column="1">
