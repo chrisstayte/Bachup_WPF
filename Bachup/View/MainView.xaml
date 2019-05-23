@@ -507,7 +507,8 @@
                     Margin="0,48,0,0"
                     ItemsSource="{Binding Bachup}"
                     Background="{DynamicResource MaterialDesignFlatButtonClick}"
-                    BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="0, 0, .5, 0"   
+                    BorderBrush="{DynamicResource PrimaryHueDarkBrush}" 
+                    BorderThickness="0, 0, .5, 0"   
                     >
                     <TreeView.ItemContainerStyle>
                         <Style TargetType="TreeViewItem" BasedOn="{StaticResource MaterialDesignTreeViewItem}">
