@@ -542,7 +542,6 @@ namespace Bachup.ViewModel
             RedActive = Settings.Color == ThemeColors.red;
             OrangeActive = Settings.Color == ThemeColors.orange;
             PurpleActive = Settings.Color == ThemeColors.purple;
-
         }
 
         private void ShowSettings(object o) => SettingsShown = !_settingsShown;
