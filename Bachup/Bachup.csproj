@@ -141,8 +141,12 @@
     <Compile Include="Model\ThemeColors.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="ViewModel\CopyBachupItemViewModel.cs" />
+    <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="View\CopyBachupItemView.xaml.cs">
       <DependentUpon>CopyBachupItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Page Include="View\AddBachupGroupView.xaml">
       <SubType>Designer</SubType>
@@ -248,6 +252,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\CopyBachupItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

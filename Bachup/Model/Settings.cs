@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bachup.ViewModel;
+using MaterialDesignThemes.Wpf;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -116,6 +118,37 @@ namespace Bachup.Model
                 }
             }
         }
-       
+
+        public void SetTheme()
+        {
+            try
+            {
+                new PaletteHelper().ReplaceAccentColor(MainViewModel.Settings.Color.ToString());
+                new PaletteHelper().ReplacePrimaryColor(MainViewModel.Settings.Color.ToString());
+
+            }
+            catch
+            {
+                MainViewModel.Settings.ResetSettings();
+                new PaletteHelper().ReplaceAccentColor(MainViewModel.Settings.Color.ToString());
+                new PaletteHelper().ReplacePrimaryColor(MainViewModel.Settings.Color.ToString());
+
+
+            }
+        }
+
+        public void SetDarkMode()
+        {
+            try
+            {
+                new PaletteHelper().SetLightDark(DarkMode);
+            }
+            catch
+            {
+                ResetSettings();
+                new PaletteHelper().SetLightDark(DarkMode);
+            }
+        }
+
     }
 }
