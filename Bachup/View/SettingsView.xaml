@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"           
              xmlns:local="clr-namespace:Bachup.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="310">
+             d:DesignHeight="450" d:DesignWidth="250">
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <Grid>
@@ -206,38 +206,38 @@
                     Margin="10,125,0,0" 
                     TextWrapping="Wrap" 
                     Text="{Binding ThemeName}" 
-                    TextAlignment="Left"
+                    TextAlignment="Center"
                     VerticalAlignment="Top" Width="44"/>
                 <ToggleButton
                 Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                 ToolTip="Keeps Window On Top"
                 IsChecked="{Binding KeepOnTop}"
-                Command="{Binding SetDarkModeCommand}"
-                Width="44" Margin="10,255,0,0" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top"/>
+                Command="{Binding SaveSettingsCommand}"
+                Width="72" Margin="10,255,0,0" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top"/>
                 <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}"
                     x:Name="label_colors_Copy" HorizontalAlignment="Left" Margin="10,188,0,0" TextWrapping="Wrap" Text="Options" VerticalAlignment="Top"/>
                 <ToggleButton
                     Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                     ToolTip="Will Remember Last Opened Bachup Option"
                     IsChecked="{Binding SaveView}"
-                    Command="{Binding SetDarkModeCommand}"
-                    Width="44" Margin="109,255,0,0" RenderTransformOrigin="3.169,0.412" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top"/>
+                    Command="{Binding SaveSettingsCommand}"
+                    Width="50" Margin="100,255,0,0" RenderTransformOrigin="3.169,0.412" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top"/>
                 <TextBlock 
             x:Name="textBlock_Copy" 
             HorizontalAlignment="Left" 
             Margin="10,234,0,0" 
             TextWrapping="Wrap" 
             Text="Keep On Top" 
-            TextAlignment="Left"
+            TextAlignment="Center"
             VerticalAlignment="Top" Width="72"/>
                 <TextBlock 
                     x:Name="textBlock_Copy1" 
                     HorizontalAlignment="Left" 
-                    Margin="109,237,0,0" 
+                    Margin="100,234,0,0" 
                     TextWrapping="Wrap" 
                     Text="Save View" 
-                    TextAlignment="Left"
-                    VerticalAlignment="Top" Width="72"/>
+                    TextAlignment="Center"
+                    VerticalAlignment="Top" Width="56" RenderTransformOrigin="0.468,-0.104"/>
                 <TextBlock 
                             x:Name="versionNumber" 
                             Margin="10,0,10,62" 
@@ -263,7 +263,23 @@
                                 FontSize="12" 
                                 Command="{Binding ShowSiteCommand}" Height="22" Width="98">Chris Stayte</Button>
                 </materialDesign:Badged>
+                <TextBlock 
+                    x:Name="textBlock_Copy2" 
+                    HorizontalAlignment="Left" 
+                    Margin="183,234,0,0" 
+                    TextWrapping="Wrap" 
+                    Text="Beta" 
+                    TextAlignment="Center"
+                    VerticalAlignment="Top" Width="39"/>
+                <ToggleButton
+                    Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                    ToolTip="Enable Beta Options (RISKY)"
+                    IsChecked="{Binding Beta}"
+                    Command="{Binding SaveSettingsCommand}"
+                    Width="39" Margin="183,255,0,0" RenderTransformOrigin="3.169,0.412" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top"/>
+
             </Grid>
+
         </ScrollViewer>
 
 

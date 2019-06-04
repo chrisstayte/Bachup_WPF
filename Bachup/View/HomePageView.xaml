@@ -81,5 +81,15 @@
                 FontSize="12" 
                 Command="{Binding ShowMySiteCommand}" Height="22" Width="98">Chris Stayte</Button>
         </materialDesign:Badged>
+        <TextBlock
+            x:Name="textBlock3" 
+            Margin="10,0,10,14"
+            TextWrapping="Wrap" 
+            Text="{Binding WelcomeMessage}" 
+            HorizontalAlignment="Center" 
+            TextAlignment="Center"
+            Width="480" 
+            Height="14" 
+            VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

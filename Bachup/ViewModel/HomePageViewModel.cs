@@ -15,6 +15,8 @@ namespace Bachup.ViewModel
             VersionNumber = String.Format("Version {0}.{1}", version.Major, version.Minor);
 
             ShowMySiteCommand = new RelayCommand(ShowMySite );
+
+            WelcomeMessage = String.Format("Welcome {0}", Environment.UserName);
         }
 
         private string _message;
@@ -39,6 +41,23 @@ namespace Bachup.ViewModel
             {
                 _versionNumber = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        private string _welcomeMessage;
+        public string WelcomeMessage
+        {
+            get
+            {
+                return _welcomeMessage;
+            }
+            set
+            {
+                if (_welcomeMessage != value)
+                {
+                    _welcomeMessage = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 

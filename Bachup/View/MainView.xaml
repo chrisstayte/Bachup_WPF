@@ -20,7 +20,8 @@
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{DynamicResource MaterialDesignFont}"
     MinWidth="635" MinHeight="550"
-    Topmost="{Binding Settings.KeepOnTop}">
+    Topmost="{Binding Settings.KeepOnTop}"
+    StateChanged="Window_StateChanged">
     <WindowChrome.WindowChrome>
         <WindowChrome x:Name="chrome" ResizeBorderThickness="6" CaptionHeight="0"
                       GlassFrameThickness="10" CornerRadius="0" UseAeroCaptionButtons="False"/>
@@ -28,7 +29,7 @@
     <Window.Resources>
         <vm:MainViewModel x:Key="MainViewModel"/>
     </Window.Resources>
-    <materialDesign:DialogHost Identifier="RootDialog">
+    <materialDesign:DialogHost Identifier="RootDialog" DialogTheme="Inherit">
         <materialDesign:DrawerHost IsRightDrawerOpen="{Binding RightDrawerShown}">
             <materialDesign:DrawerHost.RightDrawerContent>
                 <DockPanel MinWidth="300">
@@ -136,8 +137,7 @@
                     ItemsSource="{Binding Bachup}"
                     Background="{DynamicResource MaterialDesignFlatButtonClick}"
                     BorderBrush="{DynamicResource PrimaryHueDarkBrush}" 
-                    BorderThickness="0, 0, .5, 0"   
-                    >
+                    BorderThickness="0, 0, .5, 0"   >
                     <TreeView.ItemContainerStyle>
                         <Style TargetType="TreeViewItem" BasedOn="{StaticResource MaterialDesignTreeViewItem}">
                             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

@@ -28,50 +28,19 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <materialDesign:PopupBox
-            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
-            PlacementMode="LeftAndAlignMiddles"   
-            UnfurlOrientation="Horizontal"
+        <Button
+            Style="{StaticResource MaterialDesignFloatingActionButton}"
             ToolTipService.Placement="Bottom"
-            ToolTip="Bachup Item Options"
+            ToolTip="Run Bachup"
             Margin="0,10,10,0" 
             HorizontalAlignment="Right" 
             Width="56" 
-            PopupMode="Click"
-            VerticalAlignment="Top">
-            <materialDesign:PopupBox.ToggleContent>
-                <materialDesign:PackIcon Kind="DotsHorizontal" Height="24" Width="24" />
-            </materialDesign:PopupBox.ToggleContent>
-            <materialDesign:PopupBox.ToggleCheckedContent>
-                <materialDesign:PackIcon
-                    Kind="Close"
-                    Width="24"
-                    Height="24" />
-            </materialDesign:PopupBox.ToggleCheckedContent>
-            <StackPanel Orientation="Horizontal">
-                <Button
-                    ToolTip="Delete"
-                    Command="{Binding DeleteBachupItemCommand}"
-                    Background="#f44336"
-                    BorderBrush="#f44336">
-                    <materialDesign:PackIcon Kind="Delete" Width="12" Height="12"/>
-                </Button>
-                <Button
-                    ToolTip="Edit"
-                    Command="{Binding EditBachupItemCommand}"
-                    Background="#fdd835"
-                    BorderBrush="#fdd835">
-                    <materialDesign:PackIcon Kind="Edit" Width="12" Height="12"/>
-                </Button>
-                <Button
-                    ToolTip="Run Bachup"
-                    Command="{Binding RunBachupCommand}"
-                    Background="#43a047"
-                    BorderBrush="#43a047">
-                    <materialDesign:PackIcon Kind="Play" Width="12" Height="12"/>
-                </Button>
-            </StackPanel>
-        </materialDesign:PopupBox>
+            Background="#43a047"
+                    BorderBrush="#43a047"
+            VerticalAlignment="Top"
+            Command="{Binding RunBachupCommand}">
+            <materialDesign:PackIcon Kind="Play" Height="32" Width="32"/>
+        </Button>
         <materialDesign:Chip
             Content="Source Broken"           
             Margin="100,52,0,0" 
@@ -245,7 +214,20 @@
             Command="{Binding SetBachupItemZippedCommand}" Margin="89,635,0,0" Grid.Row="1" HorizontalAlignment="Left" Width="44"/>
         <Separator
       Style="{StaticResource MaterialDesignLightSeparator}" Grid.Row="1" Margin="10,614,10,0" VerticalAlignment="Top"/>
-        
+        <Button 
+            x:Name="button"
+            Margin="0,666.667,10,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top"
+            Width="56"
+            ToolTip="Delete Bachup Item"
+            Background="#f44336"
+            BorderBrush="#f44336"
+            Command="{Binding DeleteBachupItemCommand}"
+            Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right">
+            <materialDesign:PackIcon Kind="Trash" Width="32" Height="32"/>
+        </Button>
+
 
 
     </Grid>

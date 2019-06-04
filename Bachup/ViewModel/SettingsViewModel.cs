@@ -242,6 +242,16 @@ namespace Bachup.ViewModel
             }
         }
 
+        public bool Beta
+        {
+            get { return MainViewModel.Settings.Beta; }
+            set
+            {
+                MainViewModel.Settings.Beta = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         // RelayCommands
         public RelayCommand SetThemeCommand { get; private set; }
         public RelayCommand SetDarkModeCommand { get; private set; }
@@ -278,6 +288,11 @@ namespace Bachup.ViewModel
             System.Diagnostics.Process.Start("http://chrisstayte.com");
         }
 
+        private void SaveSettings(object o)
+        {
+            MainViewModel.SaveSettings();
+        }
+
         #endregion
 
         #region Methods
@@ -290,10 +305,7 @@ namespace Bachup.ViewModel
             ShowSiteCommand = new RelayCommand(ShowSite);
         }
 
-        private void SaveSettings(object o)
-        {
-            MainViewModel.SaveSettings();
-        }
+        
 
         private void SetColorThemeStatus()
         {

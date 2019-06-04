@@ -14,6 +14,7 @@ namespace Bachup.Model
             KeepOnTop = false;
             Color = ThemeColors.red;
             LastOpened = null;
+
         }
 
         public void ResetSettings()
@@ -22,6 +23,7 @@ namespace Bachup.Model
             Color = ThemeColors.red;
             KeepOnTop = false;
             LastOpened = null;
+            Beta = false;
         }
 
         // Basic ViewModelBase
@@ -98,6 +100,25 @@ namespace Bachup.Model
             }
         }
 
+        private bool _beta;
+        public bool Beta
+        {
+            get
+            {
+                return _beta;
+            }
+            set
+            {
+                if (_beta != value)
+                {
+                    _beta = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        #region Methods
+
         public void ExpandAll(bool expand)
         {
             foreach (BachupGroup bg in Bachup.ViewModel.MainViewModel.Bachup)
@@ -149,6 +170,7 @@ namespace Bachup.Model
                 new PaletteHelper().SetLightDark(DarkMode);
             }
         }
+        #endregion
 
     }
 }

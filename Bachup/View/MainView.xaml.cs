@@ -73,5 +73,17 @@ namespace Bachup.View
                 this.WindowState = WindowState.Normal;
             }
         }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            if (WindowState.ToString() == "Normal")
+            {
+                this.BorderThickness = new Thickness(0);
+            }
+            else
+            {
+                this.BorderThickness = new Thickness(5);
+            }
+        }
     }
 }
