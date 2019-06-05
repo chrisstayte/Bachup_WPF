@@ -65,7 +65,7 @@
         </materialDesign:Chip>
         <TextBlock 
             x:Name="BachupItemName" 
-            Margin="10,10,71,12" 
+            Margin="10,10,116,12.333" 
             TextWrapping="Wrap" 
             Text="{Binding BachupItem.Name}"
             Style="{StaticResource MaterialDesignDisplay1TextBlock}">
@@ -216,16 +216,15 @@
       Style="{StaticResource MaterialDesignLightSeparator}" Grid.Row="1" Margin="10,614,10,0" VerticalAlignment="Top"/>
         <Button 
             x:Name="button"
-            Margin="0,666.667,10,0" 
-            Grid.Row="1" 
+            Margin="0,20,71,0" 
             VerticalAlignment="Top"
-            Width="56"
+      
             ToolTip="Delete Bachup Item"
             Background="#f44336"
             BorderBrush="#f44336"
             Command="{Binding DeleteBachupItemCommand}"
-            Style="{StaticResource MaterialDesignFloatingActionButton}" HorizontalAlignment="Right">
-            <materialDesign:PackIcon Kind="Trash" Width="32" Height="32"/>
+            Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" HorizontalAlignment="Right">
+            <materialDesign:PackIcon Kind="Trash" Width="21" Height="21"/>
         </Button>
 
 

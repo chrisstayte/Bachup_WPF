@@ -41,7 +41,7 @@
         <Button
             Style="{StaticResource MaterialDesignFloatingActionButton}"   
             ToolTipService.Placement="Bottom"
-            ToolTip="Bachup Group Options"
+            ToolTip="Add Bachup Item"
             Margin="0,10,10,0"
             HorizontalAlignment="Right"
             Width="56" 
@@ -55,19 +55,19 @@
             Command="{Binding DeleteBachupGroupCommand}"
             Background="#f44336"
             BorderBrush="#f44336" 
-            Margin="0,18,71,0" 
+            Margin="0,20,71,0" 
             HorizontalAlignment="Right" 
             VerticalAlignment="Top">
-            <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
+            <materialDesign:PackIcon Kind="Delete" Width="21" Height="21"/>
         </Button>
         <DataGrid 
             x:Name="dataGrid"
-            Margin="10,35,10,10"
+            Margin="10,35,10,0"
             Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}"
             ItemsSource="{Binding BachupGroup.BachupItems}"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
-            CanUserDeleteRows="False" Grid.Row="1">
+            CanUserDeleteRows="False" Grid.Row="1" Height="250" VerticalAlignment="Top">
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Binding="{Binding Name}"
@@ -102,7 +102,7 @@
             Margin="10,35,10,0" 
             TextWrapping="Wrap" 
             Text="Add Some Bachup Items"
-            Height="333" 
+            Height="50" 
             VerticalAlignment="Top" 
             Style="{StaticResource MaterialDesignHeadlineTextBlock}"
             Visibility="{Binding ShowAddBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}"
