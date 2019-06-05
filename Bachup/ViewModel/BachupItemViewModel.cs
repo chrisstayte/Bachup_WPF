@@ -22,7 +22,7 @@ namespace Bachup.ViewModel
             RunBachupCommand = new RelayCommand(RunBachup);
             ShowDestinationCommand = new RelayCommand(ShowDestination);
             RepairSourceCommand = new RelayCommand(RepairSource);
-            SetBachupItemZippedCommand = new RelayCommand(SetBachupItemZipped);
+            SaveDataCommand = new RelayCommand(SaveData);
 
 
             BachupItem = item;
@@ -168,6 +168,125 @@ namespace Bachup.ViewModel
             }
         }
 
+        public bool Sunday
+        {
+            get
+            {
+                return BachupItem.AutoWeekdays[Weekdays.Sunday];
+            }
+            set
+            {
+                if (BachupItem.AutoWeekdays[Weekdays.Sunday] != value)
+                {
+                    BachupItem.AutoWeekdays[Weekdays.Sunday] = value;
+                    NotifyPropertyChanged();
+                }
+                
+            }
+        }
+
+        public bool Monday
+        {
+            get
+            {
+                return BachupItem.AutoWeekdays[Weekdays.Monday];
+            }
+            set
+            {
+                if (BachupItem.AutoWeekdays[Weekdays.Monday] != value)
+                {
+                    BachupItem.AutoWeekdays[Weekdays.Monday] = value;
+                    NotifyPropertyChanged();
+                }
+
+            }
+        }
+
+        public bool Tuesday
+        {
+            get
+            {
+                return BachupItem.AutoWeekdays[Weekdays.Tuesday];
+            }
+            set
+            {
+                if (BachupItem.AutoWeekdays[Weekdays.Tuesday] != value)
+                {
+                    BachupItem.AutoWeekdays[Weekdays.Tuesday] = value;
+                    NotifyPropertyChanged();
+                }
+
+            }
+        }
+
+        public bool Wednesday
+        {
+            get
+            {
+                return BachupItem.AutoWeekdays[Weekdays.Wednesday];
+            }
+            set
+            {
+                if (BachupItem.AutoWeekdays[Weekdays.Wednesday] != value)
+                {
+                    BachupItem.AutoWeekdays[Weekdays.Wednesday] = value;
+                    NotifyPropertyChanged();
+                }
+
+            }
+        }
+
+        public bool Thursday
+        {
+            get
+            {
+                return BachupItem.AutoWeekdays[Weekdays.Thursday];
+            }
+            set
+            {
+                if (BachupItem.AutoWeekdays[Weekdays.Thursday] != value)
+                {
+                    BachupItem.AutoWeekdays[Weekdays.Thursday] = value;
+                    NotifyPropertyChanged();
+                }
+
+            }
+        }
+
+        public bool Friday
+        {
+            get
+            {
+                return BachupItem.AutoWeekdays[Weekdays.Friday];
+            }
+            set
+            {
+                if (BachupItem.AutoWeekdays[Weekdays.Friday] != value)
+                {
+                    BachupItem.AutoWeekdays[Weekdays.Friday] = value;
+                    NotifyPropertyChanged();
+                }
+
+            }
+        }
+
+        public bool Saturday
+        {
+            get
+            {
+                return BachupItem.AutoWeekdays[Weekdays.Saturday];
+            }
+            set
+            {
+                if (BachupItem.AutoWeekdays[Weekdays.Saturday] != value)
+                { 
+                    BachupItem.AutoWeekdays[Weekdays.Saturday] = value;
+                    NotifyPropertyChanged();
+                }
+
+            }
+        }
+
         // Relay Commands
         public RelayCommand AddDestinationCommand { get; private set; }
         public RelayCommand DeleteDestinationCommand { get; private set; }
@@ -177,7 +296,7 @@ namespace Bachup.ViewModel
         public RelayCommand RunBachupCommand { get; private set; }
         public RelayCommand ShowDestinationCommand { get; private set; }
         public RelayCommand RepairSourceCommand { get; private set; }
-        public RelayCommand SetBachupItemZippedCommand { get; private set; }
+        public RelayCommand SaveDataCommand { get; private set; }
 
         #region Events
 
@@ -285,7 +404,7 @@ namespace Bachup.ViewModel
             ValidateSource();
         }
 
-        private void SetBachupItemZipped(object parameter)
+        private void SaveData(object parameter)
         {
             MainViewModel.SaveData();
         }

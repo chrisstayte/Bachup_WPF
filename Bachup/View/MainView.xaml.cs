@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bachup.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -48,6 +49,7 @@ namespace Bachup.View
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
+            //Environment.Exit(0);
             base.Close();
         }
 
@@ -84,6 +86,11 @@ namespace Bachup.View
             {
                 this.BorderThickness = new Thickness(5);
             }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

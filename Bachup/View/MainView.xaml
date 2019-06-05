@@ -21,7 +21,8 @@
     FontFamily="{DynamicResource MaterialDesignFont}"
     MinWidth="635" MinHeight="550"
     Topmost="{Binding Settings.KeepOnTop}"
-    StateChanged="Window_StateChanged">
+    StateChanged="Window_StateChanged"
+    Closed="Window_Closed">
     <WindowChrome.WindowChrome>
         <WindowChrome x:Name="chrome" ResizeBorderThickness="6" CaptionHeight="0"
                       GlassFrameThickness="10" CornerRadius="0" UseAeroCaptionButtons="False"/>

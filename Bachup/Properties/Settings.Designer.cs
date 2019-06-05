@@ -22,41 +22,5 @@ namespace Bachup.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double Top {
-            get {
-                return ((double)(this["Top"]));
-            }
-            set {
-                this["Top"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Left {
-            get {
-                return ((string)(this["Left"]));
-            }
-            set {
-                this["Left"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Heifht {
-            get {
-                return ((string)(this["Heifht"]));
-            }
-            set {
-                this["Heifht"] = value;
-            }
-        }
     }
 }

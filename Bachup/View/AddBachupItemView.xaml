@@ -89,8 +89,21 @@
         <ToggleButton
             Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
             VerticalAlignment="Top"  
-            ToolTip="Toggle Color Mode"
+            ToolTip="Zip Data During Bachup"
             IsChecked="{Binding ZipBachupItem}"
             Margin="89,162,0,0" HorizontalAlignment="Left" Width="44"/>
+        <TextBlock 
+            x:Name="textBlock_Copy1"
+            Margin="159,161,0,0" 
+            TextWrapping="Wrap"
+            Text="Use File Name For Bachup" 
+            VerticalAlignment="Top"
+            Style="{StaticResource MaterialDesignBody1TextBlock}" HorizontalAlignment="Left" Width="157" RenderTransformOrigin="5.751,0.003"/>
+        <ToggleButton
+            Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+            VerticalAlignment="Top"  
+            ToolTip="Use File Name For Bachup Instead Of Bachup Item Name"
+            IsChecked="{Binding UseFileNameForBachup}"
+            Margin="321,161,288.333,0"/>
     </Grid>
 </UserControl>

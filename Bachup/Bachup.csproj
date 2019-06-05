@@ -31,7 +31,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <PublisherName>Chris Stayte</PublisherName>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>36</ApplicationRevision>
+    <ApplicationRevision>41</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -56,6 +56,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Images\icon.ico</ApplicationIcon>
@@ -139,6 +140,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Notifications.Wpf, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Notifications.Wpf.0.1.1\lib\net461\Notifications.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="NuGet.Squirrel, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\squirrel.windows.1.9.1\lib\Net45\NuGet.Squirrel.dll</HintPath>
     </Reference>
@@ -183,6 +187,7 @@
     <Compile Include="Model\BachupItems\BI_Shapefile.cs" />
     <Compile Include="Model\ThemeColors.cs" />
     <Compile Include="Model\Settings.cs" />
+    <Compile Include="Model\Weekdays.cs" />
     <Compile Include="ViewModel\CopyBachupItemViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="View\CopyBachupItemView.xaml.cs">

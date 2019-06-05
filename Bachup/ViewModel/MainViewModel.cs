@@ -3,10 +3,10 @@ using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
+using Notifications.Wpf;
 using Squirrel;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -53,7 +53,7 @@ namespace Bachup.ViewModel
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             VersionNumber = $"Version {version.Major}.{version.Minor}";
 
-            CheckForUpdates();
+            //CheckForUpdates();
         }
 
         public void SysTrayApp()
@@ -84,6 +84,9 @@ namespace Bachup.ViewModel
         }
 
         // Properties
+
+        static public NotificationManager notificationManager = new NotificationManager();
+
         static public ObservableCollection<BachupGroup> Bachup { get; set; } = new ObservableCollection<BachupGroup>();
         static public Settings Settings { get; set; }
 
@@ -160,7 +163,6 @@ namespace Bachup.ViewModel
         public RelayCommand SelectItemCommand { get; private set; }
         public RelayCommand ShowSettingsCommand { get; private set; }
         public RelayCommand SaveSettingsCommand { get; private set; }
-
 
         #region Events
 
@@ -343,10 +345,21 @@ namespace Bachup.ViewModel
 
         private async Task CheckForUpdates()
         {
-            using (var manager = new UpdateManager(@"G:\GS\Users\Stayte\Tools\Bachup_Squirrel"))
+            using (var manager = UpdateManager.GitHubUpdateManager(@"G:\GS\Users\Stayte\Tools\Bachup_Squirrel"))
             {
-                await manager.UpdateApp();
+                await manager.Result.UpdateApp();                
             }
+            
+        }
+
+        public static void ShowMessage(string title, string message, NotificationType type)
+        {
+            notificationManager.Show(new NotificationContent
+            {
+                Title = title,
+                Message = message,
+                Type = type
+            });
         }
 
         #endregion
