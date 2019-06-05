@@ -3,12 +3,14 @@ using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
+using Squirrel;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bachup.ViewModel
@@ -50,6 +52,8 @@ namespace Bachup.ViewModel
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             VersionNumber = $"Version {version.Major}.{version.Minor}";
+
+            CheckForUpdates();
         }
 
         public void SysTrayApp()
@@ -187,12 +191,9 @@ namespace Bachup.ViewModel
             SaveSettings();
         }
 
-
-
         #endregion
 
         #region Methods
-
 
         private void SetView(object item)
         {
@@ -338,6 +339,14 @@ namespace Bachup.ViewModel
                 }
             }
             return null;
+        }
+
+        private async Task CheckForUpdates()
+        {
+            using (var manager = new UpdateManager(@"G:\GS\Users\Stayte\Tools\Bachup_Squirrel"))
+            {
+                await manager.UpdateApp();
+            }
         }
 
         #endregion
