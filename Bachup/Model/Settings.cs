@@ -14,6 +14,7 @@ namespace Bachup.Model
             KeepOnTop = false;
             Color = ThemeColors.red;
             LastOpened = null;
+            ShowNotifications = false;
 
         }
 
@@ -24,6 +25,7 @@ namespace Bachup.Model
             KeepOnTop = false;
             LastOpened = null;
             Beta = false;
+            ShowNotifications = false;
         }
 
         // Basic ViewModelBase
@@ -97,6 +99,20 @@ namespace Bachup.Model
             {
                 _lastOpened = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        private bool _showNotifications;
+        public bool ShowNotifications
+        {
+            get { return _showNotifications; }
+            set
+            {
+                if (_showNotifications != value)
+                {
+                    _showNotifications = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 

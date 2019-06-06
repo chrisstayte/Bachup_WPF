@@ -23,6 +23,7 @@ namespace Bachup.ViewModel
             SelectItemCommand = new RelayCommand(SelectItem);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
             SaveSettingsCommand = new RelayCommand(SaveSettings);
+            ViewHomeCommand = new RelayCommand(ViewHome);
 
             Settings = new Settings();
 
@@ -163,6 +164,7 @@ namespace Bachup.ViewModel
         public RelayCommand SelectItemCommand { get; private set; }
         public RelayCommand ShowSettingsCommand { get; private set; }
         public RelayCommand SaveSettingsCommand { get; private set; }
+        public RelayCommand ViewHomeCommand { get; private set; }
 
         #region Events
 
@@ -193,37 +195,26 @@ namespace Bachup.ViewModel
             SaveSettings();
         }
 
+        private void ShowSettings(object o)
+        {
+            RightDrawerContent = new SettingsView()
+            {
+                DataContext = new SettingsViewModel()
+            };
+            RightDrawerShown = true;
+        }
+
+        private void ViewHome(object o)
+        {
+            SetView(null);
+            Settings.DeselectAll();
+            Settings.LastOpened = null;
+            SaveSettings();
+        }
+
         #endregion
 
         #region Methods
-
-        private void SetView(object item)
-        {
-            if (!(item is BachupGroup))
-            {
-                if (item is BachupItem)
-                {
-                    BachupItem bi = (BachupItem)item;
-                    Settings.LastOpened = bi.ID;
-                    SelectedViewModel = new BachupItemView()
-                    {
-                        DataContext = new BachupItemViewModel(bi)
-                    };
-                    return;
-                }
-                SelectedViewModel = new HomePageView();
-            }
-            else
-            {
-                BachupGroup bg = (BachupGroup)item;
-                Settings.LastOpened = bg.ID;
-                SelectedViewModel = new BachupGroupView()
-                {
-                    DataContext = new BachupGroupViewModel(bg)
-                };
-                return;
-            }
-        }
 
         private void LoadData()
         {
@@ -300,16 +291,35 @@ namespace Bachup.ViewModel
             {
 
             }
-        }  
+        }
 
-        private void ShowSettings(object o)
+        private void SetView(object item)
         {
-            RightDrawerContent = new SettingsView()
+            if (!(item is BachupGroup))
             {
-                DataContext = new SettingsViewModel()
-            };
-            RightDrawerShown = true;
-        }  
+                if (item is BachupItem)
+                {
+                    BachupItem bi = (BachupItem)item;
+                    Settings.LastOpened = bi.ID;
+                    SelectedViewModel = new BachupItemView()
+                    {
+                        DataContext = new BachupItemViewModel(bi)
+                    };
+                    return;
+                }
+                SelectedViewModel = new HomePageView();
+            }
+            else
+            {
+                BachupGroup bg = (BachupGroup)item;
+                Settings.LastOpened = bg.ID;
+                SelectedViewModel = new BachupGroupView()
+                {
+                    DataContext = new BachupGroupViewModel(bg)
+                };
+                return;
+            }
+        }
 
         public static bool DoesBachupGroupExist(string name) => Bachup.FirstOrDefault(Group => Group.Name.ToLower() == name.ToLower()) != null;
 

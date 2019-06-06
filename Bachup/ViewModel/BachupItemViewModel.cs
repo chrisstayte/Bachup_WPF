@@ -180,8 +180,7 @@ namespace Bachup.ViewModel
                 {
                     BachupItem.AutoWeekdays[Weekdays.Sunday] = value;
                     NotifyPropertyChanged();
-                }
-                
+                }              
             }
         }
 
@@ -284,6 +283,20 @@ namespace Bachup.ViewModel
                     NotifyPropertyChanged();
                 }
 
+            }
+        }
+
+        public String AutoTime
+        {
+            get { return BachupItem.AutoTime; }
+            set
+            {
+                if (BachupItem.AutoTime != value)
+                {
+                    BachupItem.AutoTime = value;
+                    NotifyPropertyChanged();
+                    MainViewModel.SaveData();
+                }
             }
         }
 

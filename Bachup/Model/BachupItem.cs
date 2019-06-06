@@ -123,6 +123,23 @@ namespace Bachup.Model
             }
         }
 
+        private String _autoTime;
+        public String AutoTime
+        {
+            get
+            {
+                return _autoTime;
+            }
+            set
+            {
+                if (_autoTime != value)
+                {
+                    _autoTime = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         private Dictionary<Weekdays, bool> _autoWeekdays;
         public Dictionary<Weekdays, bool> AutoWeekdays
         {
@@ -487,7 +504,7 @@ namespace Bachup.Model
                         BachupHistory = new ObservableCollection<DateTime>();
 
                     // TODO: BETA
-                    if (MainViewModel.Settings.Beta)
+                    if (MainViewModel.Settings.ShowNotifications)
                     {
                         MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
                     }

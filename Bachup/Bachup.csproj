@@ -31,7 +31,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <PublisherName>Chris Stayte</PublisherName>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>41</ApplicationRevision>
+    <ApplicationRevision>45</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -182,6 +182,8 @@
     </ApplicationDefinition>
     <Compile Include="Helpers\DateConverter.cs" />
     <Compile Include="Helpers\SaveInfo.cs" />
+    <Compile Include="Helpers\SimpleDateValidationRule.cs" />
+    <Compile Include="Model\BachupHistory.cs" />
     <Compile Include="Model\BachupItemSourceTypes.cs" />
     <Compile Include="Model\BachupItems\BI_LAS.cs" />
     <Compile Include="Model\BachupItems\BI_Shapefile.cs" />

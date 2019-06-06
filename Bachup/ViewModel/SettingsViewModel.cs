@@ -252,6 +252,16 @@ namespace Bachup.ViewModel
             }
         }
 
+        public bool ShowNotifications
+        {
+            get { return MainViewModel.Settings.ShowNotifications; }
+            set
+            {
+                MainViewModel.Settings.ShowNotifications = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         // RelayCommands
         public RelayCommand SetThemeCommand { get; private set; }
         public RelayCommand SetDarkModeCommand { get; private set; }
