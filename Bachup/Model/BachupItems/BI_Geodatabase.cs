@@ -32,47 +32,46 @@ namespace Bachup.Model.BachupItems
             return false;
         }
 
-        public override void CopyData()
+        public override bool CopyData(string destination)
         {
-            foreach (string destination in Destinations)
+
+        if (Directory.Exists(destination))
+        {
+            string bachupLocation = GenerateBachupLocation(destination);
+
+                if (bachupLocation == "")
+                    return false ;
+
+            string geodatabaseName = Path.GetFileName(Source);
+
+            string outputGeodatabase = System.IO.Path.Combine(bachupLocation, geodatabaseName);
+
+            Directory.CreateDirectory(outputGeodatabase);
+
+            string[] files = Directory.GetFiles(Source);
+
+            Parallel.ForEach(files, (currentFile) =>
             {
-                if (Directory.Exists(destination))
-                {
-                    string bachupLocation = GenerateBachupLocation(destination);
-
-                    if (bachupLocation == "")
-                        continue;
-
-                    string geodatabaseName = Path.GetFileName(Source);
-
-                    string outputGeodatabase = System.IO.Path.Combine(bachupLocation, geodatabaseName);
-
-                    Directory.CreateDirectory(outputGeodatabase);
-
-                    string[] files = Directory.GetFiles(Source);
-
-                    Parallel.ForEach(files, (currentFile) =>
-                    {
-                        string fileName = Path.GetFileName(currentFile);
-                        string destFile = Path.Combine(outputGeodatabase, fileName);
-                        File.Copy(currentFile, destFile, true);
-                    });
-                }
-            }
+                string fileName = Path.GetFileName(currentFile);
+                string destFile = Path.Combine(outputGeodatabase, fileName);
+                File.Copy(currentFile, destFile, true);
+            });
+        }
+            return true;
+            
         }
 
-        public override void CopyDataWithZip()
+        public override bool CopyDataWithZip(string destination)
         {
-            foreach (string destination in Destinations)
-            {
+
                 if (Directory.Exists(destination))
                 {
                     using (ZipFile zip = new ZipFile())
                     {
                         string bachupLocation = GenerateBachupLocation(destination);
 
-                        if (bachupLocation == "")
-                            continue;
+                    if (bachupLocation == "")
+                        return false;
 
                         string zippedBachupLocation = Path.Combine(bachupLocation, Path.GetFileName(Source) + ".zip");
 
@@ -81,7 +80,8 @@ namespace Bachup.Model.BachupItems
                         zip.Save(zippedBachupLocation);
                     }
                 }
-            }
+            return true;
+            
             
         }
 

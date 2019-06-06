@@ -20,29 +20,27 @@ namespace Bachup.Model.BachupItems
             return false;
         }
 
-        public override void CopyData()
+        public override bool CopyData(string destination)
         {
-            foreach (string destination in Destinations)
-            {
+
                 if (Directory.Exists(destination))
                 {
                     string bachupLocation = GenerateBachupLocation(destination);
 
-                    if (bachupLocation == "")
-                        continue;
+                if (bachupLocation == "")
+                    return true ;
 
                     string fileName = Path.GetFileName(Source);
                     string destFile = Path.Combine(bachupLocation, fileName);
 
                     File.Copy(Source, destFile);
                 }
-            }
+            return true;
+            
         }
 
-        public override void CopyDataWithZip()
+        public override bool CopyDataWithZip(string destination)
         {
-            foreach (string destination in Destinations)
-            {
                 if (Directory.Exists(destination))
                 { 
                     using (ZipFile zip = new ZipFile())
@@ -50,7 +48,7 @@ namespace Bachup.Model.BachupItems
                         string bachupLocation = GenerateBachupLocation(destination);
 
                         if (bachupLocation == "")
-                            continue;
+                            return false;
 
                         string zippedBachupLocation = Path.Combine(bachupLocation, Path.GetFileNameWithoutExtension(Source) + ".zip");
 
@@ -59,7 +57,8 @@ namespace Bachup.Model.BachupItems
                         zip.Save(zippedBachupLocation);
                     }
                 }
-            }
+            return true;
+            
         }
 
         public override void RepairSource()

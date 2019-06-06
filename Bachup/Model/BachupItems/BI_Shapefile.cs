@@ -28,14 +28,13 @@ namespace Bachup.Model.BachupItems
         });
 
 
-        public override void CopyData()
+        public override bool CopyData(string destination)
         {
-            foreach (string destination in Destinations)
-            {
+           
                 string bachupLocation = GenerateBachupLocation(destination);
 
                 if (bachupLocation == "")
-                    continue;
+                    return false;
 
                 string sourceFolder = Path.GetDirectoryName(Source);
                 string fileName = Path.GetFileNameWithoutExtension(Source);
@@ -50,17 +49,16 @@ namespace Bachup.Model.BachupItems
                         File.Copy(sourceFile, destFile);
                     }
                 }
-            }
+            return true;
+            
         }
 
-        public override void CopyDataWithZip()
+        public override bool CopyDataWithZip(string destination)
         {
-            foreach (string destination in Destinations)
-            {
                 string bachupLocation = GenerateBachupLocation(destination);
 
-                if (bachupLocation == "")
-                    continue;
+            if (bachupLocation == "")
+                return false;
 
                 string sourceFolder = Path.GetDirectoryName(Source);
                 string fileName = Path.GetFileNameWithoutExtension(Source);
@@ -82,7 +80,8 @@ namespace Bachup.Model.BachupItems
 
                     zip.Save(zippedBachupLoction);
                 }
-            }
+            return true;
+         
         }
 
         public override bool IsFileLocked()

@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Bachup.Model
 {
@@ -171,8 +172,8 @@ namespace Bachup.Model
             }
         }
 
-        private ObservableCollection<DateTime> _bachupHistory;
-        public ObservableCollection<DateTime> BachupHistory
+        private ObservableCollection<BachupHistory> _bachupHistory;
+        public ObservableCollection<BachupHistory> BachupHistory
         {
             get
             {
@@ -480,6 +481,9 @@ namespace Bachup.Model
             {
                 if (await CheckDestinationsConnection(true))
                 {
+                    if (BachupHistory == null)
+                        BachupHistory = new ObservableCollection<BachupHistory>();
+
                     CopyBachupItemView view = new CopyBachupItemView()
                     {
                         DataContext = new CopyBachupItemViewModel()
@@ -487,29 +491,51 @@ namespace Bachup.Model
 
                     await DialogHost.Show(view, "RootDialog", new DialogOpenedEventHandler(async (object sender, DialogOpenedEventArgs args) =>
                     {
+                        BachupHistory bachupHistory = new BachupHistory();
                         DialogSession session = args.Session;
 
-                        if (ZipBachup)
-                            await Task.Run((Action)CopyDataWithZip);
-                        else
-                            await Task.Run((Action)CopyData);
+                        foreach (string destination in Destinations)
+                        {
+                            if (!Directory.Exists(destination))
+                            {
+                                bachupHistory.BachupDestinationStatus.Add(destination, false);
+                                continue;
+                            }
+
+                            bool success = false;
+
+                            if (ZipBachup)
+                                await Task.Run(() => {
+                                    success = CopyDataWithZip(destination);
+                                });
+                            else
+                            {
+                                await Task.Run(() => {
+                                    success = CopyData(destination);
+                                });
+                            }
+
+                            bachupHistory.BachupDestinationStatus.Add(destination, success);
+                                
+                        }
+
+
+                        DateTime completedDateTime = DateTime.Now;
+
+                        bachupHistory.BachupDateTime = completedDateTime;
+                        LastBachup = completedDateTime;
+                        BachupHistory.Insert(0, bachupHistory);
 
                         session.Close();
                     }));
 
-                    DateTime completedDateTime = DateTime.Now;
-                    LastBachup = completedDateTime;
+                    
 
-                    if (BachupHistory == null)
-                        BachupHistory = new ObservableCollection<DateTime>();
-
-                    // TODO: BETA
+                    
                     if (MainViewModel.Settings.ShowNotifications)
                     {
                         MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
                     }
-
-                    BachupHistory.Insert(0, completedDateTime);
 
                     MainViewModel.SaveData();
                 }
@@ -523,8 +549,8 @@ namespace Bachup.Model
 
         // These are custom to each type. Each subtype will need to override these methods and implement a custom version
         public abstract bool IsFileLocked();
-        public abstract void CopyData();
-        public abstract void CopyDataWithZip();
+        public abstract bool CopyData(string destination);
+        public abstract bool CopyDataWithZip(string destination);
         public abstract void RepairSource();
         public abstract void GetSize();
 

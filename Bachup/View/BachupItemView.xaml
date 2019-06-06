@@ -234,6 +234,7 @@
             <ListBox
                 x:Name="BachupHistoryGroupBox"
                 Margin="0,0,0,2"
+                DisplayMemberPath="BachupDateTime"
                 ItemsSource="{Binding BachupItem.BachupHistory}" />
         </GroupBox>
         <TextBlock
