@@ -22,7 +22,7 @@ namespace Bachup.Model
 
         public BachupHistory()
         {
-
+            BachupDestinationStatus = new Dictionary<string, bool>();
         }
 
         private DateTime _bachupDateTime;
@@ -42,8 +42,19 @@ namespace Bachup.Model
         private Dictionary<String, bool> _bachupDestinationStatus;
         public Dictionary<String, bool> BachupDestinationStatus;
 
-        
+        public string GetStatusMessage()
+        {
+            int good = 0;
+            int bad = 0;
 
+            foreach (var status in BachupDestinationStatus.Values)
+            {
+                good = status ? good += 1 : good;
+                bad = status ? bad : bad += 1;
+            }
+
+            return good == BachupDestinationStatus.Count ? "Success Fule All Backed Up" : "FAILED";
+        }
 
     }
 }
