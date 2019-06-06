@@ -7,7 +7,7 @@
              xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
              xmlns:local="clr-namespace:Bachup.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="500" d:DesignWidth="800"
              xmlns:converter="clr-namespace:Bachup.Helpers">
 
     <UserControl.Resources>
@@ -32,66 +32,42 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="38*"/>
         </Grid.RowDefinitions>
-
         <TextBlock 
             x:Name="textBlock"
-            Margin="10,10,71,11" 
+            Margin="10,10,132,11" 
             TextWrapping="Wrap"
             Style="{StaticResource MaterialDesignDisplay1TextBlock}"
             Text="{Binding BachupGroup.Name}"/>
-
-        <materialDesign:PopupBox
-            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
-            PlacementMode="LeftAndAlignMiddles"   
-            UnfurlOrientation="Horizontal"
+        <Button
+            Style="{StaticResource MaterialDesignFloatingActionButton}"   
             ToolTipService.Placement="Bottom"
-            ToolTip="Bachup Group Options"
+            ToolTip="Add Bachup Item"
             Margin="0,10,10,0"
             HorizontalAlignment="Right"
             Width="56" 
-            PopupMode="Click"
+            VerticalAlignment="Top"
+            Command="{Binding AddBachupItemCommand}">
+            <materialDesign:PackIcon Kind="Plus" Height="24" Width="24"/>
+        </Button>
+        <Button
+            Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+            ToolTip="Delete Bachup Group"
+            Command="{Binding DeleteBachupGroupCommand}"
+            Background="#f44336"
+            BorderBrush="#f44336" 
+            Margin="0,20,71,0" 
+            HorizontalAlignment="Right" 
             VerticalAlignment="Top">
-            <materialDesign:PopupBox.ToggleContent>
-                <materialDesign:PackIcon Kind="DotsHorizontal" Height="24" Width="24"/>
-            </materialDesign:PopupBox.ToggleContent>
-            <materialDesign:PopupBox.ToggleCheckedContent>
-                <materialDesign:PackIcon
-                    Kind="Close"
-                    Width="24"
-                    Height="24" />
-            </materialDesign:PopupBox.ToggleCheckedContent>
-            <StackPanel Orientation="Horizontal">
-                <Button
-                    ToolTip="Delete"
-                    Command="{Binding DeleteBachupGroupCommand}"
-                    Background="#f44336"
-                    BorderBrush="#f44336">
-                    <materialDesign:PackIcon Kind="Delete" Width="12" Height="12"/>
-                </Button>
-                <Button
-                    ToolTip="Edit"
-                    Command="{Binding EditBachupGroupCommand}"
-                    Background="#fdd835"
-                    BorderBrush="#fdd835">
-                    <materialDesign:PackIcon Kind="Edit" Width="12" Height="12"/>
-                </Button>
-                <Button
-                    ToolTip="Add Bachup Item"
-                    Command="{Binding AddBachupItemCommand}"
-                    Background="#43a047"
-                    BorderBrush="#43a047">
-                    <materialDesign:PackIcon Kind="Add" Width="12" Height="12"/>
-                </Button>
-            </StackPanel>
-        </materialDesign:PopupBox>
+            <materialDesign:PackIcon Kind="Delete" Width="21" Height="21"/>
+        </Button>
         <DataGrid 
             x:Name="dataGrid"
-            Margin="10,35,10,10"
+            Margin="10,35,10,0"
             Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}"
             ItemsSource="{Binding BachupGroup.BachupItems}"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
-            CanUserDeleteRows="False" Grid.Row="1">
+            CanUserDeleteRows="False" Grid.Row="1" Height="250" VerticalAlignment="Top">
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Binding="{Binding Name}"
@@ -126,7 +102,7 @@
             Margin="10,35,10,0" 
             TextWrapping="Wrap" 
             Text="Add Some Bachup Items"
-            Height="333" 
+            Height="50" 
             VerticalAlignment="Top" 
             Style="{StaticResource MaterialDesignHeadlineTextBlock}"
             Visibility="{Binding ShowAddBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}"

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bachup.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -43,6 +44,28 @@ namespace Bachup.View
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
+            MaximizeToggle();
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            //Environment.Exit(0);
+            base.Close();
+        }
+
+        private void TreeViewItem_Expanded_Collapsed(object sender, RoutedEventArgs e)
+        {
+            Bachup.ViewModel.MainViewModel.SaveSettings();
+            Bachup.ViewModel.MainViewModel.SaveData();
+        }
+
+        private void ColorZone_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MaximizeToggle();
+        }
+
+        private void MaximizeToggle()
+        {
             if (WindowState.ToString() == "Normal")
             {
                 this.WindowState = WindowState.Maximized;
@@ -53,15 +76,21 @@ namespace Bachup.View
             }
         }
 
-        private void Close_Click(object sender, RoutedEventArgs e)
+        private void Window_StateChanged(object sender, EventArgs e)
         {
-            base.Close();
+            if (WindowState.ToString() == "Normal")
+            {
+                this.BorderThickness = new Thickness(0);
+            }
+            else
+            {
+                this.BorderThickness = new Thickness(5);
+            }
         }
 
-        private void TreeViewItem_Expanded_Collapsed(object sender, RoutedEventArgs e)
+        private void Window_Closed(object sender, EventArgs e)
         {
-            Bachup.ViewModel.MainViewModel.SaveSettings();
-            Bachup.ViewModel.MainViewModel.SaveData();
+            Environment.Exit(0);
         }
     }
 }

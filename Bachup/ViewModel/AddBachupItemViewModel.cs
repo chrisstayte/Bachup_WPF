@@ -95,6 +95,22 @@ namespace Bachup.ViewModel
             }
         }
 
+        private bool _useFileNameForBachup;
+        public bool UseFileNameForBachup
+        {
+            get
+            {
+                return _useFileNameForBachup;
+            }
+            set
+            {
+                if (_useFileNameForBachup != value)
+                {
+                    _useFileNameForBachup = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         // Relay Commands
         public RelayCommand AddCommand { get; private set; }
@@ -121,25 +137,29 @@ namespace Bachup.ViewModel
                     case BachupType.GDB:
                         _bachupGroup.AddBachupItem(new BI_Geodatabase(Name, Source, _bachupGroup.ID)
                         {
-                            ZipBachup = _zipBachupItem
+                            ZipBachup = _zipBachupItem,
+                            UseFileNameForBachup = _useFileNameForBachup
                         });       
                         break;
                     case BachupType.TXT:
                         _bachupGroup.AddBachupItem(new BI_Text(Name, Source, _bachupGroup.ID)
                         {
-                            ZipBachup = _zipBachupItem
+                            ZipBachup = _zipBachupItem,
+                            UseFileNameForBachup = _useFileNameForBachup
                         });
                         break;
                     case BachupType.LAS:
                         _bachupGroup.AddBachupItem(new BI_LAS(Name, Source, _bachupGroup.ID)
                             {
-                            ZipBachup = _zipBachupItem
+                            ZipBachup = _zipBachupItem,
+                            UseFileNameForBachup = _useFileNameForBachup
                         });
                         break;
                     case BachupType.SHP:
                         _bachupGroup.AddBachupItem(new BI_Shapefile(Name, Source, _bachupGroup.ID)
                         {
-                            ZipBachup = _zipBachupItem
+                            ZipBachup = _zipBachupItem,
+                            UseFileNameForBachup = _useFileNameForBachup
                         });
                         break;
                     case BachupType.NotSupported:

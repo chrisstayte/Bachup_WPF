@@ -72,7 +72,7 @@ namespace Bachup.ViewModel
             if (CheckRequirements())
             {
                 BachupGroup bg = new BachupGroup(Name);
-            
+
                 DialogHost.CloseDialogCommand.Execute(bg, null);
             }
         }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bachup.ViewModel;
+using MaterialDesignThemes.Wpf;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -12,6 +14,8 @@ namespace Bachup.Model
             KeepOnTop = false;
             Color = ThemeColors.red;
             LastOpened = null;
+            ShowNotifications = false;
+
         }
 
         public void ResetSettings()
@@ -20,6 +24,8 @@ namespace Bachup.Model
             Color = ThemeColors.red;
             KeepOnTop = false;
             LastOpened = null;
+            Beta = false;
+            ShowNotifications = false;
         }
 
         // Basic ViewModelBase
@@ -96,6 +102,39 @@ namespace Bachup.Model
             }
         }
 
+        private bool _showNotifications;
+        public bool ShowNotifications
+        {
+            get { return _showNotifications; }
+            set
+            {
+                if (_showNotifications != value)
+                {
+                    _showNotifications = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private bool _beta;
+        public bool Beta
+        {
+            get
+            {
+                return _beta;
+            }
+            set
+            {
+                if (_beta != value)
+                {
+                    _beta = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        #region Methods
+
         public void ExpandAll(bool expand)
         {
             foreach (BachupGroup bg in Bachup.ViewModel.MainViewModel.Bachup)
@@ -116,6 +155,38 @@ namespace Bachup.Model
                 }
             }
         }
-       
+
+        public void SetTheme()
+        {
+            try
+            {
+                new PaletteHelper().ReplaceAccentColor(MainViewModel.Settings.Color.ToString());
+                new PaletteHelper().ReplacePrimaryColor(MainViewModel.Settings.Color.ToString());
+
+            }
+            catch
+            {
+                MainViewModel.Settings.ResetSettings();
+                new PaletteHelper().ReplaceAccentColor(MainViewModel.Settings.Color.ToString());
+                new PaletteHelper().ReplacePrimaryColor(MainViewModel.Settings.Color.ToString());
+
+
+            }
+        }
+
+        public void SetDarkMode()
+        {
+            try
+            {
+                new PaletteHelper().SetLightDark(DarkMode);
+            }
+            catch
+            {
+                ResetSettings();
+                new PaletteHelper().SetLightDark(DarkMode);
+            }
+        }
+        #endregion
+
     }
 }

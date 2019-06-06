@@ -16,7 +16,7 @@
         <Image 
             x:Name="image" 
             Margin="10,29,10,0" 
-            Source="/Bachup;component/logo.png" 
+            Source="/Bachup;component/Images//logo.png" 
             Height="64"
             VerticalAlignment="Top"/>
         <TextBlock
@@ -81,5 +81,25 @@
                 FontSize="12" 
                 Command="{Binding ShowMySiteCommand}" Height="22" Width="98">Chris Stayte</Button>
         </materialDesign:Badged>
+        <TextBlock
+            x:Name="textBlock3" 
+            Margin="10,0,10,14"
+            TextWrapping="Wrap" 
+            Text="{Binding WelcomeMessage}" 
+            HorizontalAlignment="Center" 
+            TextAlignment="Center"
+            Width="480" 
+            Height="14" 
+            VerticalAlignment="Bottom"/>
+        <TextBlock
+            x:Name="textBlock3_Copy" 
+            Margin="10,0,10,33"
+            TextWrapping="Wrap" 
+            Text="{Binding VersionNumber}" 
+            HorizontalAlignment="Center" 
+            TextAlignment="Center"
+            Width="480" 
+            Height="14" 
+            VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

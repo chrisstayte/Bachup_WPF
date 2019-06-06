@@ -22,6 +22,18 @@ namespace Bachup.Model
             BachupGroupID = groupID;
             Name = name;
             Source = source;
+            AutoWeekdays = new Dictionary<Weekdays, bool>
+            {
+                { Weekdays.Sunday, false },
+                { Weekdays.Monday, false },
+                { Weekdays.Tuesday, false },
+                { Weekdays.Wednesday, false },
+                { Weekdays.Thursday, false },
+                { Weekdays.Friday, false },
+                { Weekdays.Saturday, false }
+            };
+
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -94,6 +106,68 @@ namespace Bachup.Model
             {
                 _isSelected = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        private bool _autoBachup;
+        public bool AutoBachup
+        {
+            get { return _autoBachup; }
+            set
+            {
+                if (_autoBachup != value)
+                {
+                    _autoBachup = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private String _autoTime;
+        public String AutoTime
+        {
+            get
+            {
+                return _autoTime;
+            }
+            set
+            {
+                if (_autoTime != value)
+                {
+                    _autoTime = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private Dictionary<Weekdays, bool> _autoWeekdays;
+        public Dictionary<Weekdays, bool> AutoWeekdays
+        {
+            get { return _autoWeekdays; }
+            set
+            {
+                if (_autoWeekdays != value)
+                {
+                    _autoWeekdays = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private bool _useFileNameForBachup;
+        public bool UseFileNameForBachup
+        {
+            get
+            {
+                return _useFileNameForBachup;
+            }
+            set
+            {
+                if (_useFileNameForBachup != value)
+                {
+                    _useFileNameForBachup = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
@@ -267,7 +341,7 @@ namespace Bachup.Model
         public string GenerateBachupLocation(string destination)
         {
             // Create Initial Named Folder
-            string bachupLocation = System.IO.Path.Combine(destination, Name);
+            string bachupLocation = System.IO.Path.Combine(destination, UseFileNameForBachup ? Path.GetFileNameWithoutExtension(Source) : Name);
             bachupLocation = System.IO.Path.Combine(bachupLocation, CurrentDate());
 
             int count = 1;
@@ -428,6 +502,12 @@ namespace Bachup.Model
 
                     if (BachupHistory == null)
                         BachupHistory = new ObservableCollection<DateTime>();
+
+                    // TODO: BETA
+                    if (MainViewModel.Settings.ShowNotifications)
+                    {
+                        MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
+                    }
 
                     BachupHistory.Insert(0, completedDateTime);
 
