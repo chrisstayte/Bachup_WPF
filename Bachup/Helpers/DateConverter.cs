@@ -14,7 +14,9 @@ namespace Bachup.Helpers
             if (DateTime.TryParse(value.ToString(), out DateTime returnVal))
             {
                 if (returnVal != DateTime.MinValue)
-                    return returnVal;
+                {
+                    return returnVal.ToString("MM/dd/yyyy h:mm tt");
+                }
                 else
                     return "--/--/----";
             }

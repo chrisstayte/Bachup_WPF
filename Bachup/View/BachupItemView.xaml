@@ -25,6 +25,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
+            <helpers:DateConverter x:Key="DateConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
