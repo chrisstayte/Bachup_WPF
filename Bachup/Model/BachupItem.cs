@@ -11,6 +11,7 @@ using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Diagnostics;
+using Bachup.Model;
 
 namespace Bachup.Model
 {
@@ -489,9 +490,10 @@ namespace Bachup.Model
                         DataContext = new CopyBachupItemViewModel()
                     };
 
+                    BachupHistory bachupHistory = new BachupHistory();
+
                     await DialogHost.Show(view, "RootDialog", new DialogOpenedEventHandler(async (object sender, DialogOpenedEventArgs args) =>
-                    {
-                        BachupHistory bachupHistory = new BachupHistory();
+                    {                       
                         DialogSession session = args.Session;
 
                         foreach (string destination in Destinations)
@@ -515,11 +517,10 @@ namespace Bachup.Model
                                 });
                             }
 
-                            bachupHistory.BachupDestinationStatus.Add(destination, success);
-                                
+                            bachupHistory.BachupDestinationStatus.Add(destination, success);                                
                         }
 
-
+                        bachupHistory.GetStatus();
                         DateTime completedDateTime = DateTime.Now;
 
                         bachupHistory.BachupDateTime = completedDateTime;
@@ -528,15 +529,24 @@ namespace Bachup.Model
 
                         session.Close();
                     }));
-
-                    
-
-                    
+                  
                     if (MainViewModel.Settings.ShowNotifications)
                     {
-                        MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
+                        switch (bachupHistory.Type)
+                        {
+                            case BachupHistoryType.noHistory:
+                                break;
+                            case BachupHistoryType.fullBachup:
+                                MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
+                                break;
+                            case BachupHistoryType.partialBachup:
+                                MainViewModel.ShowMessage("Bached Up", $"{Name} is partially Bached Up", Notifications.Wpf.NotificationType.Warning);
+                                break;
+                            case BachupHistoryType.failedBachup:
+                                MainViewModel.ShowMessage("Bached Up", $"{Name} Failed To Bachup", Notifications.Wpf.NotificationType.Error);
+                                break;
+                        }                       
                     }
-
                     MainViewModel.SaveData();
                 }
             }

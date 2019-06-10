@@ -1,4 +1,5 @@
-﻿using Ionic.Zip;
+﻿using Bachup.Model;
+using Ionic.Zip;
 using System;
 using System.IO;
 using System.Windows.Forms;

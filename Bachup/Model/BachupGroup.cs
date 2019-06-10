@@ -1,4 +1,5 @@
-﻿using Bachup.ViewModel;
+﻿using Bachup.Model;
+using Bachup.ViewModel;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -104,8 +105,8 @@ namespace Bachup.Model
         {
             string extension = Path.GetExtension(Source);
 
-            if (Enum.IsDefined(typeof(BachupType), extension.ToUpper()))
-                return (BachupType)Enum.Parse(typeof(BachupType), extension.ToUpper());
+            if (System.Enum.IsDefined(typeof(BachupType), extension.ToUpper()))
+                return (BachupType)System.Enum.Parse(typeof(BachupType), extension.ToUpper());
             else
             {
                 return BachupType.NotSupported;

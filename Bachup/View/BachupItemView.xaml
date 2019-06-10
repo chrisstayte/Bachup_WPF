@@ -232,11 +232,43 @@
                     </StackPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
-            <ListBox
-                x:Name="BachupHistoryGroupBox"
-                Margin="0,0,0,2"
-                DisplayMemberPath="BachupDateTime"
-                ItemsSource="{Binding BachupItem.BachupHistory}" />
+            <ScrollViewer Margin="0,0,0,2" VerticalScrollBarVisibility="Auto">
+                <ItemsControl Background="Transparent" ItemsSource="{Binding BachupItem.BachupHistory}">
+                    <ItemsControl.ToolTip>
+                        <ToolTip DataContext="{Binding Path=PlacementTarget.Parent, RelativeSource={x:Static RelativeSource.Self}}">
+                            <TextBlock Text="HI" />
+                        </ToolTip>
+                    </ItemsControl.ToolTip>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+
+                            <Border
+                                Padding="8"
+                                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                BorderThickness="0,0,0,1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon
+                                        Grid.Column="0"
+                                        Width="24"
+                                        Height="24"
+                                        Margin="0,0,10,0"
+                                        Kind="{Binding Icon}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding BachupDateTime}"
+                                        TextAlignment="Left" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </GroupBox>
         <TextBlock
             x:Name="textBlock"
@@ -418,8 +450,5 @@
                 </Binding>
             </materialDesign:TimePicker.Text>
         </materialDesign:TimePicker>
-
-
-
     </Grid>
 </UserControl>

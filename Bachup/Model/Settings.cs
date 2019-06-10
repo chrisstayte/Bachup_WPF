@@ -1,4 +1,5 @@
-﻿using Bachup.ViewModel;
+﻿using Bachup.Model;
+using Bachup.ViewModel;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.ComponentModel;
