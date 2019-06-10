@@ -1,5 +1,4 @@
-﻿using Bachup.Model;
-using Bachup.ViewModel;
+﻿using Bachup.ViewModel;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

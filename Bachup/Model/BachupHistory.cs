@@ -41,7 +41,7 @@ namespace Bachup.Model
             }
         }
 
-        private Dictionary<String, bool> _bachupDestinationStatus;
+        private Dictionary<string, bool> _bachupDestinationStatus;
         public Dictionary<String, bool> BachupDestinationStatus;
 
         private BachupHistoryType _type;
