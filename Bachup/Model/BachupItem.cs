@@ -283,14 +283,27 @@ namespace Bachup.Model
         }
 
         internal async Task<bool> CheckDestinationsConnection(bool promptWithDialogToContinue)
-        {
-            bool missingDestination = false;
+        { 
+            int missingDestinations = 0;
 
             foreach (string destination in Destinations)
                 if (!System.IO.Directory.Exists(destination))
-                    missingDestination = true;
+                {
+                    missingDestinations++;
+                }
+                    
 
-            if (missingDestination)
+            if (missingDestinations == Destinations.Count())
+            {
+                var view = new AlertView
+                { 
+                    DataContext = new AlertViewModel("All destinations are missing. Add a destination.")
+                };
+                await DialogHost.Show(view, "RootDialog");
+                return false;
+            }
+
+            if (missingDestinations > 0)
             {
                 var view = new ConfirmChoiceView
                 {
@@ -300,7 +313,8 @@ namespace Bachup.Model
                 return (bool)await DialogHost.Show(view, "RootDialog");
             }
 
-            bool unauthorizedAccessDestinations = false;
+            int brokenDestinaitons = 0;
+
             foreach (var tempFile in from string destination in Destinations
                                      let tempFile = Path.Combine(destination, "bachup.tmp")
                                      select tempFile)
@@ -318,16 +332,28 @@ namespace Bachup.Model
                     }
                     else
                     {
-                        unauthorizedAccessDestinations = true;
+                        brokenDestinaitons++;
                     }
                 }
                 catch
                 {
-                    unauthorizedAccessDestinations = true;
+                    brokenDestinaitons++;
                 }
             }
 
-            if (unauthorizedAccessDestinations)
+
+
+            if (brokenDestinaitons == Destinations.Count())
+            {
+                var view = new AlertView
+                {
+                    DataContext = new AlertViewModel("All destinations are broken. Add a destination.")
+                };
+                await DialogHost.Show(view, "RootDialog");
+                return false;
+            }
+
+            if (brokenDestinaitons > 0)
             {
                 var view = new ConfirmChoiceView
                 {

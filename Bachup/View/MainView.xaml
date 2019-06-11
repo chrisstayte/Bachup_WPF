@@ -61,7 +61,6 @@
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </Grid.Resources>
-
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="277" />
                     <ColumnDefinition Width="559*" />
