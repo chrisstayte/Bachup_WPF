@@ -31,7 +31,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <PublisherName>Chris Stayte</PublisherName>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>55</ApplicationRevision>
+    <ApplicationRevision>57</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -180,6 +180,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\BooleanInverter.cs" />
     <Compile Include="Helpers\DateConverter.cs" />
     <Compile Include="Helpers\SaveInfo.cs" />
     <Compile Include="Helpers\SimpleDateValidationRule.cs" />

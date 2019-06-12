@@ -161,6 +161,7 @@
                                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         <EventSetter Event="Expanded" Handler="TreeViewItem_Expanded_Collapsed" />
                                         <EventSetter Event="Collapsed" Handler="TreeViewItem_Expanded_Collapsed" />
+
                                     </Style>
                                 </TreeView.ItemContainerStyle>
                                 <TreeView.Resources>

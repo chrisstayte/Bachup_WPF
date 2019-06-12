@@ -8,6 +8,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Bachup.ViewModel"
     d:DesignHeight="500"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -28,6 +29,7 @@
                 x:Key="BooleanToVisiblityConverter"
                 FalseValue="Hidden"
                 TrueValue="Visible" />
+            <converter:BooleanInverter x:Key="BooleanInverter" />
             <converter:DateConverter x:Key="DateConverter" />
         </ResourceDictionary>
 
@@ -89,22 +91,21 @@
             ItemsSource="{Binding BachupGroup.BachupItems}"
             Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}">
             <DataGrid.Columns>
-                <DataGridTextColumn
+                <materialDesign:MaterialDataGridTextColumn
                     Binding="{Binding Name}"
                     CanUserReorder="True"
-                    ElementStyle="{StaticResource MaterialDesignBody2TextBlock}"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
                     Header="Name"
-                    IsReadOnly="True" />
-                <DataGridTextColumn
+                    IsReadOnly="{Binding Path=Beta, Source={x:Static vm:MainViewModel.Settings}, Converter={StaticResource BooleanInverter}}"
+                    MaxLength="50" />
+                <materialDesign:MaterialDataGridTextColumn
                     Binding="{Binding DateCreated, Converter={StaticResource DateConverter}}"
                     CanUserReorder="True"
-                    ElementStyle="{StaticResource MaterialDesignBody2TextBlock}"
                     Header="Date Created"
                     IsReadOnly="True" />
-                <DataGridTextColumn
+                <materialDesign:MaterialDataGridTextColumn
                     Binding="{Binding LastBachup, Converter={StaticResource DateConverter}}"
                     CanUserReorder="True"
-                    ElementStyle="{StaticResource MaterialDesignBody2TextBlock}"
                     Header="Last Bachup"
                     IsReadOnly="True" />
             </DataGrid.Columns>
