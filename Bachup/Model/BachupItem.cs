@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Diagnostics;
 using Bachup.Model;
+using Bachup.Helpers;
 
 namespace Bachup.Model
 {
@@ -34,8 +35,6 @@ namespace Bachup.Model
                 { Weekdays.Friday, false },
                 { Weekdays.Saturday, false }
             };
-
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -258,6 +257,34 @@ namespace Bachup.Model
             {
                 _sizeInMB = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        private bool _sourceBroken;
+        public bool SourceBroken
+        {
+            get { return _sourceBroken; }
+            set
+            {
+                if (_sourceBroken != value)
+                {
+                    _sourceBroken = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private bool _showLastBachup;
+        public bool ShowLastBachup
+        {
+            get { return _showLastBachup; }
+            set
+            {
+                if (_showLastBachup != value)
+                {
+                    _showLastBachup = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
@@ -542,7 +569,6 @@ namespace Bachup.Model
                                     success = CopyData(destination);
                                 });
                             }
-
                             bachupHistory.BachupDestinationStatus.Add(destination, success);                                
                         }
 
@@ -564,23 +590,26 @@ namespace Bachup.Model
                                 break;
                             case BachupHistoryType.fullBachup:
                                 MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
+                                ShowLastBachup = true;
                                 break;
                             case BachupHistoryType.partialBachup:
                                 MainViewModel.ShowMessage("Bached Up", $"{Name} is partially Bached Up", Notifications.Wpf.NotificationType.Warning);
+                                ShowLastBachup = true;
                                 break;
                             case BachupHistoryType.failedBachup:
                                 MainViewModel.ShowMessage("Bached Up", $"{Name} Failed To Bachup", Notifications.Wpf.NotificationType.Error);
                                 break;
                         }                       
                     }
-                    MainViewModel.SaveData();
+                    MainViewModel.SaveData();   
                 }
             }
         }
 
         public bool CheckSourceExistence()
         {
-            return !(!Directory.Exists(Source) ^ File.Exists(Source));
+            SourceBroken = (!Directory.Exists(Source) ^ File.Exists(Source));
+            return !SourceBroken;
         }
 
         // These are custom to each type. Each subtype will need to override these methods and implement a custom version

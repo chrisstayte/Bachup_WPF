@@ -56,6 +56,8 @@ namespace Bachup.Model
             get { return _isExpanded; }
             set
             {
+                foreach (BachupItem bi in BachupItems)
+                    bi.CheckSourceExistence();
                 _isExpanded = value;
                 NotifyPropertyChanged();
             }

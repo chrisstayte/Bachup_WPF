@@ -7,6 +7,7 @@ using Notifications.Wpf;
 using Squirrel;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -24,6 +25,7 @@ namespace Bachup.ViewModel
             ShowSettingsCommand = new RelayCommand(ShowSettings);
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             ViewHomeCommand = new RelayCommand(ViewHome);
+            RenameBachupItemCommand = new RelayCommand(RenameBachupItem);
 
             Settings = new Settings();
 
@@ -165,6 +167,7 @@ namespace Bachup.ViewModel
         public RelayCommand ShowSettingsCommand { get; private set; }
         public RelayCommand SaveSettingsCommand { get; private set; }
         public RelayCommand ViewHomeCommand { get; private set; }
+        public RelayCommand RenameBachupItemCommand {get; private set;}
 
         #region Events
 
@@ -210,6 +213,11 @@ namespace Bachup.ViewModel
             Settings.DeselectAll();
             Settings.LastOpened = null;
             SaveSettings();
+        }
+
+        private void RenameBachupItem(object o)
+        {
+            Debug.WriteLine("IT WORKS");
         }
 
         #endregion

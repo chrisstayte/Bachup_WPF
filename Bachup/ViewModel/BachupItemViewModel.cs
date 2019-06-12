@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bachup.ViewModel
 {
@@ -30,7 +31,6 @@ namespace Bachup.ViewModel
             EnableDeleteButton = false;
 
             ValidateSource();
-            ShowLastBachup();
             BachupItem.GetSize();
 
             //RefreshHistory();
@@ -47,20 +47,11 @@ namespace Bachup.ViewModel
             }
         }
 
-
-        public string LastBachup
-        {
-            get
-            {
-                return String.Format("Last Bachup: {0}", BachupItem.LastBachup);
-            }
-        }
-
         public string SizeInMB
         {
             get
             {
-                return String.Format("Size: {0} mb", Math.Round(BachupItem.SizeInMB, 2));
+                return String.Format("{0} mb", Math.Round(BachupItem.SizeInMB, 2));
             }
         }
 
@@ -131,17 +122,6 @@ namespace Bachup.ViewModel
             set
             {
                 _enableDeleteButton = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private bool _enableRepairSourceButton;
-        public bool EnableRepairSourceButton
-        {
-            get { return _enableRepairSourceButton; }
-            set
-            {
-                _enableRepairSourceButton = value;
                 NotifyPropertyChanged();
             }
         }
@@ -398,8 +378,7 @@ namespace Bachup.ViewModel
         private void RunBachup(object parameter)
         {
             _bachupItem.RunBachup();
-            ShowLastBachup();
-            NotifyPropertyChanged("LastBachup");
+            
             ValidateSource();             
         }
 
@@ -431,14 +410,8 @@ namespace Bachup.ViewModel
 
         private void ValidateSource()
         {
-            EnableRepairSourceButton = !BachupItem.CheckSourceExistence();
-            EnableShowSourceButton = BachupItem.CheckSourceExistence();
-        }
-
-        private void ShowLastBachup()
-        {
-            bool result = BachupItem.LastBachup.Year > 2000;
-            LastBachupVisible = result;
+            BachupItem.CheckSourceExistence();
+            EnableShowSourceButton = !BachupItem.SourceBroken;
         }
 
         #endregion
