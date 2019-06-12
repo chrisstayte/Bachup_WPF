@@ -55,7 +55,9 @@
                 Geodatabase<LineBreak />
                 Text File<LineBreak />
                 LAS File<LineBreak />
-                SHP File</TextBlock>
+                SHP File<LineBreak />
+                Directories<LineBreak />
+            </TextBlock>
         </GroupBox>
         <TextBlock
             x:Name="versionNumber"

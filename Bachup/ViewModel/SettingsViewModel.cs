@@ -1,5 +1,6 @@
 ﻿using Bachup.Helpers;
 using Bachup.Model;
+using System;
 
 namespace Bachup.ViewModel
 {
@@ -254,6 +255,20 @@ namespace Bachup.ViewModel
             {
                 MainViewModel.Settings.ShowNotifications = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        public int CompressionLevel
+        {
+            get
+            {
+                return (int)MainViewModel.Settings.CompressionLevel;
+            }
+            set
+            {
+                MainViewModel.Settings.CompressionLevel = (CompressionLevel) value;
+                NotifyPropertyChanged();
+                MainViewModel.SaveSettings();
             }
         }
 

@@ -162,6 +162,13 @@ namespace Bachup.ViewModel
                             UseFileNameForBachup = _useFileNameForBachup
                         });
                         break;
+                    case BachupType.DIR:
+                        _bachupGroup.AddBachupItem(new BI_DIR(Name, Source, _bachupGroup.ID)
+                        {
+                            ZipBachup = _zipBachupItem,
+                            UseFileNameForBachup = _useFileNameForBachup
+                        });
+                        break;
                     case BachupType.NotSupported:
                         return;                       
                 }
@@ -244,8 +251,12 @@ namespace Bachup.ViewModel
 
         private BachupType GetBachupItemType()
         {
+            FileAttributes attr = File.GetAttributes(Source);
             string extension = Path.GetExtension(Source).Replace(".", "");
 
+            if ((attr & FileAttributes.Directory) == FileAttributes.Directory && extension != "gdb")
+                return BachupType.DIR;
+            
             switch (extension.ToLower())
             {
                 case "gdb":
