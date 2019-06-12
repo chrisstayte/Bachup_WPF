@@ -25,6 +25,7 @@ namespace Bachup.ViewModel
             ShowDestinationCommand = new RelayCommand(ShowDestination);
             RepairSourceCommand = new RelayCommand(RepairSource);
             SaveDataCommand = new RelayCommand(SaveData);
+            RefreshSizeCommand = new RelayCommand(RefreshSize);
 
 
             BachupItem = item;
@@ -293,6 +294,7 @@ namespace Bachup.ViewModel
         public RelayCommand ShowDestinationCommand { get; private set; }
         public RelayCommand RepairSourceCommand { get; private set; }
         public RelayCommand SaveDataCommand { get; private set; }
+        public RelayCommand RefreshSizeCommand { get; private set; }
 
         #region Events
 
@@ -402,6 +404,12 @@ namespace Bachup.ViewModel
         private void SaveData(object parameter)
         {
             MainViewModel.SaveData();
+        }
+
+        private void RefreshSize(object parameter)
+        {
+            BachupItem.GetSize();
+            NotifyPropertyChanged("SizeInMB");
         }
 
         #endregion

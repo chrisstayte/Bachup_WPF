@@ -99,7 +99,7 @@
         </Button>
         <TextBlock
             x:Name="BachupItemName"
-            Margin="10,10,116,12.333"
+            Margin="10,10,116,12"
             Style="{StaticResource MaterialDesignDisplay1TextBlock}"
             Text="{Binding BachupItem.Name}"
             TextWrapping="Wrap">
@@ -115,20 +115,25 @@
             Orientation="Horizontal">
             <materialDesign:Chip
                 x:Name="lastbachup"
+                Height="Auto"
                 Margin="0,0,8,-32"
+                Command="{Binding RefreshSizeCommand}"
                 Content="{Binding SizeInMB}"
+                Cursor=""
                 ToolTip="Source Size"
-                Visibility="{Binding Path=EnableShowSourceButton, Converter={StaticResource BoolToVis}}" Height="Auto">
+                Visibility="{Binding Path=EnableShowSourceButton, Converter={StaticResource BoolToVis}}">
                 <materialDesign:Chip.Icon>
                     <materialDesign:PackIcon Kind="Harddisk" />
                 </materialDesign:Chip.Icon>
             </materialDesign:Chip>
             <materialDesign:Chip
                 x:Name="lastbachup_Copy"
+                Height="Auto"
                 Margin="0,0,8,-32"
                 Content="{Binding BachupItem.LastBachup}"
+                Cursor=""
                 ToolTip="Last Bachup"
-                Visibility="{Binding BachupItem.ShowLastBachup, Converter={StaticResource BoolToVis}}" Height="Auto">
+                Visibility="{Binding BachupItem.ShowLastBachup, Converter={StaticResource BoolToVis}}">
                 <materialDesign:Chip.Icon>
                     <materialDesign:PackIcon Kind="Calendar" />
                 </materialDesign:Chip.Icon>
