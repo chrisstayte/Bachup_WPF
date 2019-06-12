@@ -315,7 +315,16 @@
                     IsChecked="{Binding DarkMode}"
                     RenderTransformOrigin="3.169,0.412"
                     Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
-                    ToolTip="Change Theme Lighting Schema" />
+                    ToolTip="Change Theme Lighting Schema">
+                    <materialDesign:PackIcon Kind="WeatherSunny" RenderTransformOrigin=".5,.5">
+                        <materialDesign:PackIcon.RenderTransform>
+                            <RotateTransform Angle="45" />
+                        </materialDesign:PackIcon.RenderTransform>
+                    </materialDesign:PackIcon>
+                    <materialDesign:ToggleButtonAssist.OnContent>
+                        <materialDesign:PackIcon Kind="NightSky" />
+                    </materialDesign:ToggleButtonAssist.OnContent>
+                </ToggleButton>
                 <TextBlock
                     x:Name="textBlock"
                     Width="44"

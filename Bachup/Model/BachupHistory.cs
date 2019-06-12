@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bachup.Model;
+using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -22,7 +24,7 @@ namespace Bachup.Model
 
         public BachupHistory()
         {
-
+            BachupDestinationStatus = new Dictionary<string, bool>();
         }
 
         private DateTime _bachupDateTime;
@@ -39,11 +41,65 @@ namespace Bachup.Model
             }
         }
 
-        private Dictionary<String, bool> _bachupDestinationStatus;
+        private Dictionary<string, bool> _bachupDestinationStatus;
         public Dictionary<String, bool> BachupDestinationStatus;
 
-        
+        private BachupHistoryType _type;
+        public BachupHistoryType Type
+        {
+            get { return _type; }
+            set
+            {
+                _type = value;
+                NotifyPropertyChanged();
+            }
+        }
 
+        private PackIconKind _icon;
+        public PackIconKind Icon
+        {
+            get
+            {
+                return _icon;
+            }
+            set
+            {
+                if (_icon != value)
+                {
+                    _icon = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public void GetStatus()
+        {
+            int good = 0;
+            int bad = 0;
+            int total = BachupDestinationStatus.Count;
+
+            foreach (bool status in BachupDestinationStatus.Values)
+            {
+                good = status ? good += 1 : good;
+                bad = status ? bad : bad += 1;
+            }
+
+            if (good == total)
+            {
+                Icon = PackIconKind.Check;
+                Type = BachupHistoryType.fullBachup;
+                return;
+            }
+
+            if (bad == total)
+            {
+                Icon = PackIconKind.CloseOctagonOutline;
+                Type = BachupHistoryType.failedBachup;
+                return;
+            }
+            Icon = PackIconKind.WarningOutline;
+            Type = BachupHistoryType.partialBachup;
+        }
 
     }
 }

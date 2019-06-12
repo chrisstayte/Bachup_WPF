@@ -9,8 +9,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Bachup.ViewModel"
     xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+    Height="950"
     Padding="0,0,0,50"
-    d:DesignHeight="1050"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -25,13 +25,47 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
+            <helpers:DateConverter x:Key="DateConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="1"
+            Height="43"
+            Margin="10,49,71,0"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <Button
+                Grid.Row="1"
+                Margin="0,0,8,0"
+                Command="{Binding RepairSourceCommand}"
+                Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                ToolTip="Repair Source"
+                Visibility="{Binding Path=BachupItem.SourceBroken, Converter={StaticResource BoolToVis}}">
+                <Button.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Red.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </Button.Resources>
+                <materialDesign:PackIcon Kind="ReportProblem" />
+            </Button>
+            <TextBlock
+                x:Name="textBlock1"
+                Grid.Row="1"
+                Width="85"
+                Height="20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource MaterialDesignSubheadingTextBlock}"
+                Text="Source Path"
+                TextWrapping="Wrap" />
+        </StackPanel>
         <Button
             Width="56"
             Margin="0,10,10,0"
@@ -63,30 +97,9 @@
                 Height="21"
                 Kind="Trash" />
         </Button>
-        <materialDesign:Chip
-            Grid.Row="1"
-            Width="138"
-            Margin="100,52,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Command="{Binding RepairSourceCommand}"
-            Content="Source Broken"
-            ToolTip="Repair Source"
-            Visibility="{Binding Path=EnableRepairSourceButton, Converter={StaticResource BoolToVis}}">
-            <materialDesign:Chip.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Red.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
-            </materialDesign:Chip.Resources>
-            <materialDesign:Chip.Icon>
-                <materialDesign:PackIcon Kind="ReportProblem" />
-            </materialDesign:Chip.Icon>
-        </materialDesign:Chip>
         <TextBlock
             x:Name="BachupItemName"
-            Margin="10,10,116,12.333"
+            Margin="10,10,116,12"
             Style="{StaticResource MaterialDesignDisplay1TextBlock}"
             Text="{Binding BachupItem.Name}"
             TextWrapping="Wrap">
@@ -96,42 +109,41 @@
                 </ContextMenu>
             </TextBlock.ContextMenu>
         </TextBlock>
-        <TextBlock
-            x:Name="lastbachup"
+        <StackPanel
             Grid.Row="1"
-            Height="17"
-            Margin="10,10,10,0"
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignBody1TextBlock}"
-            Text="{Binding SizeInMB}"
-            TextWrapping="Wrap"
-            Visibility="{Binding Path=EnableShowSourceButton, Converter={StaticResource BoolToVis}}" />
-        <TextBlock
-            x:Name="lastbachup_Copy"
-            Grid.Row="1"
-            Height="17"
-            Margin="10,27,10,0"
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignBody1TextBlock}"
-            Text="{Binding LastBachup}"
-            TextWrapping="Wrap"
-            Visibility="{Binding LastBachupVisible, Converter={StaticResource BoolToVis}}" />
-        <TextBlock
-            x:Name="textBlock1"
-            Grid.Row="1"
-            Width="85"
-            Height="20"
-            Margin="10,58,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignSubheadingTextBlock}"
-            Text="Source Path"
-            TextWrapping="Wrap" />
+            Margin="10,10,10,888"
+            Orientation="Horizontal">
+            <materialDesign:Chip
+                x:Name="lastbachup"
+                Height="Auto"
+                Margin="0,0,8,-32"
+                Command="{Binding RefreshSizeCommand}"
+                Content="{Binding SizeInMB}"
+                Cursor=""
+                ToolTip="Source Size"
+                Visibility="{Binding Path=EnableShowSourceButton, Converter={StaticResource BoolToVis}}">
+                <materialDesign:Chip.Icon>
+                    <materialDesign:PackIcon Kind="Harddisk" />
+                </materialDesign:Chip.Icon>
+            </materialDesign:Chip>
+            <materialDesign:Chip
+                x:Name="lastbachup_Copy"
+                Height="Auto"
+                Margin="0,0,8,-32"
+                Content="{Binding BachupItem.LastBachup}"
+                Cursor=""
+                ToolTip="Last Bachup"
+                Visibility="{Binding BachupItem.ShowLastBachup, Converter={StaticResource BoolToVis}}">
+                <materialDesign:Chip.Icon>
+                    <materialDesign:PackIcon Kind="Calendar" />
+                </materialDesign:Chip.Icon>
+            </materialDesign:Chip>
+        </StackPanel>
         <TextBox
             x:Name="textBox"
             Grid.Row="1"
             Height="23"
-            Margin="10,92,71,0"
+            Margin="10,97,71,0"
             VerticalAlignment="Top"
             IsReadOnly="True"
             Text="{Binding BachupItem.Source}"
@@ -182,8 +194,8 @@
         <GroupBox
             x:Name="destinationGroupBox"
             Grid.Row="1"
-            Height="200"
-            Margin="10,133,71,0"
+            Height="208"
+            Margin="10,125,71,0"
             VerticalAlignment="Top"
             Header="Destinations">
             <GroupBox.HeaderTemplate>
@@ -231,10 +243,42 @@
                     </StackPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
-            <ListBox
-                x:Name="BachupHistoryGroupBox"
-                Margin="0,0,0,2"
-                ItemsSource="{Binding BachupItem.BachupHistory}" />
+            <ScrollViewer Margin="0,0,0,2" VerticalScrollBarVisibility="Auto">
+                <ItemsControl Background="Transparent" ItemsSource="{Binding BachupItem.BachupHistory}">
+                    <ItemsControl.ToolTip>
+                        <ToolTip DataContext="{Binding Path=PlacementTarget.Parent, RelativeSource={x:Static RelativeSource.Self}}">
+                            <TextBlock Text="HI" />
+                        </ToolTip>
+                    </ItemsControl.ToolTip>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Padding="8"
+                                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                BorderThickness="0,0,0,1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon
+                                        Grid.Column="0"
+                                        Width="24"
+                                        Height="24"
+                                        Margin="0,0,10,0"
+                                        Kind="{Binding Icon}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding BachupDateTime}"
+                                        TextAlignment="Left" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </GroupBox>
         <TextBlock
             x:Name="textBlock"
@@ -341,8 +385,8 @@
             Visibility="{Binding Source={x:Static vm:MainViewModel.Settings}, Path=Beta, Converter={StaticResource BoolToVis}}" />
         <WrapPanel
             Grid.Row="1"
-            Height="46"
-            Margin="10,790.667,10,0"
+            Height="31"
+            Margin="10,791,10,0"
             VerticalAlignment="Top"
             Orientation="Horizontal"
             Visibility="{Binding Source={x:Static vm:MainViewModel.Settings}, Path=Beta, Converter={StaticResource BoolToVis}}">
@@ -416,8 +460,5 @@
                 </Binding>
             </materialDesign:TimePicker.Text>
         </materialDesign:TimePicker>
-
-
-
     </Grid>
 </UserControl>

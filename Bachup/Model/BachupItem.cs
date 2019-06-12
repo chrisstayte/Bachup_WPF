@@ -10,6 +10,9 @@ using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Diagnostics;
+using Bachup.Model;
+using Bachup.Helpers;
 
 namespace Bachup.Model
 {
@@ -32,8 +35,6 @@ namespace Bachup.Model
                 { Weekdays.Friday, false },
                 { Weekdays.Saturday, false }
             };
-
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -171,8 +172,8 @@ namespace Bachup.Model
             }
         }
 
-        private ObservableCollection<DateTime> _bachupHistory;
-        public ObservableCollection<DateTime> BachupHistory
+        private ObservableCollection<BachupHistory> _bachupHistory;
+        public ObservableCollection<BachupHistory> BachupHistory
         {
             get
             {
@@ -259,6 +260,34 @@ namespace Bachup.Model
             }
         }
 
+        private bool _sourceBroken;
+        public bool SourceBroken
+        {
+            get { return _sourceBroken; }
+            set
+            {
+                if (_sourceBroken != value)
+                {
+                    _sourceBroken = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private bool _showLastBachup;
+        public bool ShowLastBachup
+        {
+            get { return _showLastBachup; }
+            set
+            {
+                if (_showLastBachup != value)
+                {
+                    _showLastBachup = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         #region Methods
 
         /// <summary>
@@ -281,14 +310,27 @@ namespace Bachup.Model
         }
 
         internal async Task<bool> CheckDestinationsConnection(bool promptWithDialogToContinue)
-        {
-            bool missingDestination = false;
+        { 
+            int missingDestinations = 0;
 
             foreach (string destination in Destinations)
                 if (!System.IO.Directory.Exists(destination))
-                    missingDestination = true;
+                {
+                    missingDestinations++;
+                }
+                    
 
-            if (missingDestination)
+            if (missingDestinations == Destinations.Count())
+            {
+                var view = new AlertView
+                { 
+                    DataContext = new AlertViewModel("All destinations are missing. Add a destination.")
+                };
+                await DialogHost.Show(view, "RootDialog");
+                return false;
+            }
+
+            if (missingDestinations > 0)
             {
                 var view = new ConfirmChoiceView
                 {
@@ -298,7 +340,8 @@ namespace Bachup.Model
                 return (bool)await DialogHost.Show(view, "RootDialog");
             }
 
-            bool unauthorizedAccessDestinations = false;
+            int brokenDestinaitons = 0;
+
             foreach (var tempFile in from string destination in Destinations
                                      let tempFile = Path.Combine(destination, "bachup.tmp")
                                      select tempFile)
@@ -316,16 +359,28 @@ namespace Bachup.Model
                     }
                     else
                     {
-                        unauthorizedAccessDestinations = true;
+                        brokenDestinaitons++;
                     }
                 }
                 catch
                 {
-                    unauthorizedAccessDestinations = true;
+                    brokenDestinaitons++;
                 }
             }
 
-            if (unauthorizedAccessDestinations)
+
+
+            if (brokenDestinaitons == Destinations.Count())
+            {
+                var view = new AlertView
+                {
+                    DataContext = new AlertViewModel("All destinations are broken. Add a destination.")
+                };
+                await DialogHost.Show(view, "RootDialog");
+                return false;
+            }
+
+            if (brokenDestinaitons > 0)
             {
                 var view = new ConfirmChoiceView
                 {
@@ -480,51 +535,87 @@ namespace Bachup.Model
             {
                 if (await CheckDestinationsConnection(true))
                 {
+                    if (BachupHistory == null)
+                        BachupHistory = new ObservableCollection<BachupHistory>();
+
                     CopyBachupItemView view = new CopyBachupItemView()
                     {
                         DataContext = new CopyBachupItemViewModel()
                     };
 
+                    BachupHistory bachupHistory = new BachupHistory();
+
                     await DialogHost.Show(view, "RootDialog", new DialogOpenedEventHandler(async (object sender, DialogOpenedEventArgs args) =>
-                    {
+                    {                       
                         DialogSession session = args.Session;
 
-                        if (ZipBachup)
-                            await Task.Run((Action)CopyDataWithZip);
-                        else
-                            await Task.Run((Action)CopyData);
+                        foreach (string destination in Destinations)
+                        {
+                            if (!Directory.Exists(destination))
+                            {
+                                bachupHistory.BachupDestinationStatus.Add(destination, false);
+                                continue;
+                            }
+
+                            bool success = false;
+
+                            if (ZipBachup)
+                                await Task.Run(() => {
+                                    success = CopyDataWithZip(destination);
+                                });
+                            else
+                            {
+                                await Task.Run(() => {
+                                    success = CopyData(destination);
+                                });
+                            }
+                            bachupHistory.BachupDestinationStatus.Add(destination, success);                                
+                        }
+
+                        bachupHistory.GetStatus();
+                        DateTime completedDateTime = DateTime.Now;
+
+                        bachupHistory.BachupDateTime = completedDateTime;
+                        LastBachup = completedDateTime;
+                        BachupHistory.Insert(0, bachupHistory);
 
                         session.Close();
                     }));
-
-                    DateTime completedDateTime = DateTime.Now;
-                    LastBachup = completedDateTime;
-
-                    if (BachupHistory == null)
-                        BachupHistory = new ObservableCollection<DateTime>();
-
-                    // TODO: BETA
+                  
                     if (MainViewModel.Settings.ShowNotifications)
                     {
-                        MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
+                        switch (bachupHistory.Type)
+                        {
+                            case BachupHistoryType.noHistory:
+                                break;
+                            case BachupHistoryType.fullBachup:
+                                MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
+                                ShowLastBachup = true;
+                                break;
+                            case BachupHistoryType.partialBachup:
+                                MainViewModel.ShowMessage("Bached Up", $"{Name} is partially Bached Up", Notifications.Wpf.NotificationType.Warning);
+                                ShowLastBachup = true;
+                                break;
+                            case BachupHistoryType.failedBachup:
+                                MainViewModel.ShowMessage("Bached Up", $"{Name} Failed To Bachup", Notifications.Wpf.NotificationType.Error);
+                                break;
+                        }                       
                     }
-
-                    BachupHistory.Insert(0, completedDateTime);
-
-                    MainViewModel.SaveData();
+                    MainViewModel.SaveData();   
                 }
             }
         }
 
         public bool CheckSourceExistence()
         {
-            return !(!Directory.Exists(Source) ^ File.Exists(Source));
+            SourceBroken = (!Directory.Exists(Source) ^ File.Exists(Source));
+            return !SourceBroken;
         }
 
         // These are custom to each type. Each subtype will need to override these methods and implement a custom version
         public abstract bool IsFileLocked();
-        public abstract void CopyData();
-        public abstract void CopyDataWithZip();
+        public abstract bool CopyData(string destination);
+        public abstract bool CopyDataWithZip(string destination);
         public abstract void RepairSource();
         public abstract void GetSize();
 

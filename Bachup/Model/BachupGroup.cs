@@ -56,6 +56,8 @@ namespace Bachup.Model
             get { return _isExpanded; }
             set
             {
+                foreach (BachupItem bi in BachupItems)
+                    bi.CheckSourceExistence();
                 _isExpanded = value;
                 NotifyPropertyChanged();
             }
@@ -104,8 +106,8 @@ namespace Bachup.Model
         {
             string extension = Path.GetExtension(Source);
 
-            if (Enum.IsDefined(typeof(BachupType), extension.ToUpper()))
-                return (BachupType)Enum.Parse(typeof(BachupType), extension.ToUpper());
+            if (System.Enum.IsDefined(typeof(BachupType), extension.ToUpper()))
+                return (BachupType)System.Enum.Parse(typeof(BachupType), extension.ToUpper());
             else
             {
                 return BachupType.NotSupported;

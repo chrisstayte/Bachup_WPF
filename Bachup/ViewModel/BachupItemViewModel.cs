@@ -3,9 +3,11 @@ using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bachup.ViewModel
 {
@@ -23,14 +25,16 @@ namespace Bachup.ViewModel
             ShowDestinationCommand = new RelayCommand(ShowDestination);
             RepairSourceCommand = new RelayCommand(RepairSource);
             SaveDataCommand = new RelayCommand(SaveData);
+            RefreshSizeCommand = new RelayCommand(RefreshSize);
 
 
             BachupItem = item;
             EnableDeleteButton = false;
 
             ValidateSource();
-            ShowLastBachup();
             BachupItem.GetSize();
+
+            //RefreshHistory();
         }
 
         private BachupItem _bachupItem;
@@ -44,20 +48,11 @@ namespace Bachup.ViewModel
             }
         }
 
-
-        public string LastBachup
-        {
-            get
-            {
-                return String.Format("Last Bachup: {0}", BachupItem.LastBachup);
-            }
-        }
-
         public string SizeInMB
         {
             get
             {
-                return String.Format("Size: {0} mb", Math.Round(BachupItem.SizeInMB, 2));
+                return String.Format("{0} mb", Math.Round(BachupItem.SizeInMB, 2));
             }
         }
 
@@ -128,17 +123,6 @@ namespace Bachup.ViewModel
             set
             {
                 _enableDeleteButton = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private bool _enableRepairSourceButton;
-        public bool EnableRepairSourceButton
-        {
-            get { return _enableRepairSourceButton; }
-            set
-            {
-                _enableRepairSourceButton = value;
                 NotifyPropertyChanged();
             }
         }
@@ -310,6 +294,7 @@ namespace Bachup.ViewModel
         public RelayCommand ShowDestinationCommand { get; private set; }
         public RelayCommand RepairSourceCommand { get; private set; }
         public RelayCommand SaveDataCommand { get; private set; }
+        public RelayCommand RefreshSizeCommand { get; private set; }
 
         #region Events
 
@@ -395,8 +380,7 @@ namespace Bachup.ViewModel
         private void RunBachup(object parameter)
         {
             _bachupItem.RunBachup();
-            ShowLastBachup();
-            NotifyPropertyChanged("LastBachup");
+            
             ValidateSource();             
         }
 
@@ -422,20 +406,20 @@ namespace Bachup.ViewModel
             MainViewModel.SaveData();
         }
 
+        private void RefreshSize(object parameter)
+        {
+            BachupItem.GetSize();
+            NotifyPropertyChanged("SizeInMB");
+        }
+
         #endregion
 
         #region Methods
 
         private void ValidateSource()
         {
-            EnableRepairSourceButton = !BachupItem.CheckSourceExistence();
-            EnableShowSourceButton = BachupItem.CheckSourceExistence();
-        }
-
-        private void ShowLastBachup()
-        {
-            bool result = BachupItem.LastBachup.Year > 2000;
-            LastBachupVisible = result;
+            BachupItem.CheckSourceExistence();
+            EnableShowSourceButton = !BachupItem.SourceBroken;
         }
 
         #endregion

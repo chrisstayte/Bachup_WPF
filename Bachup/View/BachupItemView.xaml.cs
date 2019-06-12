@@ -24,6 +24,5 @@ namespace Bachup.View
         {
             InitializeComponent();
         }
-
     }
 }
