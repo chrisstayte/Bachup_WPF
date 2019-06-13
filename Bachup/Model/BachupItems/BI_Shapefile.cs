@@ -1,4 +1,5 @@
 ﻿using Bachup.Model;
+using Bachup.ViewModel;
 using Ionic.Zip;
 using System;
 using System.Collections.Generic;
@@ -68,9 +69,20 @@ namespace Bachup.Model.BachupItems
                 {
                     string zippedBachupLoction = Path.Combine(bachupLocation, fileName + ".zip");
 
-                    zip.CompressionLevel = Ionic.Zlib.CompressionLevel.BestCompression;
+                switch (MainViewModel.Settings.CompressionLevel)
+                {
+                    case CompressionLevel.Compression:
+                        zip.CompressionLevel = Ionic.Zlib.CompressionLevel.BestCompression;
+                        break;
+                    case CompressionLevel.Speed:
+                        zip.CompressionLevel = Ionic.Zlib.CompressionLevel.BestSpeed;
+                        break;
+                    case CompressionLevel.Default:
+                        zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
+                        break;
+                }
 
-                    foreach (string extension in extensions)
+                foreach (string extension in extensions)
                     {
                         string sourceFile = Path.Combine(sourceFolder, String.Format("{0}.{1}", fileName, extension));
                         if (File.Exists(sourceFile))

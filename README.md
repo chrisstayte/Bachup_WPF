@@ -24,7 +24,15 @@ This tool was created to make it eaiser to bachup data.
 ![alt MainApp](Images/MainProgram.PNG)
 
 #### Settings
-![alt MainApp](Images/Settings.PNG)
+![alt Settings](Images/Settings.PNG)
+
+#### Bachup Item View
+![alt Bachup Item View](Images/BachupItemView.PNG)
+
+#### Custom Themes
+![alt Custom Themes](Images/CustomThemes.gif)
+
+####
 
 
 Copyright 2019 Chris Stayte

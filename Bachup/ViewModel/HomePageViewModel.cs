@@ -12,11 +12,11 @@ namespace Bachup.ViewModel
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             //VersionNumber = String.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
-            VersionNumber = String.Format("Version {0}.{1}", version.Major, version.Minor);
+            VersionNumber = String.Format("Version {0}.{1}.{2}", version.Major, version.Minor, version.MajorRevision);
 
-            ShowMySiteCommand = new RelayCommand(ShowMySite );
+            ShowMySiteCommand = new RelayCommand(ShowMySite);
 
-            WelcomeMessage = String.Format("Welcome {0}", Environment.UserName);
+            WelcomeMessage = String.Format("Welcome {0}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Environment.UserName.ToString().ToLower()));
         }
 
         private string _message;

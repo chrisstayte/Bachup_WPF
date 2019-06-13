@@ -134,6 +134,23 @@ namespace Bachup.Model
             }
         }
 
+        private CompressionLevel _compressionLevel;
+        public CompressionLevel CompressionLevel
+        {
+            get
+            {
+                return _compressionLevel;
+            }
+            set
+            {
+                if (_compressionLevel != value)
+                {
+                    _compressionLevel = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         #region Methods
 
         public void ExpandAll(bool expand)

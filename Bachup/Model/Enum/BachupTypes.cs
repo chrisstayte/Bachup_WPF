@@ -6,6 +6,7 @@
         GDB,
         TXT,
         LAS,
-        SHP
+        SHP,
+        DIR
     }
 }
