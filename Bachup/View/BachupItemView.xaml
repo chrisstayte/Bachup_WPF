@@ -244,12 +244,7 @@
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
             <ScrollViewer Margin="0,0,0,2" VerticalScrollBarVisibility="Auto">
-                <ItemsControl Background="Transparent" ItemsSource="{Binding BachupItem.BachupHistory}">
-                    <ItemsControl.ToolTip>
-                        <ToolTip DataContext="{Binding Path=PlacementTarget.Parent, RelativeSource={x:Static RelativeSource.Self}}">
-                            <TextBlock Text="HI" />
-                        </ToolTip>
-                    </ItemsControl.ToolTip>
+                <ItemsControl ItemsSource="{Binding BachupItem.BachupHistory}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border
@@ -266,7 +261,11 @@
                                         Width="24"
                                         Height="24"
                                         Margin="0,0,10,0"
-                                        Kind="{Binding Icon}" />
+                                        Kind="{Binding Icon}">
+                                        <materialDesign:PackIcon.ToolTip>
+                                            <ToolTip Content="HI" />
+                                        </materialDesign:PackIcon.ToolTip>
+                                    </materialDesign:PackIcon>
                                     <TextBlock
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
