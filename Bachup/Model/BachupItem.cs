@@ -83,8 +83,11 @@ namespace Bachup.Model
             get { return _name; }
             set
             {
-                _name = value;
-                NotifyPropertyChanged();
+                if (_name != value)
+                {
+                    _name = value;
+                    NotifyPropertyChanged();
+                }    
             }
         }
 
@@ -462,7 +465,6 @@ namespace Bachup.Model
                 await DialogHost.Show(view, "RootDialog");
                 return false;
             }
-
 
             if (Destinations.Count <= 0)
             {

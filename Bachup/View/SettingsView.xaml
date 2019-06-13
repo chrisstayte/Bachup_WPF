@@ -447,7 +447,7 @@
                         VerticalAlignment="Center"
                         SelectedIndex="{Binding CompressionLevel}">
                         <ComboBoxItem>
-                            Default
+                            Auto
                         </ComboBoxItem>
                         <ComboBoxItem>
                             Faster
@@ -455,9 +455,7 @@
                         <ComboBoxItem>
                             Smaller File Size
                         </ComboBoxItem>
-
                     </ComboBox>
-
                 </Grid>
                 <TextBlock
                     x:Name="versionNumber"

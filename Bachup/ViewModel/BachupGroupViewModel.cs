@@ -4,6 +4,9 @@ using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
 using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows.Controls;
 
 namespace Bachup.ViewModel
 {
@@ -15,6 +18,8 @@ namespace Bachup.ViewModel
             DeleteBachupGroupCommand = new RelayCommand(DeleteBachupGroup);
             AddBachupItemCommand = new RelayCommand(AddBachupItem);
             CloseMessageCommand = new RelayCommand(CloseMessage);
+            CellEditedCommand = new RelayCommand(CellEdited);
+            CellValueChangedCommand = new RelayCommand(CellValueChanged);
 
             _bachupGroup = BachupGroupInput;
 
@@ -22,6 +27,9 @@ namespace Bachup.ViewModel
 
             UpdateView();
         }
+
+        // This Is For DataGrid Editing
+        private string _oldValue;
 
         private BachupGroup _bachupGroup;
         public BachupGroup BachupGroup
@@ -81,6 +89,8 @@ namespace Bachup.ViewModel
         public RelayCommand DeleteBachupGroupCommand { get; private set; }
         public RelayCommand AddBachupItemCommand { get; private set; }
         public RelayCommand CloseMessageCommand { get; private set; }
+        public RelayCommand CellEditedCommand { get; private set; }
+        public RelayCommand CellValueChangedCommand { get; private set; }
 
         #region Events
 
@@ -128,6 +138,55 @@ namespace Bachup.ViewModel
         private void CloseMessage(object o)
         {
             ShowMessage = false;
+        }
+
+        private async void CellEdited(object o)
+        {
+            DataGridCellEditEndingEventArgs args = o as DataGridCellEditEndingEventArgs;
+            BachupItem bachupItem = (args.EditingElement.DataContext as BachupItem);
+            string newValue = bachupItem.Name;
+            bachupItem.Name = _oldValue;
+
+            if (_oldValue == newValue)
+                return;
+
+            BachupGroup bg = MainViewModel.Bachup.FirstOrDefault(item => item.ID == bachupItem.BachupGroupID);
+
+            if (bg.DoesItemExist(newValue))
+            {
+                var view = new AlertView
+                {
+                    DataContext = new AlertViewModel("Name Exists In This Group")
+                };
+                await DialogHost.Show(view, "RootDialog");
+                (args.EditingElement as TextBox).Text = _oldValue;
+                return;
+
+            }
+
+            if (String.IsNullOrEmpty(newValue) || string.IsNullOrWhiteSpace(newValue))
+            {
+                var view = new AlertView
+                {
+                    DataContext = new AlertViewModel("It Must Have A Name")
+                };
+                await DialogHost.Show(view, "RootDialog");
+                (args.EditingElement as TextBox).Text = _oldValue;
+                return;
+            }
+
+            bachupItem.Name = newValue;
+            (args.EditingElement as TextBox).Text = newValue;
+            MainViewModel.SaveData();
+
+        }
+
+        private void CellValueChanged(object o)
+        {
+            DataGridPreparingCellForEditEventArgs args = o as DataGridPreparingCellForEditEventArgs;
+            BachupItem bachupItem = (args.EditingElement.DataContext as BachupItem);
+            _oldValue = bachupItem.Name;
+
         }
 
         #endregion
