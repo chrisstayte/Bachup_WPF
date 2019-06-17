@@ -79,5 +79,10 @@ namespace Bachup.View
             Environment.Exit(0);
         }
 
+        public void ExitApplication()
+        {
+            base.Close();
+        }
+
     }
 }

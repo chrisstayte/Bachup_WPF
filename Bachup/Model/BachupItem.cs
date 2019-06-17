@@ -13,6 +13,7 @@ using System.Linq;
 using System.Diagnostics;
 using Bachup.Model;
 using Bachup.Helpers;
+using Newtonsoft.Json;
 
 namespace Bachup.Model
 {
@@ -286,6 +287,21 @@ namespace Bachup.Model
                 if (_showLastBachup != value)
                 {
                     _showLastBachup = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private bool _runningBachup;
+        [JsonIgnore]
+        public bool RunningBachup
+        {
+            get { return _runningBachup; }
+            set
+            {
+                if (_runningBachup != value)
+                {
+                    _runningBachup = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -604,6 +620,79 @@ namespace Bachup.Model
                         }                       
                     }
                     MainViewModel.SaveData();   
+                }
+            }
+        }
+
+        public async void RunBachupBeta()
+        {
+            if (await CheckRequirements())
+            {
+                if (await CheckDestinationsConnection(true))
+                {
+                    RunningBachup = true;
+
+                    if (BachupHistory == null)
+                    {
+                        BachupHistory = new ObservableCollection<BachupHistory>();
+                    }
+                    BachupHistory bachupHistory = new BachupHistory();
+
+                    foreach (string destination in Destinations)
+                    {
+                        if (!Directory.Exists(destination))
+                        {
+                            bachupHistory.BachupDestinationStatus.Add(destination, false);
+                            continue;
+                        }
+
+                        bool success = false;
+
+                        if (ZipBachup)
+                        {
+                            await (Task.Run(() => {
+                                success = CopyDataWithZip(destination);
+                            }));
+                        }
+                        else
+                        {
+                            await (Task.Run(() =>
+                            {
+                                success = CopyData(destination);
+                            }));
+                        }
+                        bachupHistory.BachupDestinationStatus.Add(destination, success);
+                    }
+
+                    bachupHistory.GetStatus();
+                    DateTime completedDateTime = DateTime.Now;
+
+                    bachupHistory.BachupDateTime = completedDateTime;
+                    LastBachup = completedDateTime;
+                    BachupHistory.Insert(0, bachupHistory);
+                    
+
+                    if (MainViewModel.Settings.ShowNotifications)
+                    {
+                        switch (bachupHistory.Type)
+                        {
+                            case BachupHistoryType.noHistory:
+                                break;
+                            case BachupHistoryType.fullBachup:
+                                MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
+                                ShowLastBachup = true;
+                                break;
+                            case BachupHistoryType.partialBachup:
+                                MainViewModel.ShowMessage("Bached Up", $"{Name} is partially Bached Up", Notifications.Wpf.NotificationType.Warning);
+                                ShowLastBachup = true;
+                                break;
+                            case BachupHistoryType.failedBachup:
+                                MainViewModel.ShowMessage("Bached Up", $"{Name} Failed To Bachup", Notifications.Wpf.NotificationType.Error);
+                                break;
+                        }
+                    }
+                    RunningBachup = false;
+                    MainViewModel.SaveData();
                 }
             }
         }

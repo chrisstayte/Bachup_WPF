@@ -32,6 +32,9 @@ This tool was created to make it eaiser to bachup data.
 #### Custom Themes
 ![alt Custom Themes](Images/CustomThemes.gif)
 
+#### Running A Bachup
+![alt Running A Bachup](Images/RunningBachup.gif)
+
 ####
 
 
