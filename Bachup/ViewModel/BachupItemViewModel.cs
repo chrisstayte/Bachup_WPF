@@ -56,45 +56,6 @@ namespace Bachup.ViewModel
             }
         }
 
-        private bool _isSaving;
-        public bool IsSaving
-        {
-            get { return _isSaving; }
-            set
-            {
-                if (_isSaving != value)
-                {
-                    _isSaving = value;
-                    NotifyPropertyChanged();
-                }               
-            }
-        }
-
-        private double _saveProgress;
-        public double SaveProgress
-        {
-            get { return _saveProgress; }
-            set
-            {
-                if (_saveProgress != value)
-                {
-                    _saveProgress = value;
-                    NotifyPropertyChanged();
-                }              
-            }
-        }
-
-        private bool _isSaveComplete;
-        public bool IsSaveComplete
-        {
-            get { return _isSaveComplete; }
-            set
-            {
-                _isSaveComplete = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         private string _selectedDestination;
         public String SelectedDestination
         {
@@ -300,32 +261,43 @@ namespace Bachup.ViewModel
 
         private async void DeleteDestination(object parameter)
         {
-            string message = String.Format("Delete Destination?");
-            string submessage = String.Format("{0}", SelectedDestination);
-
-            var view = new ConfirmChoiceView
+            if (!BachupItem.RunningBachup)
             {
-                DataContext = new ConfirmChoiceViewModel(message, submessage)
-            };
+                string message = String.Format("Delete Destination?");
+                string submessage = String.Format("{0}", SelectedDestination);
 
-            var choice = await DialogHost.Show(view, "RootDialog");
+                var view = new ConfirmChoiceView
+                {
+                    DataContext = new ConfirmChoiceViewModel(message, submessage)
+                };
 
-            if ((bool)choice)
-            {
-                _bachupItem.DeleteDestination(_selectedDestination);
-                MainViewModel.SaveData();
-                EnableDeleteButton = false;
+                var choice = await DialogHost.Show(view, "RootDialog");
+
+                if ((bool)choice)
+                {
+                    _bachupItem.DeleteDestination(_selectedDestination);
+                    MainViewModel.SaveData();
+                    EnableDeleteButton = false;
+                }
             }
+            // TODO: Show Notification
+            
+            
         }
 
         private async void AddDestination(object parameter)
         {
-            var view = new AddDestinationView
+            if (!BachupItem.RunningBachup)
             {
-                DataContext = new AddDestinationViewModel(_bachupItem)
-            };
+                var view = new AddDestinationView
+                {
+                    DataContext = new AddDestinationViewModel(_bachupItem)
+                };
 
-            await DialogHost.Show(view, "RootDialog");
+                await DialogHost.Show(view, "RootDialog");
+            }
+            // TODO: Show Notification
+            
         }
 
         private void ShowSource(object parameter)
@@ -349,39 +321,60 @@ namespace Bachup.ViewModel
 
         private async void DeleteBachup(object parameter)
         {
-            string message = String.Format("Delete {0}", _bachupItem.Name);
-            string submessage = String.Format("This is not reversable. You will lose this bachup item and its history. Source files will remain in place.");
-
-            var view = new ConfirmChoiceView
+            if (!BachupItem.RunningBachup)
             {
-                DataContext = new ConfirmChoiceViewModel(message, submessage)
-            };
+                string message = String.Format("Delete {0}", _bachupItem.Name);
+                string submessage = String.Format("This is not reversable. You will lose this bachup item and its history. Source files will remain in place.");
 
-            var choice = await DialogHost.Show(view, "RootDialog");
+                var view = new ConfirmChoiceView
+                {
+                    DataContext = new ConfirmChoiceViewModel(message, submessage)
+                };
 
-            if ((bool)choice == true)
-            {
-                BachupGroup bg = Bachup.ViewModel.MainViewModel.Bachup.Where(o => o.ID.Equals(_bachupItem.BachupGroupID)).Single();
-                bg.RemoveBachupItem(_bachupItem);
-                MainViewModel.SaveData();
+                var choice = await DialogHost.Show(view, "RootDialog");
+
+                if ((bool)choice == true)
+                {
+                    BachupGroup bg = Bachup.ViewModel.MainViewModel.Bachup.Where(o => o.ID.Equals(_bachupItem.BachupGroupID)).Single();
+                    bg.RemoveBachupItem(_bachupItem);
+                    MainViewModel.SaveData();
+                }
             }
+            
+            // TODO: Show Notification
         }
 
         private async void EditBachupItem(object parameter)
         {
-            var view = new EditBachupItemView
+            if (!BachupItem.RunningBachup)
             {
-                DataContext = new EditBachupItemViewModel(_bachupItem)
-            };
+                var view = new EditBachupItemView
+                {
+                    DataContext = new EditBachupItemViewModel(_bachupItem)
+                };
 
-            await DialogHost.Show(view, "RootDialog");
+                await DialogHost.Show(view, "RootDialog");
+            }
+            // TODO: Show Notification
+
         }
 
         private void RunBachup(object parameter)
         {
-            _bachupItem.RunBachup();
+
+            if (MainViewModel.Settings.Beta)
+            {
+                if (!BachupItem.RunningBachup)
+                {
+                    _bachupItem.RunBachupBeta();
+                }
+            }
+            else
+            {
+                _bachupItem.RunBachup();
+            }
             
-            ValidateSource();             
+            ValidateSource();
         }
 
         private void ShowDestination(object parameter)

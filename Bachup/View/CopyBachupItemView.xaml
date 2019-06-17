@@ -1,15 +1,21 @@
-﻿<UserControl x:Class="Bachup.View.CopyBachupItemView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Bachup.View"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             mc:Ignorable="d" Height="40" Width="40">
+﻿<UserControl
+    x:Class="Bachup.View.CopyBachupItemView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:local="clr-namespace:Bachup.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="40"
+    Height="40"
+    mc:Ignorable="d">
     <Grid>
-        <ProgressBar Width="24" Height="24"
-                 Style="{DynamicResource MaterialDesignCircularProgressBar}"
-                 IsIndeterminate="True"
-                 Value="33" Margin="8"/>
+        <ProgressBar
+            Width="24"
+            Height="24"
+            Margin="8"
+            IsIndeterminate="True"
+            Style="{DynamicResource MaterialDesignCircularProgressBar}"
+            Value="33" />
     </Grid>
 </UserControl>

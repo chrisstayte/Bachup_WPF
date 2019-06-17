@@ -25,7 +25,7 @@ namespace Bachup.ViewModel
             ShowSettingsCommand = new RelayCommand(ShowSettings);
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             ViewHomeCommand = new RelayCommand(ViewHome);
-            RenameBachupItemCommand = new RelayCommand(RenameBachupItem);
+            CloseCommand = new RelayCommand(Close);
 
             Settings = new Settings();
 
@@ -55,6 +55,8 @@ namespace Bachup.ViewModel
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             VersionNumber = $"Version {version.Major}.{version.Minor}";
+
+            MessageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
 
             //CheckForUpdates();
         }
@@ -160,6 +162,19 @@ namespace Bachup.ViewModel
             }
         }
 
+        private  SnackbarMessageQueue _messageQueue;
+        public  SnackbarMessageQueue MessageQueue
+        {
+            get { return _messageQueue; }
+            set
+            {
+                if (_messageQueue != value)
+                {
+                    _messageQueue = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         // Relay Commands
         public RelayCommand AddBachupGroupCommand { get; private set; }
@@ -167,7 +182,7 @@ namespace Bachup.ViewModel
         public RelayCommand ShowSettingsCommand { get; private set; }
         public RelayCommand SaveSettingsCommand { get; private set; }
         public RelayCommand ViewHomeCommand { get; private set; }
-        public RelayCommand RenameBachupItemCommand {get; private set;}
+        public RelayCommand CloseCommand { get; private set; }
 
         #region Events
 
@@ -215,9 +230,21 @@ namespace Bachup.ViewModel
             SaveSettings();
         }
 
-        private void RenameBachupItem(object o)
+        private async void Close(object o)
         {
-            Debug.WriteLine("IT WORKS");
+            if (IsBachupRunning())
+            {
+                var view = new ConfirmChoiceView
+                {
+                    DataContext = new ConfirmChoiceViewModel("Careful There",
+                    "There are still some bachup items running. Are you sure you want to exit?")
+                };
+                if (!(bool)await DialogHost.Show(view, "RootDialog"))
+                {
+                    return;
+                }
+            }
+            ((MainView)o).ExitApplication();
         }
 
         #endregion
@@ -378,6 +405,19 @@ namespace Bachup.ViewModel
                 Message = message,
                 Type = type
             });
+        }
+
+        public bool IsBachupRunning()
+        {
+            foreach (BachupGroup bg in Bachup)
+            {
+                foreach (BachupItem bi in bg.BachupItems)
+                {
+                    if (bi.RunningBachup)
+                        return true;
+                }
+            }
+            return false;
         }
 
         #endregion

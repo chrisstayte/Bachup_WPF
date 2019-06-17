@@ -9,8 +9,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Bachup.ViewModel"
     xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
-    Height="950"
     Padding="0,0,0,50"
+    d:DesignHeight="950"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -26,9 +26,13 @@
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
             <helpers:DateConverter x:Key="DateConverter" />
+            <helpers:BooleanInverter x:Key="BooleanInverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -71,25 +75,37 @@
             Margin="0,10,10,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
+            materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding BachupItem.RunningBachup}"
+            materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding BachupItem.RunningBachup}"
+            materialDesign:ButtonProgressAssist.Value="-1"
             Background="#43a047"
             BorderBrush="#43a047"
             Command="{Binding RunBachupCommand}"
             Style="{StaticResource MaterialDesignFloatingActionButton}"
             ToolTip="Run Bachup"
             ToolTipService.Placement="Bottom">
-            <materialDesign:PackIcon
-                Width="32"
-                Height="32"
-                Kind="Play" />
+            <materialDesign:PackIcon Width="32" Height="32">
+                <materialDesign:PackIcon.Style>
+                    <Style BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}" TargetType="materialDesign:PackIcon">
+                        <Setter Property="Kind" Value="Play" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding BachupItem.RunningBachup}" Value="True">
+                                <Setter Property="Kind" Value="Rabbit" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </materialDesign:PackIcon.Style>
+            </materialDesign:PackIcon>
         </Button>
         <Button
             x:Name="button"
-            Margin="0,20,71,0"
+            Margin="0,20,73,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Background="#f44336"
             BorderBrush="#f44336"
             Command="{Binding DeleteBachupItemCommand}"
+            IsEnabled="{Binding BachupItem.RunningBachup, Converter={StaticResource BooleanInverter}}"
             Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
             ToolTip="Delete Bachup Item">
             <materialDesign:PackIcon
@@ -99,7 +115,7 @@
         </Button>
         <TextBlock
             x:Name="BachupItemName"
-            Margin="10,10,116,12"
+            Margin="10,10,118,12"
             Style="{StaticResource MaterialDesignDisplay1TextBlock}"
             Text="{Binding BachupItem.Name}"
             TextWrapping="Wrap">
@@ -111,7 +127,7 @@
         </TextBlock>
         <StackPanel
             Grid.Row="1"
-            Margin="10,10,10,888"
+            Margin="10,10,10,823"
             Orientation="Horizontal">
             <materialDesign:Chip
                 x:Name="lastbachup"
@@ -296,7 +312,7 @@
         <WrapPanel
             Grid.Row="1"
             Height="67"
-            Margin="10,634.667,0,0"
+            Margin="10,635,0,0"
             VerticalAlignment="Top">
             <StackPanel Margin="0,0,15,5" Orientation="Horizontal">
                 <TextBlock
@@ -310,6 +326,7 @@
                     Width="44"
                     Command="{Binding SaveDataCommand}"
                     IsChecked="{Binding BachupItem.ZipBachup}"
+                    IsEnabled="{Binding BachupItem.RunningBachup, Converter={StaticResource BooleanInverter}}"
                     Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                     ToolTip="Zip Data During Bachup" />
             </StackPanel>
@@ -326,6 +343,7 @@
                     VerticalAlignment="Top"
                     Command="{Binding SaveDataCommand}"
                     IsChecked="{Binding BachupItem.UseFileNameForBachup}"
+                    IsEnabled="{Binding BachupItem.RunningBachup, Converter={StaticResource BooleanInverter}}"
                     Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                     ToolTip="Use File Name For Bachup Instead Of Bachup Item Name" />
             </StackPanel>
@@ -369,7 +387,7 @@
         <TextBlock
             x:Name="textBlock_Copy2"
             Grid.Row="1"
-            Margin="10,706.667,10,0"
+            Margin="10,707,10,0"
             VerticalAlignment="Top"
             Style="{StaticResource MaterialDesignSubheadingTextBlock}"
             Text="Auto Bachup Settings (NOT FUNCTIONAL)"
@@ -377,7 +395,7 @@
             Visibility="{Binding Source={x:Static vm:MainViewModel.Settings}, Path=Beta, Converter={StaticResource BoolToVis}}" />
         <Border
             Grid.Row="1"
-            Margin="10,731.667,10,0"
+            Margin="10,732,10,0"
             VerticalAlignment="Top"
             BorderBrush="{DynamicResource MaterialDesignDivider}"
             BorderThickness="0,1,0,0"
@@ -443,7 +461,7 @@
             Grid.Row="1"
             Width="100"
             Height="25"
-            Margin="10,737.667,0,0"
+            Margin="10,738,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="Time"

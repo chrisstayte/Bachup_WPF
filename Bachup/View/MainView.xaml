@@ -10,6 +10,7 @@
     xmlns:model="clr-namespace:Bachup.Model"
     xmlns:tb="http://www.hardcodet.net/taskbar"
     xmlns:vm="clr-namespace:Bachup.ViewModel"
+    Name="MainViewWindow"
     Title="Bachup"
     Width="844"
     Height="729"
@@ -74,7 +75,8 @@
                         Name="Close"
                         Margin="0,0,10,0"
                         VerticalAlignment="Center"
-                        Click="Close_Click"
+                        Command="{Binding CloseCommand}"
+                        CommandParameter="{Binding ElementName=MainViewWindow}"
                         DockPanel.Dock="Right"
                         Style="{StaticResource MaterialDesignToolForegroundButton}"
                         ToolTip="Close">
@@ -233,6 +235,12 @@
                         VerticalScrollBarVisibility="Auto">
                         <ContentControl HorizontalContentAlignment="Center" Content="{Binding SelectedViewModel}" />
                     </ScrollViewer>
+                    <materialDesign:Snackbar
+                        x:Name="SnackbarThree"
+                        Grid.Column="1"
+                        Margin="135,0,136,0"
+                        HorizontalAlignment="Stretch"
+                        MessageQueue="{Binding MessageQueue}" />
                 </Grid>
 
             </materialDesign:DialogHost>
