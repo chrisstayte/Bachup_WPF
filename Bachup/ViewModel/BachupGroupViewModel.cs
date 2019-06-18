@@ -18,16 +18,14 @@ namespace Bachup.ViewModel
             EditBachupGroupCommand = new RelayCommand(EditBachupGroup);
             DeleteBachupGroupCommand = new RelayCommand(DeleteBachupGroup);
             AddBachupItemCommand = new RelayCommand(AddBachupItem);
-            CloseMessageCommand = new RelayCommand(CloseMessage);
             CellEditedCommand = new RelayCommand(CellEdited);
             CellValueChangedCommand = new RelayCommand(CellValueChanged);
             AddDestinationCommand = new RelayCommand(AddDestination);
             DeleteDestinationCommand = new RelayCommand(DeleteDestination);
             ShowDestinationCommand = new RelayCommand(ShowDestination);
+            RunAllCommand = new RelayCommand(RunAll);
 
             _bachupGroup = BachupGroupInput;
-
-            ShowMessage = false;
 
             UpdateView();
         }
@@ -59,31 +57,6 @@ namespace Bachup.ViewModel
             set
             {
                 _showAddBachupItems = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _message;
-        public String Message
-        {
-            get
-            {
-                return _message;
-            }
-            set
-            {
-                _message = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private bool _showMessage;
-        public bool ShowMessage
-        {
-            get { return _showMessage; }
-            set
-            {
-                _showMessage = value;
                 NotifyPropertyChanged();
             }
         }
@@ -121,12 +94,12 @@ namespace Bachup.ViewModel
         public RelayCommand EditBachupGroupCommand { get; private set; }
         public RelayCommand DeleteBachupGroupCommand { get; private set; }
         public RelayCommand AddBachupItemCommand { get; private set; }
-        public RelayCommand CloseMessageCommand { get; private set; }
         public RelayCommand CellEditedCommand { get; private set; }
         public RelayCommand CellValueChangedCommand { get; private set; }
         public RelayCommand AddDestinationCommand { get; private set; }
         public RelayCommand DeleteDestinationCommand { get; private set; }
         public RelayCommand ShowDestinationCommand { get; private set; }
+        public RelayCommand RunAllCommand { get; private set; }
 
         #region Events
 
@@ -171,10 +144,6 @@ namespace Bachup.ViewModel
             UpdateView();
         }
 
-        private void CloseMessage(object o)
-        {
-            ShowMessage = false;
-        }
 
         private async void CellEdited(object o)
         {
@@ -262,6 +231,18 @@ namespace Bachup.ViewModel
             {
                 Process.Start("explorer.exe", _selectedDestination);
             }
+        }
+
+        private void RunAll(object o)
+        {
+            Debug.WriteLine("TEST");
+            foreach (BachupItem bi in _bachupGroup.BachupItems)
+            {
+                if (!bi.RunningBachup)
+                {
+                    bi.RunBachup();
+                }
+            }          
         }
 
         #endregion

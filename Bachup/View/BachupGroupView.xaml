@@ -11,10 +11,11 @@
     xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Bachup.ViewModel"
-    d:DesignHeight="650"
+    Name="BachupGroupViewWindow"
+    Padding="0,0,0,10"
+    d:DesignHeight="600"
     d:DesignWidth="800"
     mc:Ignorable="d">
-
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -25,7 +26,6 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
-
             </ResourceDictionary.MergedDictionaries>
             <materialDesignConverters:BooleanToVisibilityConverter
                 x:Key="BooleanToVisiblityConverter"
@@ -34,12 +34,11 @@
             <converter:BooleanInverter x:Key="BooleanInverter" />
             <converter:DateConverter x:Key="DateConverter" />
         </ResourceDictionary>
-
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="38*" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock
             x:Name="textBlock"
@@ -86,12 +85,11 @@
             Height="250"
             Margin="10,10,10,0"
             VerticalAlignment="Top"
-            Header="Bachup Items"
             Style="{DynamicResource MaterialDesignCardGroupBox}"
             Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <DockPanel>
                         <materialDesign:PackIcon
                             Width="32"
                             Height="32"
@@ -101,8 +99,21 @@
                             Margin="8,0,0,0"
                             VerticalAlignment="Center"
                             Style="{StaticResource MaterialDesignSubheadingTextBlock}"
-                            Text="{Binding}" />
-                    </StackPanel>
+                            Text="Bachup Items" />
+                        <Button
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Command="{Binding Path=DataContext.RunAllCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                            DockPanel.Dock="Right"
+                            Style="{StaticResource MaterialDesignToolForegroundButton}"
+                            ToolTip="Bachup All">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="Play" />
+                        </Button>
+                        <StackPanel materialDesign:RippleAssist.IsCentered="True" Orientation="Horizontal" />
+                    </DockPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
             <DataGrid
@@ -124,6 +135,19 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <DataGrid.Columns>
+                    <DataGridTemplateColumn CanUserReorder="False" CanUserResize="False">
+                        <DataGridTemplateColumn.Header>
+                            <materialDesign:PackIcon Kind="InfoOutline" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ProgressBar
+                                    IsIndeterminate="{Binding RunningBachup}"
+                                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                    Value="0" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <materialDesign:MaterialDataGridTextColumn
                         Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
                         CanUserReorder="True"
@@ -144,7 +168,6 @@
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-
         <TextBlock
             x:Name="textBlock2"
             Grid.Row="1"
@@ -156,18 +179,6 @@
             TextAlignment="Center"
             TextWrapping="Wrap"
             Visibility="{Binding ShowAddBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}" />
-        <materialDesign:Snackbar
-            x:Name="SnackbarTwo"
-            Grid.Row="1"
-            MaxWidth="400"
-            Margin="10,0"
-            HorizontalAlignment="Stretch"
-            IsActive="{Binding ShowMessage}">
-            <materialDesign:SnackbarMessage
-                ActionCommand="{Binding CloseMessageCommand}"
-                ActionContent="Okay"
-                Content="{Binding Message}" />
-        </materialDesign:Snackbar>
         <GroupBox
             x:Name="groupBox"
             Grid.Row="1"
@@ -236,6 +247,5 @@
             Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}">
             <materialDesign:PackIcon Kind="FolderUpload" />
         </Button>
-
     </Grid>
 </UserControl>

@@ -399,12 +399,15 @@ namespace Bachup.ViewModel
 
         public static void ShowMessage(string title, string message, NotificationType type)
         {
-            notificationManager.Show(new NotificationContent
+            if (Settings.ShowNotifications)
             {
-                Title = title,
-                Message = message,
-                Type = type
-            });
+                notificationManager.Show(new NotificationContent
+                {
+                    Title = title,
+                    Message = message,
+                    Type = type
+                });
+            }
         }
 
         public bool IsBachupRunning()
