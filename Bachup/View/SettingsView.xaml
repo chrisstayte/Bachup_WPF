@@ -8,14 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Bachup.Model"
     Width="250"
-    d:DesignHeight="450"
+    d:DesignHeight="650"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="21*" />
-            <RowDefinition Height="29*" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.RowSpan="2" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
             <Grid>
                 <TextBlock
                     x:Name="label_colors"
@@ -348,37 +347,40 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="3*" />
+
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="32" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="32" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
                     <TextBlock
                         x:Name="textBlock_Copy"
                         Grid.Row="0"
-                        HorizontalAlignment="Center"
+                        HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Text="Keep On Top"
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
                     <ToggleButton
-                        Grid.Row="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="10,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
                         Command="{Binding SaveSettingsCommand}"
                         IsChecked="{Binding KeepOnTop}"
                         Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                         ToolTip="Keeps Window On Top" />
                     <TextBlock
                         x:Name="textBlock_Copy1"
-                        Grid.Column="1"
-                        HorizontalAlignment="Center"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         RenderTransformOrigin="0.468,-0.104"
                         Text="Save View"
@@ -387,43 +389,46 @@
                     <ToggleButton
                         Grid.Row="1"
                         Grid.Column="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
+                        Margin="10,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
                         Command="{Binding SaveSettingsCommand}"
                         IsChecked="{Binding SaveView}"
-                        RenderTransformOrigin="3.169,0.412"
                         Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                         ToolTip="Will Remember Last Opened Bachup Option" />
                     <TextBlock
-                        Grid.Column="2"
-                        HorizontalAlignment="Center"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Text="Notifications"
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
                     <ToggleButton
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="10,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
                         Command="{Binding SaveSettingsCommand}"
                         IsChecked="{Binding ShowNotifications}"
                         RenderTransformOrigin="3.169,0.412"
                         Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                         ToolTip="Show Popup Notifications" />
                     <TextBlock
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="0"
-                        HorizontalAlignment="Center"
+                        HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Text="Beta"
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
                     <ToggleButton
                         Grid.Row="3"
-                        Grid.Column="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
+                        Grid.Column="1"
+                        Margin="10,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
                         Command="{Binding SaveSettingsCommand}"
                         IsChecked="{Binding Beta}"
                         RenderTransformOrigin="3.169,0.412"
@@ -433,7 +438,7 @@
                         Grid.Row="4"
                         Grid.Column="0"
                         Grid.ColumnSpan="1"
-                        HorizontalAlignment="Center"
+                        HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Text="Compression"
                         TextAlignment="Center"

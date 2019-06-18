@@ -88,6 +88,20 @@ namespace Bachup.Model
             }
         }
 
+        private ObservableCollection<string> _defaultDestinations = new ObservableCollection<string>();
+        public ObservableCollection<string> DefaultDestinations
+        {
+            get { return _defaultDestinations; }
+            set
+            {
+                if (_defaultDestinations != value)
+                {
+                    _defaultDestinations = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         #region Methods
 
         public void AddBachupItem(BachupItem bachupItem)
@@ -117,6 +131,21 @@ namespace Bachup.Model
         public bool DoesItemExist(string name)
         {
             return _bachupItems.FirstOrDefault(item => item.Name.ToLower() == name.ToLower()) != null;
+        }
+
+        public bool IsDestinationADuplicate(string path)
+        {
+            return _defaultDestinations.Contains(path);
+        }
+
+        public void AddDestination(string path)
+        {
+            _defaultDestinations.Add(path);
+        }
+
+        public void DeleteDestination(string path)
+        {
+            _defaultDestinations.Remove(path);
         }
 
         #endregion

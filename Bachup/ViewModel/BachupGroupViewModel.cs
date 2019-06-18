@@ -4,6 +4,8 @@ using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows.Controls;
 
@@ -19,6 +21,9 @@ namespace Bachup.ViewModel
             CloseMessageCommand = new RelayCommand(CloseMessage);
             CellEditedCommand = new RelayCommand(CellEdited);
             CellValueChangedCommand = new RelayCommand(CellValueChanged);
+            AddDestinationCommand = new RelayCommand(AddDestination);
+            DeleteDestinationCommand = new RelayCommand(DeleteDestination);
+            ShowDestinationCommand = new RelayCommand(ShowDestination);
 
             _bachupGroup = BachupGroupInput;
 
@@ -83,6 +88,35 @@ namespace Bachup.ViewModel
             }
         }
 
+        private string _selectedDestination;
+        public string SelectedDestination
+        {
+            get { return _selectedDestination; }
+            set
+            {
+                if (_selectedDestination != value)
+                {
+                    _selectedDestination = value;
+                    NotifyPropertyChanged();
+                }
+                EnableDestinationButtons = value != null;
+            }
+        }
+
+        private bool _enableDestinationButtons;
+        public bool EnableDestinationButtons
+        {
+            get { return _enableDestinationButtons; }
+            set
+            {
+                if (_enableDestinationButtons != value)
+                {
+                    _enableDestinationButtons = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         // Relay Commands
         public RelayCommand EditBachupGroupCommand { get; private set; }
         public RelayCommand DeleteBachupGroupCommand { get; private set; }
@@ -90,6 +124,9 @@ namespace Bachup.ViewModel
         public RelayCommand CloseMessageCommand { get; private set; }
         public RelayCommand CellEditedCommand { get; private set; }
         public RelayCommand CellValueChangedCommand { get; private set; }
+        public RelayCommand AddDestinationCommand { get; private set; }
+        public RelayCommand DeleteDestinationCommand { get; private set; }
+        public RelayCommand ShowDestinationCommand { get; private set; }
 
         #region Events
 
@@ -186,6 +223,45 @@ namespace Bachup.ViewModel
             BachupItem bachupItem = args.EditingElement.DataContext as BachupItem;
             _oldValue = bachupItem.Name;
 
+        }
+
+        private async void AddDestination(object o)
+        {            
+            var view = new AddDestinationView
+            {
+                DataContext = new AddDestinationViewModel(_bachupGroup)
+            };
+
+            await DialogHost.Show(view, "RootDialog");
+            
+            // TODO: Show Notification
+        }
+
+        private async void DeleteDestination(object o)
+        {
+            string message = String.Format("Delete Destination?");
+            string submessage = String.Format("{0}", SelectedDestination);
+
+            var view = new ConfirmChoiceView
+            {
+                DataContext = new ConfirmChoiceViewModel(message, submessage)
+            };
+
+            var choice = await DialogHost.Show(view, "RootDialog");
+
+            if ((bool)choice)
+            {
+                _bachupGroup.DeleteDestination(_selectedDestination);
+                MainViewModel.SaveData();
+            }
+        }
+
+        private void ShowDestination(object o)
+        {
+            if (Directory.Exists(_selectedDestination))
+            {
+                Process.Start("explorer.exe", _selectedDestination);
+            }
         }
 
         #endregion
