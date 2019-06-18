@@ -1,7 +1,7 @@
 # Bachup
 Windows Backup Utility
 
-This tool was created to make it eaiser to bachup data. 
+This tool was created to make it easier to bachup data. 
 
 ### Features
 
