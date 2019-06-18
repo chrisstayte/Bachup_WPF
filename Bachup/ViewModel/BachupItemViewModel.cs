@@ -361,20 +361,11 @@ namespace Bachup.ViewModel
 
         private void RunBachup(object parameter)
         {
-
-            if (MainViewModel.Settings.Beta)
-            {
-                if (!BachupItem.RunningBachup)
-                {
-                    _bachupItem.RunBachupBeta();
-                }
-            }
-            else
+            if (!BachupItem.RunningBachup)
             {
                 _bachupItem.RunBachup();
-            }
-            
-            ValidateSource();
+                ValidateSource();
+            }          
         }
 
         private void ShowDestination(object parameter)

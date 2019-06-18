@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Bachup.ViewModel"
     xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
-    Padding="0,0,0,50"
+    Padding="0,0,0,10"
     d:DesignHeight="950"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -127,12 +127,13 @@
         </TextBlock>
         <StackPanel
             Grid.Row="1"
-            Margin="10,10,10,823"
+            Height="34"
+            Margin="10,10,10,0"
+            VerticalAlignment="Top"
             Orientation="Horizontal">
             <materialDesign:Chip
                 x:Name="lastbachup"
-                Height="Auto"
-                Margin="0,0,8,-32"
+                Margin="5,0"
                 Command="{Binding RefreshSizeCommand}"
                 Content="{Binding SizeInMB}"
                 Cursor=""
@@ -144,8 +145,6 @@
             </materialDesign:Chip>
             <materialDesign:Chip
                 x:Name="lastbachup_Copy"
-                Height="Auto"
-                Margin="0,0,8,-32"
                 Content="{Binding BachupItem.LastBachup}"
                 Cursor=""
                 ToolTip="Last Bachup"
@@ -232,7 +231,7 @@
             </GroupBox.HeaderTemplate>
             <ListBox
                 x:Name="listBox"
-                Margin="0,0,0,2"
+                Margin="-8,-9,-8,-8"
                 ItemsSource="{Binding BachupItem.Destinations}"
                 SelectedItem="{Binding SelectedDestination}" />
         </GroupBox>
@@ -259,7 +258,7 @@
                     </StackPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
-            <ScrollViewer Margin="0,0,0,2" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer Margin="-8,-9,-8,-8" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding BachupItem.BachupHistory}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

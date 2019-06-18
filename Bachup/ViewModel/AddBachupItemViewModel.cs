@@ -4,7 +4,9 @@ using Bachup.Model.BachupItems;
 using MaterialDesignThemes.Wpf;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Bachup.ViewModel
@@ -132,41 +134,47 @@ namespace Bachup.ViewModel
                     ShowMessage = true;
                 }
 
+
                 switch (bachupType)
                 {
                     case BachupType.GDB:
                         _bachupGroup.AddBachupItem(new BI_Geodatabase(Name, Source, _bachupGroup.ID)
                         {
                             ZipBachup = _zipBachupItem,
-                            UseFileNameForBachup = _useFileNameForBachup
+                            UseFileNameForBachup = _useFileNameForBachup,
+                            Destinations = new ObservableCollection<String>(_bachupGroup.DefaultDestinations.Select(destination => (string)destination.Clone()).ToList())
                         });       
                         break;
                     case BachupType.TXT:
                         _bachupGroup.AddBachupItem(new BI_Text(Name, Source, _bachupGroup.ID)
                         {
                             ZipBachup = _zipBachupItem,
-                            UseFileNameForBachup = _useFileNameForBachup
+                            UseFileNameForBachup = _useFileNameForBachup,
+                            Destinations = new ObservableCollection<String>(_bachupGroup.DefaultDestinations.Select(destination => (string)destination.Clone()).ToList())
                         });
                         break;
                     case BachupType.LAS:
                         _bachupGroup.AddBachupItem(new BI_LAS(Name, Source, _bachupGroup.ID)
                             {
                             ZipBachup = _zipBachupItem,
-                            UseFileNameForBachup = _useFileNameForBachup
+                            UseFileNameForBachup = _useFileNameForBachup,
+                            Destinations = new ObservableCollection<String>(_bachupGroup.DefaultDestinations.Select(destination => (string)destination.Clone()).ToList())
                         });
                         break;
                     case BachupType.SHP:
                         _bachupGroup.AddBachupItem(new BI_Shapefile(Name, Source, _bachupGroup.ID)
                         {
                             ZipBachup = _zipBachupItem,
-                            UseFileNameForBachup = _useFileNameForBachup
+                            UseFileNameForBachup = _useFileNameForBachup,
+                            Destinations = new ObservableCollection<String>(_bachupGroup.DefaultDestinations.Select(destination => (string)destination.Clone()).ToList())
                         });
                         break;
                     case BachupType.DIR:
                         _bachupGroup.AddBachupItem(new BI_DIR(Name, Source, _bachupGroup.ID)
                         {
                             ZipBachup = _zipBachupItem,
-                            UseFileNameForBachup = _useFileNameForBachup
+                            UseFileNameForBachup = _useFileNameForBachup,
+                            Destinations = new ObservableCollection<String>(_bachupGroup.DefaultDestinations.Select(destination => (string)destination.Clone()).ToList())
                         });
                         break;
                     case BachupType.NotSupported:

@@ -11,10 +11,11 @@
     xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Bachup.ViewModel"
-    d:DesignHeight="500"
+    Name="BachupGroupViewWindow"
+    Padding="0,0,0,10"
+    d:DesignHeight="600"
     d:DesignWidth="800"
     mc:Ignorable="d">
-
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -25,7 +26,6 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
-
             </ResourceDictionary.MergedDictionaries>
             <materialDesignConverters:BooleanToVisibilityConverter
                 x:Key="BooleanToVisiblityConverter"
@@ -34,12 +34,11 @@
             <converter:BooleanInverter x:Key="BooleanInverter" />
             <converter:DateConverter x:Key="DateConverter" />
         </ResourceDictionary>
-
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="38*" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock
             x:Name="textBlock"
@@ -81,55 +80,94 @@
                 Height="21"
                 Kind="Delete" />
         </Button>
-        <DataGrid
-            x:Name="dataGrid"
+        <GroupBox
             Grid.Row="1"
             Height="250"
-            Margin="10,35,10,0"
-            VerticalAlignment="Top"
-            AutoGenerateColumns="False"
-            CanUserAddRows="False"
-            CanUserDeleteRows="False"
-            ItemsSource="{Binding BachupGroup.BachupItems}"
-            Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="CellEditEnding">
-                    <cmd:EventToCommand Command="{Binding CellEditedCommand}" PassEventArgsToCommand="True" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="PreparingCellForEdit">
-                    <cmd:EventToCommand Command="{Binding CellValueChangedCommand}" PassEventArgsToCommand="True" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <DataGrid.Columns>
-                <materialDesign:MaterialDataGridTextColumn
-                    Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                    CanUserReorder="True"
-                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
-                    Header="Name"
-                    IsReadOnly="False"
-                    MaxLength="25" />
-                <materialDesign:MaterialDataGridTextColumn
-                    Binding="{Binding DateCreated, Converter={StaticResource DateConverter}}"
-                    CanUserReorder="True"
-                    Header="Date Created"
-                    IsReadOnly="True" />
-                <materialDesign:MaterialDataGridTextColumn
-                    Binding="{Binding LastBachup, Converter={StaticResource DateConverter}}"
-                    CanUserReorder="True"
-                    Header="Last Bachup"
-                    IsReadOnly="True" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <TextBlock
-            x:Name="textBlock1"
-            Grid.Row="1"
-            Height="20"
             Margin="10,10,10,0"
             VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignSubheadingTextBlock}"
-            Text="Bachup Items"
-            TextWrapping="Wrap"
-            Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}" />
+            Style="{DynamicResource MaterialDesignCardGroupBox}"
+            Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <materialDesign:PackIcon
+                            Width="32"
+                            Height="32"
+                            VerticalAlignment="Center"
+                            Kind="BackupOutline" />
+                        <TextBlock
+                            Margin="8,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignSubheadingTextBlock}"
+                            Text="Bachup Items" />
+                        <Button
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Command="{Binding Path=DataContext.RunAllCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                            DockPanel.Dock="Right"
+                            Style="{StaticResource MaterialDesignToolForegroundButton}"
+                            ToolTip="Bachup All">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="Play" />
+                        </Button>
+                        <StackPanel materialDesign:RippleAssist.IsCentered="True" Orientation="Horizontal" />
+                    </DockPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <DataGrid
+                x:Name="dataGrid"
+                Margin="-8,-9,-8,-8"
+                VerticalAlignment="Stretch"
+                AutoGenerateColumns="False"
+                Background="Transparent"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                ItemsSource="{Binding BachupGroup.BachupItems}"
+                Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="CellEditEnding">
+                        <cmd:EventToCommand Command="{Binding CellEditedCommand}" PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="PreparingCellForEdit">
+                        <cmd:EventToCommand Command="{Binding CellValueChangedCommand}" PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn CanUserReorder="False" CanUserResize="False">
+                        <DataGridTemplateColumn.Header>
+                            <materialDesign:PackIcon Kind="InfoOutline" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ProgressBar
+                                    IsIndeterminate="{Binding RunningBachup}"
+                                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                    Value="0" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <materialDesign:MaterialDataGridTextColumn
+                        Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                        CanUserReorder="True"
+                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
+                        Header="Name"
+                        IsReadOnly="False"
+                        MaxLength="25" />
+                    <materialDesign:MaterialDataGridTextColumn
+                        Binding="{Binding DateCreated, Converter={StaticResource DateConverter}}"
+                        CanUserReorder="True"
+                        Header="Date Created"
+                        IsReadOnly="True" />
+                    <materialDesign:MaterialDataGridTextColumn
+                        Binding="{Binding LastBachup, Converter={StaticResource DateConverter}}"
+                        CanUserReorder="True"
+                        Header="Last Bachup"
+                        IsReadOnly="True" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
         <TextBlock
             x:Name="textBlock2"
             Grid.Row="1"
@@ -141,19 +179,73 @@
             TextAlignment="Center"
             TextWrapping="Wrap"
             Visibility="{Binding ShowAddBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}" />
-
-        <materialDesign:Snackbar
-            x:Name="SnackbarTwo"
+        <GroupBox
+            x:Name="groupBox"
             Grid.Row="1"
-            MaxWidth="400"
-            Margin="10,0"
-            HorizontalAlignment="Stretch"
-            IsActive="{Binding ShowMessage}">
-            <materialDesign:SnackbarMessage
-                ActionCommand="{Binding CloseMessageCommand}"
-                ActionContent="Okay"
-                Content="{Binding Message}" />
-        </materialDesign:Snackbar>
-
+            Height="230"
+            Margin="10,281,71,0"
+            VerticalAlignment="Top"
+            Header="Default Destinations"
+            Style="{DynamicResource MaterialDesignCardGroupBox}"
+            Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Width="32"
+                            Height="32"
+                            VerticalAlignment="Center"
+                            Kind="MapMarker" />
+                        <TextBlock
+                            Margin="8,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignSubheadingTextBlock}"
+                            Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <ListBox
+                Margin="-8,-9,-8,-8"
+                ItemsSource="{Binding BachupGroup.DefaultDestinations}"
+                SelectedItem="{Binding SelectedDestination}" />
+        </GroupBox>
+        <Button
+            x:Name="button"
+            Grid.Row="1"
+            Width="56"
+            Margin="0,336,10,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Command="{Binding AddDestinationCommand}"
+            ToolTip="Add Destination"
+            Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}">
+            <materialDesign:PackIcon Kind="Add" />
+        </Button>
+        <Button
+            x:Name="button_Copy"
+            Grid.Row="1"
+            Width="56"
+            Margin="0,373,10,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Command="{Binding DeleteDestinationCommand}"
+            IsEnabled="{Binding EnableDestinationButtons}"
+            ToolTip="Removed Selected Destination"
+            Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}">
+            <materialDesign:PackIcon Kind="Trash" />
+        </Button>
+        <Button
+            x:Name="button_Copy1"
+            Grid.Row="1"
+            Width="56"
+            Margin="0,410,10,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Command="{Binding ShowDestinationCommand}"
+            IsEnabled="{Binding EnableDestinationButtons}"
+            ToolTip="Show Selected Destination"
+            Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}">
+            <materialDesign:PackIcon Kind="FolderUpload" />
+        </Button>
     </Grid>
 </UserControl>

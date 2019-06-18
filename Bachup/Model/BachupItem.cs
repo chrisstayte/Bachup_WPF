@@ -470,36 +470,23 @@ namespace Bachup.Model
             return monthBuffer + month + dayBuffer + day + year;
         }
 
-        internal async Task<bool> CheckRequirements()
+        internal bool CheckRequirements()
         {
             if (!CheckSourceExistence())
             {
-                var view = new AlertView
-                {
-                    DataContext = new AlertViewModel("Repair The Source")
-                };
-                await DialogHost.Show(view, "RootDialog");
+                MainViewModel.ShowMessage($"{Name} Bachup Failed", $"Repair The Source", Notifications.Wpf.NotificationType.Error);
                 return false;
             }
 
             if (Destinations.Count <= 0)
             {
-                var view = new AlertView
-                {
-                    DataContext = new AlertViewModel("There Are No Destinations")
-                };
-                await DialogHost.Show(view, "RootDialog");
+                MainViewModel.ShowMessage($"{Name} Bachup Failed", $"There Are No Destinations", Notifications.Wpf.NotificationType.Error);
                 return false;
             }
 
             if (IsFileLocked())
             {
-                var view = new AlertView
-                {
-                    DataContext = new AlertViewModel("Bachup Item Is Locked")
-                };
-
-                await DialogHost.Show(view, "RootDialog");
+                MainViewModel.ShowMessage($"{Name} Bachup Failed", $"The Item Is Locked", Notifications.Wpf.NotificationType.Error);
                 return false;
             }
             return true;
@@ -549,84 +536,7 @@ namespace Bachup.Model
 
         public async void RunBachup()
         {
-            if (await CheckRequirements())
-            {
-                if (await CheckDestinationsConnection(true))
-                {
-                    if (BachupHistory == null)
-                        BachupHistory = new ObservableCollection<BachupHistory>();
-
-                    CopyBachupItemView view = new CopyBachupItemView()
-                    {
-                        DataContext = new CopyBachupItemViewModel()
-                    };
-
-                    BachupHistory bachupHistory = new BachupHistory();
-
-                    await DialogHost.Show(view, "RootDialog", new DialogOpenedEventHandler(async (object sender, DialogOpenedEventArgs args) =>
-                    {                       
-                        DialogSession session = args.Session;
-
-                        foreach (string destination in Destinations)
-                        {
-                            if (!Directory.Exists(destination))
-                            {
-                                bachupHistory.BachupDestinationStatus.Add(destination, false);
-                                continue;
-                            }
-
-                            bool success = false;
-
-                            if (ZipBachup)
-                                await Task.Run(() => {
-                                    success = CopyDataWithZip(destination);
-                                });
-                            else
-                            {
-                                await Task.Run(() => {
-                                    success = CopyData(destination);
-                                });
-                            }
-                            bachupHistory.BachupDestinationStatus.Add(destination, success);                                
-                        }
-
-                        bachupHistory.GetStatus();
-                        DateTime completedDateTime = DateTime.Now;
-
-                        bachupHistory.BachupDateTime = completedDateTime;
-                        LastBachup = completedDateTime;
-                        BachupHistory.Insert(0, bachupHistory);
-
-                        session.Close();
-                    }));
-                  
-                    if (MainViewModel.Settings.ShowNotifications)
-                    {
-                        switch (bachupHistory.Type)
-                        {
-                            case BachupHistoryType.noHistory:
-                                break;
-                            case BachupHistoryType.fullBachup:
-                                MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
-                                ShowLastBachup = true;
-                                break;
-                            case BachupHistoryType.partialBachup:
-                                MainViewModel.ShowMessage("Bached Up", $"{Name} is partially Bached Up", Notifications.Wpf.NotificationType.Warning);
-                                ShowLastBachup = true;
-                                break;
-                            case BachupHistoryType.failedBachup:
-                                MainViewModel.ShowMessage("Bached Up", $"{Name} Failed To Bachup", Notifications.Wpf.NotificationType.Error);
-                                break;
-                        }                       
-                    }
-                    MainViewModel.SaveData();   
-                }
-            }
-        }
-
-        public async void RunBachupBeta()
-        {
-            if (await CheckRequirements())
+            if (CheckRequirements())
             {
                 if (await CheckDestinationsConnection(true))
                 {
@@ -670,27 +580,24 @@ namespace Bachup.Model
                     bachupHistory.BachupDateTime = completedDateTime;
                     LastBachup = completedDateTime;
                     BachupHistory.Insert(0, bachupHistory);
-                    
 
-                    if (MainViewModel.Settings.ShowNotifications)
+                    switch (bachupHistory.Type)
                     {
-                        switch (bachupHistory.Type)
-                        {
-                            case BachupHistoryType.noHistory:
-                                break;
-                            case BachupHistoryType.fullBachup:
-                                MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
-                                ShowLastBachup = true;
-                                break;
-                            case BachupHistoryType.partialBachup:
-                                MainViewModel.ShowMessage("Bached Up", $"{Name} is partially Bached Up", Notifications.Wpf.NotificationType.Warning);
-                                ShowLastBachup = true;
-                                break;
-                            case BachupHistoryType.failedBachup:
-                                MainViewModel.ShowMessage("Bached Up", $"{Name} Failed To Bachup", Notifications.Wpf.NotificationType.Error);
-                                break;
-                        }
+                        case BachupHistoryType.noHistory:
+                            break;
+                        case BachupHistoryType.fullBachup:
+                            MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
+                            ShowLastBachup = true;
+                            break;
+                        case BachupHistoryType.partialBachup:
+                            MainViewModel.ShowMessage("Bached Up", $"{Name} is partially Bached Up", Notifications.Wpf.NotificationType.Warning);
+                            ShowLastBachup = true;
+                            break;
+                        case BachupHistoryType.failedBachup:
+                            MainViewModel.ShowMessage("Bached Up", $"{Name} Failed To Bachup", Notifications.Wpf.NotificationType.Error);
+                            break;
                     }
+                    
                     RunningBachup = false;
                     MainViewModel.SaveData();
                 }

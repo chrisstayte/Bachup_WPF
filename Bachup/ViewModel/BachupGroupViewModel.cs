@@ -4,6 +4,8 @@ using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows.Controls;
 
@@ -16,13 +18,14 @@ namespace Bachup.ViewModel
             EditBachupGroupCommand = new RelayCommand(EditBachupGroup);
             DeleteBachupGroupCommand = new RelayCommand(DeleteBachupGroup);
             AddBachupItemCommand = new RelayCommand(AddBachupItem);
-            CloseMessageCommand = new RelayCommand(CloseMessage);
             CellEditedCommand = new RelayCommand(CellEdited);
             CellValueChangedCommand = new RelayCommand(CellValueChanged);
+            AddDestinationCommand = new RelayCommand(AddDestination);
+            DeleteDestinationCommand = new RelayCommand(DeleteDestination);
+            ShowDestinationCommand = new RelayCommand(ShowDestination);
+            RunAllCommand = new RelayCommand(RunAll);
 
             _bachupGroup = BachupGroupInput;
-
-            ShowMessage = false;
 
             UpdateView();
         }
@@ -58,28 +61,32 @@ namespace Bachup.ViewModel
             }
         }
 
-        private string _message;
-        public String Message
+        private string _selectedDestination;
+        public string SelectedDestination
         {
-            get
-            {
-                return _message;
-            }
+            get { return _selectedDestination; }
             set
             {
-                _message = value;
-                NotifyPropertyChanged();
+                if (_selectedDestination != value)
+                {
+                    _selectedDestination = value;
+                    NotifyPropertyChanged();
+                }
+                EnableDestinationButtons = value != null;
             }
         }
 
-        private bool _showMessage;
-        public bool ShowMessage
+        private bool _enableDestinationButtons;
+        public bool EnableDestinationButtons
         {
-            get { return _showMessage; }
+            get { return _enableDestinationButtons; }
             set
             {
-                _showMessage = value;
-                NotifyPropertyChanged();
+                if (_enableDestinationButtons != value)
+                {
+                    _enableDestinationButtons = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
@@ -87,9 +94,12 @@ namespace Bachup.ViewModel
         public RelayCommand EditBachupGroupCommand { get; private set; }
         public RelayCommand DeleteBachupGroupCommand { get; private set; }
         public RelayCommand AddBachupItemCommand { get; private set; }
-        public RelayCommand CloseMessageCommand { get; private set; }
         public RelayCommand CellEditedCommand { get; private set; }
         public RelayCommand CellValueChangedCommand { get; private set; }
+        public RelayCommand AddDestinationCommand { get; private set; }
+        public RelayCommand DeleteDestinationCommand { get; private set; }
+        public RelayCommand ShowDestinationCommand { get; private set; }
+        public RelayCommand RunAllCommand { get; private set; }
 
         #region Events
 
@@ -134,10 +144,6 @@ namespace Bachup.ViewModel
             UpdateView();
         }
 
-        private void CloseMessage(object o)
-        {
-            ShowMessage = false;
-        }
 
         private async void CellEdited(object o)
         {
@@ -186,6 +192,57 @@ namespace Bachup.ViewModel
             BachupItem bachupItem = args.EditingElement.DataContext as BachupItem;
             _oldValue = bachupItem.Name;
 
+        }
+
+        private async void AddDestination(object o)
+        {            
+            var view = new AddDestinationView
+            {
+                DataContext = new AddDestinationViewModel(_bachupGroup)
+            };
+
+            await DialogHost.Show(view, "RootDialog");
+            
+            // TODO: Show Notification
+        }
+
+        private async void DeleteDestination(object o)
+        {
+            string message = String.Format("Delete Destination?");
+            string submessage = String.Format("{0}", SelectedDestination);
+
+            var view = new ConfirmChoiceView
+            {
+                DataContext = new ConfirmChoiceViewModel(message, submessage)
+            };
+
+            var choice = await DialogHost.Show(view, "RootDialog");
+
+            if ((bool)choice)
+            {
+                _bachupGroup.DeleteDestination(_selectedDestination);
+                MainViewModel.SaveData();
+            }
+        }
+
+        private void ShowDestination(object o)
+        {
+            if (Directory.Exists(_selectedDestination))
+            {
+                Process.Start("explorer.exe", _selectedDestination);
+            }
+        }
+
+        private void RunAll(object o)
+        {
+            Debug.WriteLine("TEST");
+            foreach (BachupItem bi in _bachupGroup.BachupItems)
+            {
+                if (!bi.RunningBachup)
+                {
+                    bi.RunBachup();
+                }
+            }          
         }
 
         #endregion
