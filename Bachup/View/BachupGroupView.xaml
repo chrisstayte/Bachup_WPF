@@ -101,8 +101,6 @@
                             Style="{StaticResource MaterialDesignSubheadingTextBlock}"
                             Text="Bachup Items" />
                         <Button
-                            Margin="0,0,10,0"
-                            VerticalAlignment="Center"
                             Command="{Binding Path=DataContext.RunAllCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                             DockPanel.Dock="Right"
                             Style="{StaticResource MaterialDesignToolForegroundButton}"

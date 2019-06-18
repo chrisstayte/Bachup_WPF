@@ -448,7 +448,7 @@
                         Grid.Row="4"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
-                        Margin="5,0,10,0"
+                        Margin="10,0"
                         VerticalAlignment="Center"
                         SelectedIndex="{Binding CompressionLevel}">
                         <ComboBoxItem>

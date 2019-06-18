@@ -41,7 +41,6 @@
         <vm:MainViewModel x:Key="MainViewModel" />
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
-
     <materialDesign:DrawerHost IsRightDrawerOpen="{Binding RightDrawerShown}">
         <materialDesign:DrawerHost.RightDrawerContent>
             <DockPanel MinWidth="250">
@@ -63,7 +62,10 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </Grid.Resources>
-
+            <tb:TaskbarIcon
+                IconSource="/Images/icon.ico"
+                ToolTipService.Placement="Relative"
+                ToolTipText="Hello World" />
             <materialDesign:ColorZone
                 Grid.ColumnSpan="2"
                 Padding="8"
@@ -224,7 +226,6 @@
                                     <materialDesign:PackIcon Kind="Add" />
                                 </Button>
                             </Border>
-
                         </Grid>
                     </Border>
                     <ScrollViewer
@@ -242,7 +243,6 @@
                         HorizontalAlignment="Stretch"
                         MessageQueue="{Binding MessageQueue}" />
                 </Grid>
-
             </materialDesign:DialogHost>
         </Grid>
     </materialDesign:DrawerHost>

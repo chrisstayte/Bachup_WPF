@@ -27,7 +27,6 @@ namespace Bachup.ViewModel
             SaveDataCommand = new RelayCommand(SaveData);
             RefreshSizeCommand = new RelayCommand(RefreshSize);
 
-
             BachupItem = item;
             EnableDeleteButton = false;
 
