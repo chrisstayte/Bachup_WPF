@@ -331,7 +331,7 @@
         <WrapPanel
             Grid.Row="1"
             Height="67"
-            Margin="10,635,0,0"
+            Margin="10,635,10,0"
             VerticalAlignment="Top">
             <StackPanel Margin="0,0,15,5" Orientation="Horizontal">
                 <TextBlock

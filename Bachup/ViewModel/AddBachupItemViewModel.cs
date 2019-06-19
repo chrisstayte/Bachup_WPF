@@ -114,6 +114,20 @@ namespace Bachup.ViewModel
             }
         }
 
+        private bool _useGroupDestinations;
+        public bool UseGroupDestinations
+        {
+            get { return _useGroupDestinations; }
+            set
+            {
+                if (_useGroupDestinations != value)
+                {
+                    _useGroupDestinations = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         // Relay Commands
         public RelayCommand AddCommand { get; private set; }
         public RelayCommand CancelCommand { get; private set; }
@@ -142,6 +156,7 @@ namespace Bachup.ViewModel
                         {
                             ZipBachup = _zipBachupItem,
                             UseFileNameForBachup = _useFileNameForBachup,
+                            UseGroupDestinations = _useGroupDestinations
                         });       
                         break;
                     case BachupType.TXT:
@@ -149,6 +164,7 @@ namespace Bachup.ViewModel
                         {
                             ZipBachup = _zipBachupItem,
                             UseFileNameForBachup = _useFileNameForBachup,
+                            UseGroupDestinations = _useGroupDestinations
                         });
                         break;
                     case BachupType.LAS:
@@ -156,6 +172,7 @@ namespace Bachup.ViewModel
                             {
                             ZipBachup = _zipBachupItem,
                             UseFileNameForBachup = _useFileNameForBachup,
+                            UseGroupDestinations = _useGroupDestinations
                         });
                         break;
                     case BachupType.SHP:
@@ -163,6 +180,7 @@ namespace Bachup.ViewModel
                         {
                             ZipBachup = _zipBachupItem,
                             UseFileNameForBachup = _useFileNameForBachup,
+                            UseGroupDestinations = _useGroupDestinations
                         });
                         break;
                     case BachupType.DIR:
@@ -170,6 +188,7 @@ namespace Bachup.ViewModel
                         {
                             ZipBachup = _zipBachupItem,
                             UseFileNameForBachup = _useFileNameForBachup,
+                            UseGroupDestinations = _useGroupDestinations
                         });
                         break;
                     case BachupType.NotSupported:

@@ -1,109 +1,137 @@
 ﻿<UserControl
+    x:Class="Bachup.View.AddBachupItemView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Bachup.View"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="Bachup.View.AddBachupItemView"
-    mc:Ignorable="d" Width="653" Height="250"
-    
-    >
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="653"
+    Height="250"
+    mc:Ignorable="d">
     <Grid>
         <TextBlock
-            x:Name="textBlock" 
-            HorizontalAlignment="Left" 
-            Margin="10,10,0,0" 
-            TextWrapping="Wrap"
-            Text="Add Bachup Item" 
+            x:Name="textBlock"
+            Margin="10,10,0,0"
+            HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignTitleTextBlock}"/>
+            Style="{StaticResource MaterialDesignTitleTextBlock}"
+            Text="Add Bachup Item"
+            TextWrapping="Wrap" />
 
-        <TextBox 
+        <TextBox
             x:Name="textBox"
-            Height="38" Margin="10,42,10,0" 
-            TextWrapping="Wrap" 
+            Height="38"
+            Margin="10,42,10,0"
             VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Name" 
+            materialDesign:HintAssist.Hint="Name"
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-            Text="{Binding Name, Mode=TwoWay, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox 
+            Text="{Binding Name, Mode=TwoWay, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+        <TextBox
             x:Name="textBox_Copy"
-            Height="38" Margin="10,104,114,0" 
-            TextWrapping="Wrap" 
+            Height="38"
+            Margin="10,104,114,0"
             VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Source" 
+            materialDesign:HintAssist.Hint="Source"
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-            Text="{Binding Source, Mode=TwoWay, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}"/>
-        <Button 
+            Text="{Binding Source, Mode=TwoWay, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+        <Button
             x:Name="button"
-            ToolTip="Folder"
-            VerticalAlignment="Top" 
-            Margin="0,110,62,0"
-            HorizontalAlignment="Right" 
             Width="47"
-            Command="{Binding AddSourceFolderCommand}">
-            <materialDesign:PackIcon Kind="Folder"/>
-        </Button>
-        <Button 
-            x:Name="button_Copy" 
-            ToolTip="File" 
-            Margin="0,110,10,0" 
-            Height="32" 
+            Margin="0,110,62,0"
             HorizontalAlignment="Right"
-            Width="47" 
             VerticalAlignment="Top"
-            Command="{Binding AddSourceFileCommand}">
-            <materialDesign:PackIcon Kind="File"/>
+            Command="{Binding AddSourceFolderCommand}"
+            ToolTip="Folder">
+            <materialDesign:PackIcon Kind="Folder" />
+        </Button>
+        <Button
+            x:Name="button_Copy"
+            Width="47"
+            Height="32"
+            Margin="0,110,10,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Command="{Binding AddSourceFileCommand}"
+            ToolTip="File">
+            <materialDesign:PackIcon Kind="File" />
         </Button>
         <Button
             x:Name="button1"
-            Content="Add"
-            IsDefault="True"
-            Margin="0,0,10,10" 
-            Height="32" 
-            VerticalAlignment="Bottom" 
-            HorizontalAlignment="Right" 
             Width="75"
-            Command="{Binding AddCommand}"/>
-        <Button 
-            x:Name="button1_Copy" 
-            Content="Cancel" 
-            IsCancel="True"
-            Margin="0,0,90,10" 
-            Height="32" 
-            HorizontalAlignment="Right" 
-            Width="75" 
+            Height="32"
+            Margin="0,0,10,10"
+            HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            Command="{Binding CancelCommand}"/>
+            Command="{Binding AddCommand}"
+            Content="Add"
+            IsDefault="True" />
+        <Button
+            x:Name="button1_Copy"
+            Width="75"
+            Height="32"
+            Margin="0,0,90,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Command="{Binding CancelCommand}"
+            Content="Cancel"
+            IsCancel="True" />
         <materialDesign:Snackbar
-            Message="{Binding Message}"
+            x:Name="SnackbarOne"
             IsActive="{Binding ShowMessage}"
-            x:Name="SnackbarOne" />
-        <TextBlock 
-            x:Name="textBlock_Copy"
-            Margin="10,162,0,0" 
-            TextWrapping="Wrap"
-            Text="ZIP Bachup" 
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignBody1TextBlock}" HorizontalAlignment="Left" Width="74" RenderTransformOrigin="5.751,0.003"/>
-        <ToggleButton
-            Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
-            VerticalAlignment="Top"  
-            ToolTip="Zip Data During Bachup"
-            IsChecked="{Binding ZipBachupItem}"
-            Margin="89,162,0,0" HorizontalAlignment="Left" Width="44"/>
-        <TextBlock 
-            x:Name="textBlock_Copy1"
-            Margin="159,161,0,0" 
-            TextWrapping="Wrap"
-            Text="Use File Name For Bachup" 
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignBody1TextBlock}" HorizontalAlignment="Left" Width="157" RenderTransformOrigin="5.751,0.003"/>
-        <ToggleButton
-            Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
-            VerticalAlignment="Top"  
-            ToolTip="Use File Name For Bachup Instead Of Bachup Item Name"
-            IsChecked="{Binding UseFileNameForBachup}"
-            Margin="321,161,288.333,0"/>
+            Message="{Binding Message}" />
+
+        <WrapPanel Margin="10,161,170,10" Orientation="Horizontal">
+            <StackPanel Margin="0,0,8,0" Orientation="Horizontal">
+                <TextBlock
+                    Margin="5,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource MaterialDesignBody1TextBlock}"
+                    Text="ZIP Bachup"
+                    TextWrapping="Wrap" />
+                <ToggleButton
+                    Margin="5,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding ZipBachupItem}"
+                    Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                    ToolTip="Zip Data During Bachup" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Margin="5,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    RenderTransformOrigin="5.751,0.003"
+                    Style="{StaticResource MaterialDesignBody1TextBlock}"
+                    Text="Use File Name For Bachup"
+                    TextWrapping="Wrap" />
+                <ToggleButton
+                    Margin="5,5"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding UseFileNameForBachup}"
+                    Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                    ToolTip="Use File Name For Bachup Instead Of Bachup Item Name" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Margin="5,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    RenderTransformOrigin="5.751,0.003"
+                    Style="{StaticResource MaterialDesignBody1TextBlock}"
+                    Text="Use Group Destinations"
+                    TextWrapping="Wrap" />
+                <ToggleButton
+                    Margin="5,5"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding UseGroupDestinations}"
+                    Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                    ToolTip="Use File Name For Bachup Instead Of Bachup Item Name" />
+            </StackPanel>
+        </WrapPanel>
     </Grid>
 </UserControl>
