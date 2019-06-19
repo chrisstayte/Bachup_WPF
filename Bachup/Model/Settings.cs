@@ -1,6 +1,7 @@
 ﻿using Bachup.Model;
 using Bachup.ViewModel;
 using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -135,19 +136,16 @@ namespace Bachup.Model
         }
 
         private CompressionLevel _compressionLevel;
-        public CompressionLevel CompressionLevel
+        public int CompressionLevel
         {
             get
             {
-                return _compressionLevel;
+                return (int)_compressionLevel;
             }
             set
             {
-                if (_compressionLevel != value)
-                {
-                    _compressionLevel = value;
-                    NotifyPropertyChanged();
-                }
+                _compressionLevel = (CompressionLevel)value;
+                NotifyPropertyChanged();
             }
         }
 

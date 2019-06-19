@@ -4,14 +4,15 @@ using Bachup.View;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using Notifications.Wpf;
-using Squirrel;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Permissions;
 using System.Threading.Tasks;
+using System.Windows.Shell;
 using System.Windows.Forms;
 
 namespace Bachup.ViewModel
@@ -54,11 +55,8 @@ namespace Bachup.ViewModel
             SysTrayApp();
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            VersionNumber = $"Version {version.Major}.{version.Minor}";
-
-            MessageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
-
-            //CheckForUpdates();
+            VersionNumber = $"Version {version.Major}.{version.Minor}.{version.MajorRevision}";
+            
         }
 
         public void SysTrayApp()
@@ -77,6 +75,7 @@ namespace Bachup.ViewModel
 
         }
 
+
         private ContextMenu _trayMenu;
         public ContextMenu TrayMenu
         {
@@ -89,7 +88,6 @@ namespace Bachup.ViewModel
         }
 
         // Properties
-
         static public NotificationManager notificationManager = new NotificationManager();
 
         static public ObservableCollection<BachupGroup> Bachup { get; set; } = new ObservableCollection<BachupGroup>();
@@ -157,20 +155,6 @@ namespace Bachup.ViewModel
                 if (_rightDrawerContent != value)
                 {
                     _rightDrawerContent = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        private  SnackbarMessageQueue _messageQueue;
-        public  SnackbarMessageQueue MessageQueue
-        {
-            get { return _messageQueue; }
-            set
-            {
-                if (_messageQueue != value)
-                {
-                    _messageQueue = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -291,7 +275,7 @@ namespace Bachup.ViewModel
             }
         }
 
-        private void LoadSettings()
+        private static void LoadSettings()
         {
             try
             {
@@ -388,15 +372,6 @@ namespace Bachup.ViewModel
             return null;
         }
 
-        private async Task CheckForUpdates()
-        {
-            using (var manager = UpdateManager.GitHubUpdateManager(@"G:\GS\Users\Stayte\Tools\Bachup_Squirrel"))
-            {
-                await manager.Result.UpdateApp();                
-            }
-            
-        }
-
         public static void ShowMessage(string title, string message, NotificationType type)
         {
             if (Settings.ShowNotifications)
@@ -421,6 +396,36 @@ namespace Bachup.ViewModel
                 }
             }
             return false;
+        }
+
+        private static void ReloadSettings()
+        {
+            try
+            {
+                if (File.Exists(SaveInfo.SettingsFile))
+                {
+                    string save = File.ReadAllText(SaveInfo.SettingsFile);
+                    Settings settings = JsonConvert.DeserializeObject<Model.Settings>(save);
+                    Settings.Beta = settings.Beta;
+                    Settings.Color = settings.Color;
+                    Settings.DarkMode = settings.DarkMode;
+                    Settings.KeepOnTop = settings.KeepOnTop;
+                    Settings.OpenToLastSelected = settings.OpenToLastSelected;
+                    Settings.ShowNotifications = settings.ShowNotifications;
+                    Settings.CompressionLevel = settings.CompressionLevel;
+                    Settings.SetDarkMode();
+
+                    // This has to be called on th
+                    System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        Settings.SetTheme();
+                    });
+                }
+            }
+            catch
+            {
+
+            }
         }
 
         #endregion

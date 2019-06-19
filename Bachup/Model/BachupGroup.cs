@@ -88,15 +88,15 @@ namespace Bachup.Model
             }
         }
 
-        private ObservableCollection<string> _defaultDestinations = new ObservableCollection<string>();
-        public ObservableCollection<string> DefaultDestinations
+        private ObservableCollection<string> _destinations = new ObservableCollection<string>();
+        public ObservableCollection<string> Destinations
         {
-            get { return _defaultDestinations; }
+            get { return _destinations; }
             set
             {
-                if (_defaultDestinations != value)
+                if (_destinations != value)
                 {
-                    _defaultDestinations = value;
+                    _destinations = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -135,17 +135,17 @@ namespace Bachup.Model
 
         public bool IsDestinationADuplicate(string path)
         {
-            return _defaultDestinations.Contains(path);
+            return _destinations.Contains(path);
         }
 
         public void AddDestination(string path)
         {
-            _defaultDestinations.Add(path);
+            _destinations.Add(path);
         }
 
         public void DeleteDestination(string path)
         {
-            _defaultDestinations.Remove(path);
+            _destinations.Remove(path);
         }
 
         #endregion

@@ -24,6 +24,7 @@ namespace Bachup.ViewModel
             DeleteDestinationCommand = new RelayCommand(DeleteDestination);
             ShowDestinationCommand = new RelayCommand(ShowDestination);
             RunAllCommand = new RelayCommand(RunAll);
+            RunBachupItemCommand = new RelayCommand(RunBachupItem);
 
             _bachupGroup = BachupGroupInput;
 
@@ -100,6 +101,7 @@ namespace Bachup.ViewModel
         public RelayCommand DeleteDestinationCommand { get; private set; }
         public RelayCommand ShowDestinationCommand { get; private set; }
         public RelayCommand RunAllCommand { get; private set; }
+        public RelayCommand RunBachupItemCommand { get; private set; }
 
         #region Events
 
@@ -243,6 +245,11 @@ namespace Bachup.ViewModel
                     bi.RunBachup();
                 }
             }          
+        }
+
+        private void RunBachupItem(object o)
+        {
+            BachupGroup.BachupItems.FirstOrDefault(item => item.ID == (Guid)o).RunBachup();
         }
 
         #endregion

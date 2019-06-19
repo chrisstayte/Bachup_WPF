@@ -142,7 +142,6 @@ namespace Bachup.ViewModel
                         {
                             ZipBachup = _zipBachupItem,
                             UseFileNameForBachup = _useFileNameForBachup,
-                            Destinations = new ObservableCollection<String>(_bachupGroup.DefaultDestinations.Select(destination => (string)destination.Clone()).ToList())
                         });       
                         break;
                     case BachupType.TXT:
@@ -150,7 +149,6 @@ namespace Bachup.ViewModel
                         {
                             ZipBachup = _zipBachupItem,
                             UseFileNameForBachup = _useFileNameForBachup,
-                            Destinations = new ObservableCollection<String>(_bachupGroup.DefaultDestinations.Select(destination => (string)destination.Clone()).ToList())
                         });
                         break;
                     case BachupType.LAS:
@@ -158,7 +156,6 @@ namespace Bachup.ViewModel
                             {
                             ZipBachup = _zipBachupItem,
                             UseFileNameForBachup = _useFileNameForBachup,
-                            Destinations = new ObservableCollection<String>(_bachupGroup.DefaultDestinations.Select(destination => (string)destination.Clone()).ToList())
                         });
                         break;
                     case BachupType.SHP:
@@ -166,7 +163,6 @@ namespace Bachup.ViewModel
                         {
                             ZipBachup = _zipBachupItem,
                             UseFileNameForBachup = _useFileNameForBachup,
-                            Destinations = new ObservableCollection<String>(_bachupGroup.DefaultDestinations.Select(destination => (string)destination.Clone()).ToList())
                         });
                         break;
                     case BachupType.DIR:
@@ -174,7 +170,6 @@ namespace Bachup.ViewModel
                         {
                             ZipBachup = _zipBachupItem,
                             UseFileNameForBachup = _useFileNameForBachup,
-                            Destinations = new ObservableCollection<String>(_bachupGroup.DefaultDestinations.Select(destination => (string)destination.Clone()).ToList())
                         });
                         break;
                     case BachupType.NotSupported:
