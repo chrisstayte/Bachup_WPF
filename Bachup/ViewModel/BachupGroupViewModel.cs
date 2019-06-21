@@ -4,6 +4,7 @@ using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,9 @@ namespace Bachup.ViewModel
             ShowDestinationCommand = new RelayCommand(ShowDestination);
             RunAllCommand = new RelayCommand(RunAll);
             RunBachupItemCommand = new RelayCommand(RunBachupItem);
+            RunSelectedCommand = new RelayCommand(RunSelected);
+            SelectedCellsChangedCommand = new RelayCommand(SelectedCellsChanged);
+            DeleteSelectedCommand = new RelayCommand(DeleteSelected);
 
             _bachupGroup = BachupGroupInput;
 
@@ -91,6 +95,22 @@ namespace Bachup.ViewModel
             }
         }
 
+        private bool _showSelectedBachupItemButtons;
+        public bool ShowSelectedBachupItemButtons
+        {
+            get { return _showSelectedBachupItemButtons; }
+            set
+            {
+                if (_showSelectedBachupItemButtons != value)
+                {
+                    _showSelectedBachupItemButtons = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private HashSet<BachupItem> _selectedItems = new HashSet<BachupItem>();
+
         // Relay Commands
         public RelayCommand EditBachupGroupCommand { get; private set; }
         public RelayCommand DeleteBachupGroupCommand { get; private set; }
@@ -102,6 +122,10 @@ namespace Bachup.ViewModel
         public RelayCommand ShowDestinationCommand { get; private set; }
         public RelayCommand RunAllCommand { get; private set; }
         public RelayCommand RunBachupItemCommand { get; private set; }
+        public RelayCommand RunSelectedCommand { get; private set; }
+        public RelayCommand SelectedCellsChangedCommand { get; private set; }
+        public RelayCommand DeleteSelectedCommand { get; private set; }
+
 
         #region Events
 
@@ -145,7 +169,6 @@ namespace Bachup.ViewModel
             await DialogHost.Show(view, "RootDialog");
             UpdateView();
         }
-
 
         private async void CellEdited(object o)
         {
@@ -250,6 +273,47 @@ namespace Bachup.ViewModel
         private void RunBachupItem(object o)
         {
             BachupGroup.BachupItems.FirstOrDefault(item => item.ID == (Guid)o).RunBachup();
+        }
+
+        private void RunSelected(object o)
+        {
+            if (_selectedItems.Count > 0)
+            {
+                foreach (BachupItem bi in _selectedItems)
+                {
+                    if (!bi.RunningBachup)
+                    {
+                        bi.RunBachup();
+                    }      
+                }
+            }
+        }
+
+        private void DeleteSelected(object o)
+        {
+            BachupGroup.BachupItems.Remove(x => x.IsSelected);
+        }
+
+        private void SelectedCellsChanged(object o)
+        {
+            SelectedCellsChangedEventArgs args = o as SelectedCellsChangedEventArgs;
+
+            foreach (DataGridCellInfo di in args.AddedCells)
+            {
+                BachupItem bi = di.Item as BachupItem;
+
+                _selectedItems.Add(bi);
+            }
+
+            foreach (DataGridCellInfo di in args.RemovedCells)
+            {
+                BachupItem bi = di.Item as BachupItem;
+
+                _selectedItems.Remove(bi);
+            }
+
+
+            ShowSelectedBachupItemButtons = _selectedItems.Count > 0;
         }
 
         #endregion

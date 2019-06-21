@@ -191,6 +191,7 @@
     <Compile Include="Helpers\BooleanVisibilityCollapsed.cs" />
     <Compile Include="Helpers\BooleanVisibilityInverterCollapsed.cs" />
     <Compile Include="Helpers\DateConverter.cs" />
+    <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\SaveInfo.cs" />
     <Compile Include="Helpers\SimpleDateValidationRule.cs" />
     <Compile Include="Model\BachupHistory.cs" />
