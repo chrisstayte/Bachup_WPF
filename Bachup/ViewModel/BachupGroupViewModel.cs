@@ -27,10 +27,11 @@ namespace Bachup.ViewModel
             RunAllCommand = new RelayCommand(RunAll);
             RunBachupItemCommand = new RelayCommand(RunBachupItem);
             RunSelectedCommand = new RelayCommand(RunSelected);
-            SelectedCellsChangedCommand = new RelayCommand(SelectedCellsChanged);
             DeleteSelectedCommand = new RelayCommand(DeleteSelected);
 
             _bachupGroup = BachupGroupInput;
+
+            ShowSelectedBachupItemButtons = false;
 
             UpdateView();
         }
@@ -123,7 +124,6 @@ namespace Bachup.ViewModel
         public RelayCommand RunAllCommand { get; private set; }
         public RelayCommand RunBachupItemCommand { get; private set; }
         public RelayCommand RunSelectedCommand { get; private set; }
-        public RelayCommand SelectedCellsChangedCommand { get; private set; }
         public RelayCommand DeleteSelectedCommand { get; private set; }
 
 
@@ -277,43 +277,12 @@ namespace Bachup.ViewModel
 
         private void RunSelected(object o)
         {
-            if (_selectedItems.Count > 0)
-            {
-                foreach (BachupItem bi in _selectedItems)
-                {
-                    if (!bi.RunningBachup)
-                    {
-                        bi.RunBachup();
-                    }      
-                }
-            }
+            
         }
 
         private void DeleteSelected(object o)
         {
-            BachupGroup.BachupItems.Remove(x => x.IsSelected);
-        }
-
-        private void SelectedCellsChanged(object o)
-        {
-            SelectedCellsChangedEventArgs args = o as SelectedCellsChangedEventArgs;
-
-            foreach (DataGridCellInfo di in args.AddedCells)
-            {
-                BachupItem bi = di.Item as BachupItem;
-
-                _selectedItems.Add(bi);
-            }
-
-            foreach (DataGridCellInfo di in args.RemovedCells)
-            {
-                BachupItem bi = di.Item as BachupItem;
-
-                _selectedItems.Remove(bi);
-            }
-
-
-            ShowSelectedBachupItemButtons = _selectedItems.Count > 0;
+            
         }
 
         #endregion

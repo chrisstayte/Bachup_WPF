@@ -398,36 +398,6 @@ namespace Bachup.ViewModel
             return false;
         }
 
-        private static void ReloadSettings()
-        {
-            try
-            {
-                if (File.Exists(SaveInfo.SettingsFile))
-                {
-                    string save = File.ReadAllText(SaveInfo.SettingsFile);
-                    Settings settings = JsonConvert.DeserializeObject<Model.Settings>(save);
-                    Settings.Beta = settings.Beta;
-                    Settings.Color = settings.Color;
-                    Settings.DarkMode = settings.DarkMode;
-                    Settings.KeepOnTop = settings.KeepOnTop;
-                    Settings.OpenToLastSelected = settings.OpenToLastSelected;
-                    Settings.ShowNotifications = settings.ShowNotifications;
-                    Settings.CompressionLevel = settings.CompressionLevel;
-                    Settings.SetDarkMode();
-
-                    // This has to be called on th
-                    System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
-                    {
-                        Settings.SetTheme();
-                    });
-                }
-            }
-            catch
-            {
-
-            }
-        }
-
         #endregion
     }
 }

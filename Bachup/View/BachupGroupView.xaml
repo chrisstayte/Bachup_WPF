@@ -44,7 +44,7 @@
         </Grid.RowDefinitions>
         <TextBlock
             x:Name="textBlock"
-            Margin="10,10,132,11"
+            Margin="10,10,118,11"
             Style="{StaticResource MaterialDesignDisplay1TextBlock}"
             Text="{Binding BachupGroup.Name}"
             TextWrapping="Wrap">
@@ -69,7 +69,7 @@
                 Kind="Plus" />
         </Button>
         <Button
-            Margin="0,20,71,0"
+            Margin="0,20,73,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Background="#f44336"
@@ -96,7 +96,7 @@
                             Width="32"
                             Height="32"
                             VerticalAlignment="Center"
-                            Kind="Backup" />
+                            Kind="SettingsBackupRestore" />
                         <TextBlock
                             Margin="8,0,0,0"
                             VerticalAlignment="Center"
@@ -111,29 +111,6 @@
                                 Width="24"
                                 Height="24"
                                 Kind="Play" />
-                        </Button>
-                        <Button
-                            Margin="0,0,20,0"
-                            Command="{Binding Path=DataContext.RunSelectedCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                            DockPanel.Dock="Right"
-                            Style="{StaticResource MaterialDesignToolForegroundButton}"
-                            ToolTip="Bachup Selected"
-                            Visibility="{Binding ShowSelectedBachupItemButtons, Converter={StaticResource BooleanToVisiblityConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                            <materialDesign:PackIcon
-                                Width="24"
-                                Height="24"
-                                Kind="PlayCircleOutline" />
-                        </Button>
-                        <Button
-                            Command="{Binding Path=DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                            DockPanel.Dock="Right"
-                            Style="{StaticResource MaterialDesignToolForegroundButton}"
-                            ToolTip="Delete Selected"
-                            Visibility="{Binding ShowSelectedBachupItemButtons, Converter={StaticResource BooleanToVisiblityConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                            <materialDesign:PackIcon
-                                Width="24"
-                                Height="24"
-                                Kind="TrashCanCircleOutline" />
                         </Button>
                         <StackPanel materialDesign:RippleAssist.IsCentered="True" Orientation="Horizontal" />
                     </DockPanel>
@@ -150,9 +127,6 @@
                 ItemsSource="{Binding BachupGroup.BachupItems}"
                 Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectedCellsChanged">
-                        <cmd:EventToCommand Command="{Binding SelectedCellsChangedCommand}" PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
                     <i:EventTrigger EventName="CellEditEnding">
                         <cmd:EventToCommand Command="{Binding CellEditedCommand}" PassEventArgsToCommand="True" />
                     </i:EventTrigger>

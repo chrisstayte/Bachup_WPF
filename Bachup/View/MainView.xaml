@@ -235,12 +235,6 @@
                         VerticalScrollBarVisibility="Auto">
                         <ContentControl HorizontalContentAlignment="Center" Content="{Binding SelectedViewModel}" />
                     </ScrollViewer>
-                    <materialDesign:Snackbar
-                        x:Name="SnackbarThree"
-                        Grid.Column="1"
-                        Margin="135,0,136,0"
-                        HorizontalAlignment="Stretch"
-                        MessageQueue="{Binding MessageQueue}" />
                 </Grid>
             </materialDesign:DialogHost>
         </Grid>
