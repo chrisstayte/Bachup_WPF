@@ -62,10 +62,7 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </Grid.Resources>
-            <tb:TaskbarIcon
-                IconSource="/Images/icon.ico"
-                ToolTipService.Placement="Relative"
-                ToolTipText="Hello World" />
+            <tb:TaskbarIcon IconSource="/Images/icon.ico" ToolTipText="Hello World" />
             <materialDesign:ColorZone
                 Grid.ColumnSpan="2"
                 Padding="8"
