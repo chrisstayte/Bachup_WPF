@@ -154,6 +154,7 @@ namespace Bachup.ViewModel
             if ((bool)choice == true)
             {
                 MainViewModel.Bachup.Remove(BachupGroup);
+                MainViewModel.AutoBachupCheck();
                 MainViewModel.SaveData();
                 UpdateView();
             }

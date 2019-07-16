@@ -17,6 +17,7 @@ namespace Bachup.Model
             Color = ThemeColors.red;
             LastOpened = null;
             ShowNotifications = false;
+            AutoBachupEnabled = false;
 
         }
 
@@ -28,6 +29,7 @@ namespace Bachup.Model
             LastOpened = null;
             Beta = false;
             ShowNotifications = false;
+            AutoBachupEnabled = false;
         }
 
         // Basic ViewModelBase
@@ -148,6 +150,9 @@ namespace Bachup.Model
                 NotifyPropertyChanged();
             }
         }
+
+        private bool _autoBachupEnabled;
+        public bool AutoBachupEnabled;
 
         #region Methods
 

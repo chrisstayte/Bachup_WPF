@@ -228,6 +228,13 @@ namespace Bachup.ViewModel
                     return;
                 }
             }
+
+            if (Settings.AutoBachupEnabled)
+            {
+                ((MainView)o).WindowState = System.Windows.WindowState.Minimized;
+                return;
+            }
+
             ((MainView)o).ExitApplication();
         }
 
@@ -396,6 +403,25 @@ namespace Bachup.ViewModel
                 }
             }
             return false;
+        }
+
+        public static void AutoBachupCheck()
+        {
+            foreach (BachupGroup group in Bachup)
+            {
+                foreach (BachupItem item in group.BachupItems)
+                {
+                    if (item.AutoBachup)
+                    {
+                        Settings.AutoBachupEnabled = true;
+                        SaveSettings();
+                        return;
+                    }
+                }
+            }
+            Settings.AutoBachupEnabled = false;
+            SaveSettings();
+            return;
         }
 
         #endregion

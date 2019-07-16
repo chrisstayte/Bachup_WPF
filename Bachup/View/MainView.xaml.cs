@@ -33,12 +33,6 @@ namespace Bachup.View
             MaximizeToggle();
         }
 
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            //Environment.Exit(0);
-            base.Close();
-        }
-
         private void TreeViewItem_Expanded_Collapsed(object sender, RoutedEventArgs e)
         {
             Bachup.ViewModel.MainViewModel.SaveSettings();

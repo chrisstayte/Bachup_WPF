@@ -386,12 +386,15 @@
                     ToolTip="Use File Name For Bachup Instead Of Bachup Item Name"
                     Visibility="{Binding Beta, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
             </StackPanel>
-            <StackPanel Margin="0,0,15,5" Orientation="Horizontal">
+            <StackPanel
+                Margin="0,0,15,5"
+                Orientation="Horizontal"
+                Visibility="Hidden">
                 <TextBlock
                     VerticalAlignment="Top"
                     Style="{StaticResource MaterialDesignBody1TextBlock}"
                     Text="Encrypt Backup"
-                    Visibility="{Binding Beta, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
+                    Visibility="{Binding False, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
                 <ToggleButton
                     Width="44"
                     HorizontalAlignment="Left"

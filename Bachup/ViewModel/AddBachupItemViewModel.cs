@@ -13,7 +13,6 @@ namespace Bachup.ViewModel
 {
     class AddBachupItemViewModel : BaseViewModel
     {
-
         public AddBachupItemViewModel(BachupGroup bachupGroup)
         {
             AddCommand = new RelayCommand(Add);

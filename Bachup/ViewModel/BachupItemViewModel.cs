@@ -336,6 +336,7 @@ namespace Bachup.ViewModel
                 {
                     BachupGroup bg = Bachup.ViewModel.MainViewModel.Bachup.Where(o => o.ID.Equals(_bachupItem.BachupGroupID)).Single();
                     bg.RemoveBachupItem(_bachupItem);
+                    MainViewModel.AutoBachupCheck();
                     MainViewModel.SaveData();
                 }
             }
@@ -387,6 +388,7 @@ namespace Bachup.ViewModel
         private void SaveData(object parameter)
         {
             MainViewModel.SaveData();
+            MainViewModel.AutoBachupCheck();
         }
 
         private void RefreshSize(object parameter)
