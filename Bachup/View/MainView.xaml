@@ -224,16 +224,16 @@
                             </Border>
                         </Grid>
                     </Border>
-
                     <ScrollViewer
-                        Name="TEST"
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         materialDesign:ScrollBarAssist.ButtonsVisibility="Hidden"
-                        materialDesign:ScrollBarAssist.ThumbCornerRadius="14"
                         HorizontalScrollBarVisibility="Disabled"
                         VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer.Resources>
+                            <Style BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" TargetType="ScrollBar" />
+                        </ScrollViewer.Resources>
 
                         <ContentControl HorizontalContentAlignment="Center" Content="{Binding SelectedViewModel}" />
                     </ScrollViewer>
