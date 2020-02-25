@@ -9,24 +9,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Bachup.ViewModel"
     xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
-    Padding="0,0,0,10"
-    d:DesignHeight="950"
+    Margin="0,15,0,25"
+    d:DesignHeight="1250"
     d:DesignWidth="800"
+    Background="{DynamicResource MaterialDesignPaper}"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
-            </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
             <helpers:DateConverter x:Key="DateConverter" />
             <helpers:BooleanInverter x:Key="BooleanInverter" />
+            <helpers:BooleanVisibilityInverterCollapsed x:Key="BooleanVisibilityInverterCollapsed" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -34,106 +28,94 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="250" />
+            <RowDefinition Height="350" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel
-            Grid.Row="1"
-            Height="43"
-            Margin="10,49,71,0"
-            VerticalAlignment="Top"
-            Orientation="Horizontal">
-            <Button
-                Grid.Row="1"
-                Margin="0,0,8,0"
-                Command="{Binding RepairSourceCommand}"
-                Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
-                ToolTip="Repair Source"
-                Visibility="{Binding Path=BachupItem.SourceBroken, Converter={StaticResource BoolToVis}}">
-                <Button.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Red.xaml" />
-                        </ResourceDictionary.MergedDictionaries>
-                    </ResourceDictionary>
-                </Button.Resources>
-                <materialDesign:PackIcon Kind="ReportProblem" />
-            </Button>
+        <Grid Grid.Row="0" Margin="10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="110" />
+            </Grid.ColumnDefinitions>
             <TextBlock
-                x:Name="textBlock1"
-                Grid.Row="1"
-                Width="85"
-                Height="20"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Style="{StaticResource MaterialDesignSubheadingTextBlock}"
-                Text="Source Path"
-                TextWrapping="Wrap" />
-        </StackPanel>
-        <Button
-            Width="56"
-            Margin="0,10,10,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding BachupItem.RunningBachup}"
-            materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding BachupItem.RunningBachup}"
-            materialDesign:ButtonProgressAssist.Value="-1"
-            Background="#43a047"
-            BorderBrush="#43a047"
-            Command="{Binding RunBachupCommand}"
-            Style="{StaticResource MaterialDesignFloatingActionButton}"
-            ToolTip="Run Bachup"
-            ToolTipService.Placement="Bottom">
-            <materialDesign:PackIcon Width="32" Height="32">
-                <materialDesign:PackIcon.Style>
-                    <Style BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}" TargetType="materialDesign:PackIcon">
-                        <Setter Property="Kind" Value="Play" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding BachupItem.RunningBachup}" Value="True">
-                                <Setter Property="Kind" Value="Rabbit" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </materialDesign:PackIcon.Style>
-            </materialDesign:PackIcon>
-        </Button>
-        <Button
-            x:Name="button"
-            Margin="0,20,73,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Background="#f44336"
-            BorderBrush="#f44336"
-            Command="{Binding DeleteBachupItemCommand}"
-            IsEnabled="{Binding BachupItem.RunningBachup, Converter={StaticResource BooleanInverter}}"
-            Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-            ToolTip="Delete Bachup Item">
-            <materialDesign:PackIcon
-                Width="21"
-                Height="21"
-                Kind="Trash" />
-        </Button>
-        <TextBlock
-            x:Name="BachupItemName"
-            Margin="10,10,118,12"
-            Style="{StaticResource MaterialDesignDisplay1TextBlock}"
-            Text="{Binding BachupItem.Name}"
-            TextWrapping="Wrap">
-            <TextBlock.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Command="{Binding EditBachupItemCommand}" Header="Edit Bachup Item" />
-                </ContextMenu>
-            </TextBlock.ContextMenu>
-        </TextBlock>
-        <StackPanel
+                x:Name="BachupItemName"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                Text="{Binding BachupItem.Name}"
+                TextWrapping="Wrap">
+                <TextBlock.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Command="{Binding EditBachupItemCommand}" Header="Edit Bachup Item" />
+                    </ContextMenu>
+                </TextBlock.ContextMenu>
+            </TextBlock>
+            <DockPanel Grid.Column="1" VerticalAlignment="Top">
+                <Button
+                    Grid.Column="2"
+                    Width="56"
+                    VerticalAlignment="Center"
+                    materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding BachupItem.RunningBachup}"
+                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding BachupItem.RunningBachup}"
+                    materialDesign:ButtonProgressAssist.Value="-1"
+                    Background="#43a047"
+                    BorderBrush="#43a047"
+                    Command="{Binding RunBachupCommand}"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource MaterialDesignFloatingActionButton}"
+                    ToolTip="Run Bachup"
+                    ToolTipService.Placement="Bottom">
+                    <materialDesign:PackIcon Width="32" Height="32">
+                        <materialDesign:PackIcon.Style>
+                            <Style BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}" TargetType="materialDesign:PackIcon">
+                                <Setter Property="Kind" Value="Play" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding BachupItem.RunningBachup}" Value="True">
+                                        <Setter Property="Kind" Value="Rabbit" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </materialDesign:PackIcon.Style>
+                    </materialDesign:PackIcon>
+                </Button>
+                <Button
+                    VerticalAlignment="Center"
+                    Background="#f44336"
+                    BorderBrush="#f44336"
+                    Command="{Binding DeleteBachupItemCommand}"
+                    DockPanel.Dock="Right"
+                    IsEnabled="{Binding BachupItem.RunningBachup, Converter={StaticResource BooleanInverter}}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                    ToolTip="Delete Bachup Item">
+                    <materialDesign:PackIcon
+                        Width="21"
+                        Height="21"
+                        Foreground="White"
+                        Kind="Trash" />
+                </Button>
+            </DockPanel>
+            <StackPanel materialDesign:RippleAssist.IsCentered="True" Orientation="Horizontal" />
+        </Grid>
+        <Border
             Grid.Row="1"
-            Height="34"
-            Margin="10,10,10,0"
-            VerticalAlignment="Top"
+            Margin="10,3,10,10"
+            VerticalAlignment="Center"
+            BorderBrush="{DynamicResource MaterialDesignDivider}"
+            BorderThickness="0,1,0,0" />
+        <StackPanel
+            Grid.Row="2"
+            Margin="10,10"
             Orientation="Horizontal">
             <materialDesign:Chip
                 x:Name="lastbachup"
-                Margin="5,0"
+                Margin="0,0,5,0"
                 Command="{Binding RefreshSizeCommand}"
                 Content="{Binding SizeInMB}"
                 Cursor=""
@@ -154,350 +136,438 @@
                 </materialDesign:Chip.Icon>
             </materialDesign:Chip>
         </StackPanel>
-        <TextBox
-            x:Name="textBox"
-            Grid.Row="1"
-            Height="23"
-            Margin="10,97,71,0"
+        <StackPanel
+            Grid.Row="3"
+            Margin="10,10,10,0"
             VerticalAlignment="Top"
-            IsReadOnly="True"
-            Text="{Binding BachupItem.Source}"
-            TextWrapping="Wrap" />
-        <Button
-            Grid.Row="1"
-            Width="56"
-            Margin="0,83,10,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Command="{Binding ShowSourceCommand}"
-            Content="{wpf:PackIcon Kind=FolderUpload}"
-            IsEnabled="{Binding EnableShowSourceButton}"
-            Style="{StaticResource MaterialDesignRaisedButton}"
-            ToolTip="Show Source" />
-        <Button
-            Grid.Row="1"
-            Width="56"
-            Margin="0,184,10,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Command="{Binding AddDestinationCommand}"
-            Content="{wpf:PackIcon Add}"
-            Style="{StaticResource MaterialDesignRaisedButton}"
-            ToolTip="Add Destination" />
-        <Button
-            Grid.Row="1"
-            Width="56"
-            Margin="0,221,10,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Command="{Binding DeleteDestinationCommand}"
-            Content="{wpf:PackIcon Delete}"
-            IsEnabled="{Binding EnableDeleteButton}"
-            Style="{StaticResource MaterialDesignRaisedButton}"
-            ToolTip="Removed Selected Destination" />
-        <Button
-            Grid.Row="1"
-            Width="56"
-            Margin="0,258,10,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Command="{Binding ShowDestinationCommand}"
-            Content="{materialDesign:PackIcon FolderUpload}"
-            IsEnabled="{Binding EnableDeleteButton}"
-            Style="{StaticResource MaterialDesignRaisedButton}"
-            ToolTip="Show Selected Destination" />
-        <GroupBox
-            x:Name="destinationGroupBox"
-            Grid.Row="1"
-            Height="208"
-            Margin="10,125,71,0"
-            VerticalAlignment="Top"
-            Header="Destinations">
-            <GroupBox.HeaderTemplate>
-                <DataTemplate>
-                    <DockPanel>
-                        <materialDesign:PackIcon
-                            Width="32"
-                            Height="32"
-                            VerticalAlignment="Center"
-                            Kind="MapMarker" />
-                        <TextBlock
-                            Margin="8,0,0,0"
-                            VerticalAlignment="Center"
-                            Style="{StaticResource MaterialDesignSubheadingTextBlock}"
-                            Text="Destinations" />
-                        <ToggleButton
-                            Background="{DynamicResource PrimaryHueLightBrush}"
-                            Command="{Binding DataContext.SaveDataCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                            DockPanel.Dock="Right"
-                            IsChecked="{Binding DataContext.BachupItem.UseGroupDestinations, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                            ToolTip="Use Group Destinations">
-                            <ToggleButton.Style>
-                                <Style BasedOn="{StaticResource MaterialDesignFlatToggleButton}" TargetType="ToggleButton">
-                                    <Setter Property="Foreground" Value="White" />
-                                    <Style.Triggers>
-                                        <Trigger Property="IsChecked" Value="True">
-                                            <Setter Property="Foreground" Value="Black" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ToggleButton.Style>
+            Orientation="Horizontal">
+            <Button
+                Grid.Row="1"
+                Margin="0,0,8,0"
+                Command="{Binding RepairSourceCommand}"
+                Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                ToolTip="Repair Source"
+                Visibility="{Binding Path=BachupItem.SourceBroken, Converter={StaticResource BoolToVis}}">
+                <Button.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Red.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </Button.Resources>
+                <materialDesign:PackIcon Kind="ReportProblem" />
+            </Button>
+            <TextBlock
+                VerticalAlignment="Center"
+                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                Text="Source Can Not Be Found!"
+                Visibility="{Binding Path=BachupItem.SourceBroken, Converter={StaticResource BoolToVis}}" />
+            <TextBlock
+                x:Name="textBlock1"
+                Grid.Row="1"
+                Width="85"
+                Height="20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                Text="Source Path"
+                TextWrapping="Wrap"
+                Visibility="{Binding Path=BachupItem.SourceBroken, Converter={StaticResource BooleanVisibilityInverterCollapsed}}" />
+        </StackPanel>
+        <Grid
+            Grid.Row="4"
+            Margin="10,0,10,10"
+            Visibility="{Binding Path=BachupItem.SourceBroken, Converter={StaticResource BooleanVisibilityInverterCollapsed}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="89*" />
+                <ColumnDefinition Width="627*" />
+                <ColumnDefinition Width="64" />
+            </Grid.ColumnDefinitions>
+            <TextBox
+                x:Name="textBox"
+                Grid.ColumnSpan="2"
+                Margin="0,4,0,3"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                IsReadOnly="True"
+                Text="{Binding BachupItem.Source}"
+                TextWrapping="NoWrap" />
+            <Button
+                Grid.Column="2"
+                Width="56"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Command="{Binding ShowSourceCommand}"
+                Content="{wpf:PackIcon Kind=FolderUpload}"
+                IsEnabled="{Binding EnableShowSourceButton}"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                ToolTip="Show Source" />
 
-                            <materialDesign:PackIcon Kind="AllInclusive" />
-                        </ToggleButton>
-                        <StackPanel materialDesign:RippleAssist.IsCentered="True" Orientation="Horizontal" />
-                    </DockPanel>
-                </DataTemplate>
-            </GroupBox.HeaderTemplate>
-            <ListBox
-                x:Name="listBox"
-                Margin="-8,-9,-8,-8"
-                ItemsSource="{Binding BachupItem.Destinations}"
-                SelectedItem="{Binding SelectedDestination}" />
-        </GroupBox>
-        <GroupBox
-            x:Name="bachupHistoryGroupBox"
-            Grid.Row="1"
-            Height="235"
-            Margin="10,338,71,0"
-            VerticalAlignment="Top"
-            Header="Bachup History">
-            <GroupBox.HeaderTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon
-                            Width="32"
-                            Height="32"
-                            VerticalAlignment="Center"
-                            Kind="History" />
-                        <TextBlock
-                            Margin="8,0,0,0"
-                            VerticalAlignment="Center"
-                            Style="{StaticResource MaterialDesignSubheadingTextBlock}"
-                            Text="{Binding}" />
-                    </StackPanel>
-                </DataTemplate>
-            </GroupBox.HeaderTemplate>
-            <ScrollViewer Margin="-8,-9,-8,-8" VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding BachupItem.BachupHistory}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border
-                                Padding="8"
-                                BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                BorderThickness="0,0,0,1">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <materialDesign:PackIcon
-                                        Grid.Column="0"
-                                        Width="24"
-                                        Height="24"
-                                        Margin="0,0,10,0"
-                                        Kind="{Binding Icon}">
-                                        <materialDesign:PackIcon.ToolTip>
-                                            <ToolTip Content="HI" />
-                                        </materialDesign:PackIcon.ToolTip>
-                                    </materialDesign:PackIcon>
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding BachupDateTime}"
-                                        TextAlignment="Left" />
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-        </GroupBox>
-        <TextBlock
-            x:Name="textBlock"
-            Grid.Row="1"
-            Margin="10,589,10,0"
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignSubheadingTextBlock}"
-            Text="Bachup Item Options"
-            TextWrapping="Wrap" />
-        <Border
-            Grid.Row="1"
-            Margin="10,614,10,0"
-            VerticalAlignment="Top"
-            BorderBrush="{DynamicResource MaterialDesignDivider}"
-            BorderThickness="0,1,0,0" />
-        <WrapPanel
-            Grid.Row="1"
-            Height="67"
-            Margin="10,635,10,0"
-            VerticalAlignment="Top">
-            <StackPanel Margin="0,0,15,5" Orientation="Horizontal">
-                <TextBlock
-                    x:Name="textBlock_Copy"
-                    Width="74"
-                    HorizontalAlignment="Left"
-                    Style="{StaticResource MaterialDesignBody1TextBlock}"
-                    Text="ZIP Bachup"
-                    TextWrapping="Wrap" />
-                <ToggleButton
-                    Width="44"
-                    Command="{Binding SaveDataCommand}"
-                    IsChecked="{Binding BachupItem.ZipBachup}"
-                    IsEnabled="{Binding BachupItem.RunningBachup, Converter={StaticResource BooleanInverter}}"
-                    Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
-                    ToolTip="Zip Data During Bachup" />
-            </StackPanel>
-            <StackPanel Margin="0,0,15,5" Orientation="Horizontal">
-                <TextBlock
-                    x:Name="textBlock_Copy1"
-                    Width="157"
-                    VerticalAlignment="Top"
-                    Style="{StaticResource MaterialDesignBody1TextBlock}"
-                    Text="Use File Name For Bachup"
-                    TextWrapping="Wrap" />
-                <ToggleButton
-                    Width="44"
-                    VerticalAlignment="Top"
-                    Command="{Binding SaveDataCommand}"
-                    IsChecked="{Binding BachupItem.UseFileNameForBachup}"
-                    IsEnabled="{Binding BachupItem.RunningBachup, Converter={StaticResource BooleanInverter}}"
-                    Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
-                    ToolTip="Use File Name For Bachup Instead Of Bachup Item Name" />
-            </StackPanel>
-            <StackPanel Margin="0,0,15,5" Orientation="Horizontal">
-                <TextBlock
-                    x:Name="textBlock_Copy3"
-                    Width="133"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Style="{StaticResource MaterialDesignBody1TextBlock}"
-                    Text="Enable Auto Bachups"
-                    TextWrapping="Wrap"
-                    Visibility="{Binding Beta, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
-                <ToggleButton
-                    Width="44"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Command="{Binding SaveDataCommand}"
-                    IsChecked="{Binding BachupItem.AutoBachup}"
-                    Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
-                    ToolTip="Use File Name For Bachup Instead Of Bachup Item Name"
-                    Visibility="{Binding Beta, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
-            </StackPanel>
-            <StackPanel
-                Margin="0,0,15,5"
+        </Grid>
+        <Grid Grid.Row="5" Margin="10,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="64" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <GroupBox
+                x:Name="destinationGroupBox"
+                Grid.RowSpan="4"
+                Grid.Column="0"
+                VerticalAlignment="Stretch"
+                Header="Destinations"
+                Style="{DynamicResource MaterialDesignCardGroupBox}">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <DockPanel>
+                            <materialDesign:PackIcon
+                                Width="32"
+                                Height="32"
+                                VerticalAlignment="Center"
+                                Kind="MapMarker" />
+                            <TextBlock
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                Text="Destinations" />
+                            <ToggleButton
+                                Background="{DynamicResource PrimaryHueLightBrush}"
+                                Command="{Binding DataContext.SaveDataCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                DockPanel.Dock="Right"
+                                IsChecked="{Binding DataContext.BachupItem.UseGroupDestinations, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                ToolTip="Use Group Destinations">
+                                <ToggleButton.Style>
+                                    <Style BasedOn="{StaticResource MaterialDesignFlatToggleButton}" TargetType="ToggleButton">
+                                        <Setter Property="Foreground" Value="White" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter Property="Foreground" Value="Black" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+
+                                <materialDesign:PackIcon Kind="AllInclusive" />
+                            </ToggleButton>
+                            <StackPanel materialDesign:RippleAssist.IsCentered="True" Orientation="Horizontal" />
+                        </DockPanel>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <ListBox
+                    x:Name="listBox"
+                    Margin="-8,-9,-8,-8"
+                    VerticalAlignment="Stretch"
+                    ItemsSource="{Binding BachupItem.Destinations}"
+                    SelectedItem="{Binding SelectedDestination}" />
+            </GroupBox>
+            <Button
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="56"
+                Height="32"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Command="{Binding AddDestinationCommand}"
+                Content="{wpf:PackIcon Add}"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                ToolTip="Add Destination" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="56"
+                Height="32"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Command="{Binding DeleteDestinationCommand}"
+                Content="{wpf:PackIcon Delete}"
+                IsEnabled="{Binding EnableDeleteButton}"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                ToolTip="Removed Selected Destination" />
+            <Button
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="56"
+                Height="32"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Command="{Binding ShowDestinationCommand}"
+                Content="{materialDesign:PackIcon FolderUpload}"
+                IsEnabled="{Binding EnableDeleteButton}"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                ToolTip="Show Selected Destination" />
+        </Grid>
+        <Grid Grid.Row="6" Margin="10,10">
+            <GroupBox
+                x:Name="bachupHistoryGroupBox"
+                Margin="0,0,64,0"
+                Header="Bachup History"
+                Style="{DynamicResource MaterialDesignCardGroupBox}">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="32"
+                                Height="32"
+                                VerticalAlignment="Center"
+                                Kind="History" />
+                            <TextBlock
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <ScrollViewer Margin="-8,-9,-8,-8" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding BachupItem.BachupHistory}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Padding="8"
+                                    BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                    BorderThickness="0,0,0,1">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon
+                                            Grid.Column="0"
+                                            Width="24"
+                                            Height="24"
+                                            Margin="0,0,10,0"
+                                            Kind="{Binding Icon}" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding BachupDateTime}"
+                                            TextAlignment="Left">
+                                            <TextBlock.ToolTip>
+                                                <ToolTip Foreground="{DynamicResource MaterialDesignPaper}">
+                                                    <StackPanel>
+                                                        <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Bached Up To" />
+                                                        <ListBox Height="auto" ItemsSource="{Binding BachupDestinationStatus}">
+                                                            <ListBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <materialDesign:Card Padding="4" UniformCornerRadius="14">
+                                                                            <StackPanel>
+                                                                                <materialDesign:PackIcon
+                                                                                    Foreground="Green"
+                                                                                    Kind="Check"
+                                                                                    Visibility="{Binding Path=Value, Converter={StaticResource BoolToVis}}" />
+                                                                                <materialDesign:PackIcon
+                                                                                    Foreground="Red"
+                                                                                    Kind="Close"
+                                                                                    Visibility="{Binding Path=Value, Converter={StaticResource BooleanVisibilityInverterCollapsed}}" />
+                                                                            </StackPanel>
+                                                                        </materialDesign:Card>
+                                                                        <TextBlock
+                                                                            Margin="10,0"
+                                                                            Foreground="{DynamicResource MaterialDesignPaper}"
+                                                                            Style="{StaticResource MaterialDesignButtonTextBlock}"
+                                                                            Text="{Binding Path=Key}" />
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </ListBox.ItemTemplate>
+                                                        </ListBox>
+
+                                                    </StackPanel>
+                                                </ToolTip>
+                                            </TextBlock.ToolTip>
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </GroupBox>
+        </Grid>
+        <StackPanel Grid.Row="7" Margin="10,10">
+            <TextBlock
+                x:Name="textBlock"
+                VerticalAlignment="Top"
+                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                Text="Bachup Item Options"
+                TextWrapping="Wrap" />
+            <Border
+                Margin="0,3,0,10"
+                VerticalAlignment="Top"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                BorderThickness="0,1,0,0" />
+            <WrapPanel VerticalAlignment="Top">
+                <StackPanel Margin="0,0,10,5" Orientation="Horizontal">
+                    <TextBlock
+                        Margin="5,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                        Text="ZIP Bachup"
+                        TextWrapping="Wrap" />
+                    <ToggleButton
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding SaveDataCommand}"
+                        IsChecked="{Binding BachupItem.ZipBachup}"
+                        IsEnabled="{Binding BachupItem.RunningBachup, Converter={StaticResource BooleanInverter}}"
+                        Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                        ToolTip="Zip Data During Bachup" />
+                </StackPanel>
+                <StackPanel Margin="0,0,10,5" Orientation="Horizontal">
+                    <TextBlock
+                        Margin="5,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                        Text="Use File Name For Bachup"
+                        TextWrapping="Wrap" />
+                    <ToggleButton
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding SaveDataCommand}"
+                        IsChecked="{Binding BachupItem.UseFileNameForBachup}"
+                        IsEnabled="{Binding BachupItem.RunningBachup, Converter={StaticResource BooleanInverter}}"
+                        Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                        ToolTip="Use File Name For Bachup Instead Of Bachup Item Name" />
+                </StackPanel>
+                <StackPanel Margin="0,0,10,5" Orientation="Horizontal">
+                    <TextBlock
+                        Margin="5,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                        Text="Enable Auto Bachups"
+                        TextWrapping="Wrap"
+                        Visibility="{Binding Beta, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
+                    <ToggleButton
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding SaveDataCommand}"
+                        IsChecked="{Binding BachupItem.AutoBachup}"
+                        Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                        ToolTip="Use File Name For Bachup Instead Of Bachup Item Name"
+                        Visibility="{Binding Beta, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
+                </StackPanel>
+                <StackPanel
+                    Margin="0,0,15,5"
+                    Orientation="Horizontal"
+                    Visibility="Hidden">
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                        Text="Encrypt Backup"
+                        Visibility="{Binding False, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
+                    <ToggleButton
+                        Width="44"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding SaveDataCommand}"
+                        IsChecked="{Binding BachupItem.Encrypt}"
+                        Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                        ToolTip="Encrypts Datat On Bachup (EXPIERAMENTAL)"
+                        Visibility="{Binding Beta, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
+                </StackPanel>
+            </WrapPanel>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="8"
+            Margin="10,10"
+            Visibility="{Binding Path=BachupItem.AutoBachup, Converter={StaticResource BoolToVis}}">
+            <TextBlock
+                VerticalAlignment="Top"
+                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                Text="Auto Bachup Settings (NOT FUNCTIONAL)"
+                TextWrapping="Wrap"
+                Visibility="{Binding Source={x:Static vm:MainViewModel.Settings}, Path=Beta, Converter={StaticResource BoolToVis}}" />
+            <Border
+                Margin="0,3,0,10"
+                VerticalAlignment="Top"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                BorderThickness="0,1,0,0"
+                Visibility="{Binding Source={x:Static vm:MainViewModel.Settings}, Path=Beta, Converter={StaticResource BoolToVis}}" />
+            <materialDesign:TimePicker
+                Grid.Row="1"
+                Width="100"
+                Height="25"
+                Margin="0,0,0,25"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                materialDesign:HintAssist.Hint="Time"
+                Is24Hours="False"
+                IsEnabled="{Binding BachupItem.AutoBachup}"
+                IsInvalidTextAllowed="False"
+                Visibility="{Binding Source={x:Static vm:MainViewModel.Settings}, Path=Beta, Converter={StaticResource BoolToVis}}">
+                <materialDesign:TimePicker.Text>
+                    <Binding Path="AutoTime" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <helpers:SimpleDateValidationRule xmlns:helpers="clr-namespace:Bachup.Helpers" ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </materialDesign:TimePicker.Text>
+            </materialDesign:TimePicker>
+            <WrapPanel
+                Grid.Row="1"
+                VerticalAlignment="Top"
                 Orientation="Horizontal"
-                Visibility="Hidden">
-                <TextBlock
-                    VerticalAlignment="Top"
-                    Style="{StaticResource MaterialDesignBody1TextBlock}"
-                    Text="Encrypt Backup"
-                    Visibility="{Binding False, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
-                <ToggleButton
-                    Width="44"
-                    HorizontalAlignment="Left"
+                Visibility="{Binding Source={x:Static vm:MainViewModel.Settings}, Path=Beta, Converter={StaticResource BoolToVis}}">
+                <CheckBox
+                    Width="74"
                     VerticalAlignment="Top"
                     Command="{Binding SaveDataCommand}"
-                    IsChecked="{Binding BachupItem.Encrypt}"
-                    Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
-                    ToolTip="Encrypts Datat On Bachup (EXPIERAMENTAL)"
-                    Visibility="{Binding Beta, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
-            </StackPanel>
-        </WrapPanel>
-        <TextBlock
-            x:Name="textBlock_Copy2"
-            Grid.Row="1"
-            Margin="10,707,10,0"
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignSubheadingTextBlock}"
-            Text="Auto Bachup Settings (NOT FUNCTIONAL)"
-            TextWrapping="Wrap"
-            Visibility="{Binding Source={x:Static vm:MainViewModel.Settings}, Path=Beta, Converter={StaticResource BoolToVis}}" />
-        <Border
-            Grid.Row="1"
-            Margin="10,732,10,0"
-            VerticalAlignment="Top"
-            BorderBrush="{DynamicResource MaterialDesignDivider}"
-            BorderThickness="0,1,0,0"
-            Visibility="{Binding Source={x:Static vm:MainViewModel.Settings}, Path=Beta, Converter={StaticResource BoolToVis}}" />
-        <WrapPanel
-            Grid.Row="1"
-            Height="31"
-            Margin="10,791,10,0"
-            VerticalAlignment="Top"
-            Orientation="Horizontal"
-            Visibility="{Binding Source={x:Static vm:MainViewModel.Settings}, Path=Beta, Converter={StaticResource BoolToVis}}">
-            <CheckBox
-                Width="74"
-                VerticalAlignment="Top"
-                Command="{Binding SaveDataCommand}"
-                Content="Sunday"
-                IsChecked="{Binding Sunday}"
-                IsEnabled="{Binding BachupItem.AutoBachup}" />
-            <CheckBox
-                Width="74"
-                VerticalAlignment="Top"
-                Command="{Binding SaveDataCommand}"
-                Content="Monday"
-                IsChecked="{Binding Monday}"
-                IsEnabled="{Binding BachupItem.AutoBachup}" />
-            <CheckBox
-                Width="74"
-                VerticalAlignment="Top"
-                Command="{Binding SaveDataCommand}"
-                Content="Tuesday"
-                IsChecked="{Binding Tuesday}"
-                IsEnabled="{Binding BachupItem.AutoBachup}" />
-            <CheckBox
-                Width="87"
-                VerticalAlignment="Top"
-                Command="{Binding SaveDataCommand}"
-                Content="Wednesday"
-                IsChecked="{Binding Wednesday}"
-                IsEnabled="{Binding BachupItem.AutoBachup}" />
-            <CheckBox
-                Width="76"
-                VerticalAlignment="Top"
-                Command="{Binding SaveDataCommand}"
-                Content="Thursday"
-                IsChecked="{Binding Thursday}"
-                IsEnabled="{Binding BachupItem.AutoBachup}" />
-            <CheckBox
-                Width="62"
-                VerticalAlignment="Top"
-                Command="{Binding SaveDataCommand}"
-                Content="Friday"
-                IsChecked="{Binding Friday}"
-                IsEnabled="{Binding BachupItem.AutoBachup}" />
-            <CheckBox
-                Width="78"
-                VerticalAlignment="Top"
-                Command="{Binding SaveDataCommand}"
-                Content="Saturday"
-                IsChecked="{Binding Saturday}"
-                IsEnabled="{Binding BachupItem.AutoBachup}" />
-        </WrapPanel>
-        <materialDesign:TimePicker
-            Grid.Row="1"
-            Width="100"
-            Height="25"
-            Margin="10,738,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Time"
-            Is24Hours="False"
-            IsEnabled="{Binding BachupItem.AutoBachup}"
-            IsInvalidTextAllowed="False"
-            Visibility="{Binding Source={x:Static vm:MainViewModel.Settings}, Path=Beta, Converter={StaticResource BoolToVis}}">
-            <materialDesign:TimePicker.Text>
-                <Binding Path="AutoTime" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <helpers:SimpleDateValidationRule xmlns:helpers="clr-namespace:Bachup.Helpers" ValidatesOnTargetUpdated="True" />
-                    </Binding.ValidationRules>
-                </Binding>
-            </materialDesign:TimePicker.Text>
-        </materialDesign:TimePicker>
+                    Content="Sunday"
+                    IsChecked="{Binding Sunday}"
+                    IsEnabled="{Binding BachupItem.AutoBachup}" />
+                <CheckBox
+                    Width="74"
+                    VerticalAlignment="Top"
+                    Command="{Binding SaveDataCommand}"
+                    Content="Monday"
+                    IsChecked="{Binding Monday}"
+                    IsEnabled="{Binding BachupItem.AutoBachup}" />
+                <CheckBox
+                    Width="74"
+                    VerticalAlignment="Top"
+                    Command="{Binding SaveDataCommand}"
+                    Content="Tuesday"
+                    IsChecked="{Binding Tuesday}"
+                    IsEnabled="{Binding BachupItem.AutoBachup}" />
+                <CheckBox
+                    Width="87"
+                    VerticalAlignment="Top"
+                    Command="{Binding SaveDataCommand}"
+                    Content="Wednesday"
+                    IsChecked="{Binding Wednesday}"
+                    IsEnabled="{Binding BachupItem.AutoBachup}" />
+                <CheckBox
+                    Width="76"
+                    VerticalAlignment="Top"
+                    Command="{Binding SaveDataCommand}"
+                    Content="Thursday"
+                    IsChecked="{Binding Thursday}"
+                    IsEnabled="{Binding BachupItem.AutoBachup}" />
+                <CheckBox
+                    Width="62"
+                    VerticalAlignment="Top"
+                    Command="{Binding SaveDataCommand}"
+                    Content="Friday"
+                    IsChecked="{Binding Friday}"
+                    IsEnabled="{Binding BachupItem.AutoBachup}" />
+                <CheckBox
+                    Width="78"
+                    VerticalAlignment="Top"
+                    Command="{Binding SaveDataCommand}"
+                    Content="Saturday"
+                    IsChecked="{Binding Saturday}"
+                    IsEnabled="{Binding BachupItem.AutoBachup}" />
+            </WrapPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -1,9 +1,12 @@
 ﻿using Bachup.Model;
 using Bachup.ViewModel;
+using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
+using System.Windows.Media;
+
 using System.Runtime.CompilerServices;
 
 namespace Bachup.Model
@@ -179,19 +182,90 @@ namespace Bachup.Model
 
         public void SetTheme()
         {
+            var palletHelper = new PaletteHelper();
+            ITheme theme = palletHelper.GetTheme();
+            
             try
             {
-                new PaletteHelper().ReplaceAccentColor(MainViewModel.Settings.Color.ToString());
-                new PaletteHelper().ReplacePrimaryColor(MainViewModel.Settings.Color.ToString());
+                switch (Color)
+                {
+                    case ThemeColors.amber:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.Amber]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.Amber]);
+                        break;
+                    case ThemeColors.blue:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.Blue]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.Blue]);
+                        break;
+                    case ThemeColors.cyan:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.Cyan]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.Cyan]);
+                        break;
+                    case ThemeColors.deeporange:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.DeepOrange]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.DeepOrange]);
+                        break;
+                    case ThemeColors.deeppurple:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.DeepPurple]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.DeepPurple]);
+                        break;
+                    case ThemeColors.green:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.Green]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.Green]);
+                        break;
+                    case ThemeColors.indigo:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.Indigo]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.Indigo]);
+                        break;
+                    case ThemeColors.lightblue:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.LightBlue]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.LightBlue]);
+                        break;
+                    case ThemeColors.lightgreen:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.LightGreen]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.LightGreen]);
+                        break;
+                    case ThemeColors.lime:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.Lime]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.Lime]);
+                        break;
+                    case ThemeColors.orange:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.Orange]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.Orange]);
+                        break;
+                    case ThemeColors.pink:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.Pink]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.Pink]);
+                        break;
+                    case ThemeColors.purple:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.Purple]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.Purple]);
+                        break;
+                    case ThemeColors.red:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.Red]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.Red]);
+                        break;
+                    case ThemeColors.teal:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.Teal]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.Teal]);
+                        break;
+                    case ThemeColors.yellow:
+                        theme.SetPrimaryColor(SwatchHelper.Lookup[(MaterialDesignColor)PrimaryColor.Yellow]);
+                        theme.SetSecondaryColor(SwatchHelper.Lookup[(MaterialDesignColor)SecondaryColor.Yellow]);
+                        break;
+                }
 
+                theme.SetBaseTheme(DarkMode ? Theme.Dark : Theme.Light);
+
+                palletHelper.SetTheme(theme);
+                
+                
             }
             catch
             {
                 MainViewModel.Settings.ResetSettings();
-                new PaletteHelper().ReplaceAccentColor(MainViewModel.Settings.Color.ToString());
-                new PaletteHelper().ReplacePrimaryColor(MainViewModel.Settings.Color.ToString());
-
-
+                //new PaletteHelper().ReplaceAccentColor(MainViewModel.Settings.Color.ToString());
+                //new PaletteHelper().ReplacePrimaryColor(MainViewModel.Settings.Color.ToString());
             }
         }
 
@@ -199,12 +273,15 @@ namespace Bachup.Model
         {
             try
             {
-                new PaletteHelper().SetLightDark(DarkMode);
+                var palletHelper = new PaletteHelper();
+                ITheme theme = palletHelper.GetTheme();
+                theme.SetBaseTheme(DarkMode ? Theme.Dark : Theme.Light);
+                palletHelper.SetTheme(theme);
             }
             catch
             {
                 ResetSettings();
-                new PaletteHelper().SetLightDark(DarkMode);
+                //new PaletteHelper().SetLightDark(DarkMode);
             }
         }
         #endregion

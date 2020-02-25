@@ -22,7 +22,7 @@
                     Margin="10,10,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Style="{StaticResource MaterialDesignHeadlineTextBlock}"
+                    Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                     Text="Theme"
                     TextWrapping="Wrap" />
                 <ToggleButton
@@ -339,7 +339,7 @@
                     Margin="10,188,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Style="{StaticResource MaterialDesignHeadlineTextBlock}"
+                    Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                     Text="Options"
                     TextWrapping="Wrap" />
                 <Grid

@@ -7,7 +7,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Bachup.ViewModel"
-    d:DesignHeight="400"
+    d:DesignHeight="600"
     d:DesignWidth="500"
     DataContext="{DynamicResource HomePageViewModel}"
     FontFamily="{DynamicResource MaterialDesignFont}"
@@ -16,49 +16,61 @@
         <vm:HomePageViewModel x:Key="HomePageViewModel" />
     </UserControl.Resources>
     <Grid>
-        <Image
-            x:Name="image"
-            Height="64"
-            Margin="10,29,10,0"
-            VerticalAlignment="Top"
-            Source="/Bachup;component/Images/logo.png" />
-        <TextBlock
-            x:Name="textBlock"
-            Margin="10,98,10,0"
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignDisplay1TextBlock}"
-            Text="Bachup"
-            TextAlignment="Center"
-            TextWrapping="Wrap" />
-        <TextBlock
-            x:Name="textBlock1"
-            Height="22"
-            Margin="10,144,10,0"
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignSubheadingTextBlock}"
-            Text="Your All In One Bachup Solution"
-            TextAlignment="Center"
-            TextWrapping="Wrap" />
-        <GroupBox
-            x:Name="groupBox"
-            Height="121"
-            MaxWidth="150"
-            Margin="10,171,10,0"
-            VerticalAlignment="Top"
-            Header="Supported Bachup Types">
-            <TextBlock
-                x:Name="textBlock2"
+        <StackPanel
+            Height="500"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Image
+                x:Name="image"
+                Height="64"
                 VerticalAlignment="Top"
-                Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                Source="/Bachup;component/Images/logo.png" />
+            <TextBlock
+                x:Name="textBlock"
+                VerticalAlignment="Top"
+                Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                Text="Bachup"
                 TextAlignment="Center"
-                TextWrapping="Wrap">
-                Geodatabase<LineBreak />
-                Text File<LineBreak />
-                LAS File<LineBreak />
-                SHP File<LineBreak />
-                Directories<LineBreak />
-            </TextBlock>
-        </GroupBox>
+                TextWrapping="Wrap" />
+            <TextBlock
+                x:Name="textBlock1"
+                Height="22"
+                VerticalAlignment="Top"
+                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                Text="Your All In One Bachup Solution"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+            <GroupBox
+                x:Name="groupBox"
+                Height="160"
+                MaxWidth="150"
+                Margin="0,20"
+                VerticalAlignment="Top"
+                Header="Supported Bachup Types">
+                <StackPanel>
+                    <TextBlock
+                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                        Text="Geodatabase"
+                        TextAlignment="Center" />
+                    <TextBlock
+                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                        Text="Text File"
+                        TextAlignment="Center" />
+                    <TextBlock
+                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                        Text="LAS File"
+                        TextAlignment="Center" />
+                    <TextBlock
+                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                        Text="SHP File"
+                        TextAlignment="Center" />
+                    <TextBlock
+                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                        Text="Directories"
+                        TextAlignment="Center" />
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
         <TextBlock
             x:Name="versionNumber"
             Height="14"

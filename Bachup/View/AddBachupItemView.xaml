@@ -15,7 +15,7 @@
             Margin="10,10,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesignTitleTextBlock}"
+            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
             Text="Add Bachup Item"
             TextWrapping="Wrap" />
 

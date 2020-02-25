@@ -24,7 +24,7 @@ namespace Bachup.Model
 
         public BachupHistory()
         {
-            BachupDestinationStatus = new Dictionary<string, bool>();
+            _bachupDestinationStatus = new Dictionary<string, bool>();
         }
 
         private DateTime _bachupDateTime;
@@ -42,7 +42,18 @@ namespace Bachup.Model
         }
 
         private Dictionary<string, bool> _bachupDestinationStatus;
-        public Dictionary<String, bool> BachupDestinationStatus;
+        public Dictionary<string, bool> BachupDestinationStatus
+        {
+            get { return _bachupDestinationStatus; }
+            set
+            {
+                if (_bachupDestinationStatus != value)
+                {
+                    _bachupDestinationStatus = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         private BachupHistoryType _type;
         public BachupHistoryType Type
@@ -86,7 +97,7 @@ namespace Bachup.Model
 
             if (good == total)
             {
-                Icon = PackIconKind.Check;
+                Icon = PackIconKind.CheckCircleOutline;
                 Type = BachupHistoryType.fullBachup;
                 return;
             }
