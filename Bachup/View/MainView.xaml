@@ -53,18 +53,43 @@
             </DockPanel>
         </materialDesign:DrawerHost.RightDrawerContent>
         <Grid>
-            <Grid.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
-                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
-                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
-            </Grid.Resources>
-            <tb:TaskbarIcon IconSource="/Images/icon.ico" ToolTipText="Hello World" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="277" />
+                <ColumnDefinition Width="559*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!--<tb:TaskbarIcon IconSource="/Images/icon.ico" ToolTipText="Hello World" />-->
             <materialDesign:ColorZone
-                Grid.ColumnSpan="2"
+                Grid.Row="0"
+                Grid.Column="0"
+                Padding="8"
+                HorizontalContentAlignment="Center"
+                Mode="PrimaryDark"
+                MouseDoubleClick="ColorZone_MouseDoubleClick"
+                MouseDown="ColorZone_MouseDown">
+                <DockPanel>
+                    <Button
+                        Margin="0,0,0,0"
+                        VerticalAlignment="Center"
+                        Panel.ZIndex="0"
+                        Command="{Binding ViewHomeCommand}"
+                        Style="{DynamicResource MaterialDesignToolForegroundButton}"
+                        ToolTip="Home">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" Style="{StaticResource MaterialDesignHeadline6TextBlock}">
+                                Bachup
+                            </TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <StackPanel materialDesign:RippleAssist.IsCentered="True" Orientation="Horizontal" />
+                </DockPanel>
+            </materialDesign:ColorZone>
+            <materialDesign:ColorZone
+                Grid.Row="0"
+                Grid.Column="1"
                 Padding="8"
                 Mode="PrimaryMid"
                 MouseDoubleClick="ColorZone_MouseDoubleClick"
@@ -122,22 +147,13 @@
                             Height="24"
                             Kind="Settings" />
                     </Button>
-                    <Button
-                        Margin="0,0,0,0"
-                        Panel.ZIndex="0"
-                        Command="{Binding ViewHomeCommand}"
-                        Style="{DynamicResource MaterialDesignToolForegroundButton}"
-                        ToolTip="Home">
-                        <materialDesign:PackIcon
-                            Width="28"
-                            Height="28"
-                            Kind="Home" />
-                    </Button>
+
                     <StackPanel materialDesign:RippleAssist.IsCentered="True" Orientation="Horizontal" />
                 </DockPanel>
             </materialDesign:ColorZone>
             <materialDesign:DialogHost
-                Margin="0,48,0,0"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
                 DialogTheme="Inherit"
                 Identifier="RootDialog">
                 <Grid>
@@ -154,8 +170,9 @@
                         <Grid>
                             <TreeView
                                 x:Name="treeView"
-                                Margin="0,47,10,0"
-                                ItemsSource="{Binding Bachup}">
+                                Margin="0,47,0,0"
+                                ItemsSource="{Binding Bachup}"
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                 <TreeView.ItemContainerStyle>
                                     <Style BasedOn="{StaticResource MaterialDesignTreeViewItem}" TargetType="TreeViewItem">
                                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -176,7 +193,10 @@
                                                 Kind="ReportProblem"
                                                 ToolTip="Source Broken"
                                                 Visibility="{Binding SourceBroken, Converter={StaticResource BoolToVis}}" />
-                                            <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}" Text="{Binding Name}" />
+                                            <TextBlock
+                                                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                Text="{Binding Name}"
+                                                TextWrapping="NoWrap" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </TreeView.Resources>
@@ -231,9 +251,9 @@
                         materialDesign:ScrollBarAssist.ButtonsVisibility="Hidden"
                         HorizontalScrollBarVisibility="Disabled"
                         VerticalScrollBarVisibility="Auto">
-                        <ScrollViewer.Resources>
+                        <!--<ScrollViewer.Resources>
                             <Style BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" TargetType="ScrollBar" />
-                        </ScrollViewer.Resources>
+                        </ScrollViewer.Resources>-->
 
                         <ContentControl HorizontalContentAlignment="Center" Content="{Binding SelectedViewModel}" />
                     </ScrollViewer>

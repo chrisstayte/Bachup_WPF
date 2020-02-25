@@ -1,57 +1,55 @@
-﻿<UserControl x:Class="Bachup.View.EditBachupGroupView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:helpers="clr-namespace:Bachup.Helpers"
-             mc:Ignorable="d" 
-             Height="167" Width="653">
+﻿<UserControl
+    x:Class="Bachup.View.EditBachupGroupView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:Bachup.Helpers"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="653"
+    Height="167"
+    mc:Ignorable="d">
     <Grid>
-        <TextBlock 
+        <TextBlock
             x:Name="textBlock"
-            Margin="10,10,10,0" 
-            TextWrapping="Wrap" 
-            Text="Edit Bachup Group"
-            VerticalAlignment="Top" 
             Height="28"
-            Style="{StaticResource MaterialDesignTitleTextBlock}"/>
-        <TextBox 
-            x:Name="textBox"
-            Height="38" Margin="10,42,10,0" 
-            TextWrapping="Wrap" 
+            Margin="10,10,10,0"
             VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Name" 
+            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+            Text="Edit Bachup Group"
+            TextWrapping="Wrap" />
+        <TextBox
+            x:Name="textBox"
+            Height="38"
+            Margin="10,42,10,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="Name"
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
             Text="{Binding Path=Name, Mode=TwoWay, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}"
-            >
-
-        </TextBox>
+            TextWrapping="Wrap" />
         <Button
-            x:Name="button" 
-            Content="Cancel" 
-            IsCancel="True"
-            Margin="0,0,90,10" 
-            Height="32" 
-            VerticalAlignment="Bottom" 
-            HorizontalAlignment="Right" 
+            x:Name="button"
             Width="75"
-            Command="{Binding CancelCommand}">
-        </Button>
+            Height="32"
+            Margin="0,0,90,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Command="{Binding CancelCommand}"
+            Content="Cancel"
+            IsCancel="True" />
         <Button
-            x:Name="button1" 
-            Content="Save" 
-            IsDefault="True"
-            Margin="0,0,10,10" 
-            Height="32" 
-            VerticalAlignment="Bottom" 
-            HorizontalAlignment="Right" 
+            x:Name="button1"
             Width="75"
-            Command="{Binding SaveCommand}">
-        </Button>
+            Height="32"
+            Margin="0,0,10,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Command="{Binding SaveCommand}"
+            Content="Save"
+            IsDefault="True" />
         <materialDesign:Snackbar
-            Message="{Binding Message}"
+            x:Name="SnackbarOne"
             IsActive="{Binding ShowMessage}"
-            x:Name="SnackbarOne" />
+            Message="{Binding Message}" />
     </Grid>
 </UserControl>
