@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:Bachup.View"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -311,7 +312,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Command="{Binding SetDarkModeCommand}"
-                    IsChecked="{Binding DarkMode}"
+                    IsChecked="{Binding Path=DataContext.Settings.DarkMode, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                     RenderTransformOrigin="3.169,0.412"
                     Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                     ToolTip="Change Theme Lighting Schema">
@@ -373,7 +374,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Command="{Binding SaveSettingsCommand}"
-                        IsChecked="{Binding KeepOnTop}"
+                        IsChecked="{Binding Path=DataContext.Settings.KeepOnTop, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                         Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                         ToolTip="Keeps Window On Top" />
                     <TextBlock
@@ -393,7 +394,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Command="{Binding SaveSettingsCommand}"
-                        IsChecked="{Binding SaveView}"
+                        IsChecked="{Binding Path=DataContext.Settings.OpenToLastSelected, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                         Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                         ToolTip="Will Remember Last Opened Bachup Option" />
                     <TextBlock
@@ -411,7 +412,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Command="{Binding SaveSettingsCommand}"
-                        IsChecked="{Binding ShowNotifications}"
+                        IsChecked="{Binding Path=DataContext.Settings.ShowNotifications, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                         RenderTransformOrigin="3.169,0.412"
                         Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                         ToolTip="Show Popup Notifications" />
@@ -430,7 +431,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Command="{Binding SaveSettingsCommand}"
-                        IsChecked="{Binding Beta}"
+                        IsChecked="{Binding Path=DataContext.Settings.Beta, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                         RenderTransformOrigin="3.169,0.412"
                         Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                         ToolTip="Enable Beta Options (RISKY) NOT GAURENTEED TO WORK" />
@@ -448,9 +449,14 @@
                         Grid.Row="4"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
-                        Margin="5,0,10,0"
+                        Margin="10,0"
                         VerticalAlignment="Center"
-                        SelectedIndex="{Binding CompressionLevel}">
+                        SelectedIndex="{Binding Path=DataContext.Settings.CompressionLevel, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SaveSettingsCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <ComboBoxItem>
                             Auto
                         </ComboBoxItem>

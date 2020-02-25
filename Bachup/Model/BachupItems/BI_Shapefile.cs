@@ -71,13 +71,13 @@ namespace Bachup.Model.BachupItems
 
                 switch (MainViewModel.Settings.CompressionLevel)
                 {
-                    case CompressionLevel.Compression:
+                    case (int) CompressionLevel.Compression:
                         zip.CompressionLevel = Ionic.Zlib.CompressionLevel.BestCompression;
                         break;
-                    case CompressionLevel.Speed:
+                    case (int) CompressionLevel.Speed:
                         zip.CompressionLevel = Ionic.Zlib.CompressionLevel.BestSpeed;
                         break;
-                    case CompressionLevel.Default:
+                    case (int) CompressionLevel.Default:
                         zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
                         break;
                 }

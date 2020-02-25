@@ -215,7 +215,7 @@
             Header="Destinations">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <DockPanel>
                         <materialDesign:PackIcon
                             Width="32"
                             Height="32"
@@ -225,8 +225,28 @@
                             Margin="8,0,0,0"
                             VerticalAlignment="Center"
                             Style="{StaticResource MaterialDesignSubheadingTextBlock}"
-                            Text="{Binding}" />
-                    </StackPanel>
+                            Text="Destinations" />
+                        <ToggleButton
+                            Background="{DynamicResource PrimaryHueLightBrush}"
+                            Command="{Binding DataContext.SaveDataCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding DataContext.BachupItem.UseGroupDestinations, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                            ToolTip="Use Group Destinations">
+                            <ToggleButton.Style>
+                                <Style BasedOn="{StaticResource MaterialDesignFlatToggleButton}" TargetType="ToggleButton">
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Foreground" Value="Black" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+
+                            <materialDesign:PackIcon Kind="AllInclusive" />
+                        </ToggleButton>
+                        <StackPanel materialDesign:RippleAssist.IsCentered="True" Orientation="Horizontal" />
+                    </DockPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
             <ListBox
@@ -311,7 +331,7 @@
         <WrapPanel
             Grid.Row="1"
             Height="67"
-            Margin="10,635,0,0"
+            Margin="10,635,10,0"
             VerticalAlignment="Top">
             <StackPanel Margin="0,0,15,5" Orientation="Horizontal">
                 <TextBlock
@@ -366,12 +386,15 @@
                     ToolTip="Use File Name For Bachup Instead Of Bachup Item Name"
                     Visibility="{Binding Beta, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
             </StackPanel>
-            <StackPanel Margin="0,0,15,5" Orientation="Horizontal">
+            <StackPanel
+                Margin="0,0,15,5"
+                Orientation="Horizontal"
+                Visibility="Hidden">
                 <TextBlock
                     VerticalAlignment="Top"
                     Style="{StaticResource MaterialDesignBody1TextBlock}"
                     Text="Encrypt Backup"
-                    Visibility="{Binding Beta, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
+                    Visibility="{Binding False, Converter={StaticResource BoolToVis}, Source={x:Static vm:MainViewModel.Settings}}" />
                 <ToggleButton
                     Width="44"
                     HorizontalAlignment="Left"

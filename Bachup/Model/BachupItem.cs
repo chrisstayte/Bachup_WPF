@@ -307,6 +307,23 @@ namespace Bachup.Model
             }
         }
 
+        private bool _useGroupDestinations;
+        public bool UseGroupDestinations
+        {
+            get
+            {
+                return _useGroupDestinations;
+            }
+            set
+            {
+                if (_useGroupDestinations != value)
+                {
+                    _useGroupDestinations = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         #region Methods
 
         /// <summary>
@@ -326,90 +343,6 @@ namespace Bachup.Model
         public bool IsDestinationADuplicate(string path)
         {
             return _destinations.Contains(path);
-        }
-
-        internal async Task<bool> CheckDestinationsConnection(bool promptWithDialogToContinue)
-        { 
-            int missingDestinations = 0;
-
-            foreach (string destination in Destinations)
-                if (!System.IO.Directory.Exists(destination))
-                {
-                    missingDestinations++;
-                }
-                    
-
-            if (missingDestinations == Destinations.Count())
-            {
-                var view = new AlertView
-                { 
-                    DataContext = new AlertViewModel("All destinations are missing. Add a destination.")
-                };
-                await DialogHost.Show(view, "RootDialog");
-                return false;
-            }
-
-            if (missingDestinations > 0)
-            {
-                var view = new ConfirmChoiceView
-                {
-                    DataContext = new ConfirmChoiceViewModel("Bachup With Missing?",
-                    "There are destinations missing. You can choose to bachup with connected destinations.")
-                };
-                return (bool)await DialogHost.Show(view, "RootDialog");
-            }
-
-            int brokenDestinaitons = 0;
-
-            foreach (var tempFile in from string destination in Destinations
-                                     let tempFile = Path.Combine(destination, "bachup.tmp")
-                                     select tempFile)
-            {
-                try
-                {
-                    using (FileStream fs = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
-                    {
-                        fs.WriteByte(0xFF);
-                    }
-
-                    if (File.Exists(tempFile))
-                    {
-                        File.Delete(tempFile);
-                    }
-                    else
-                    {
-                        brokenDestinaitons++;
-                    }
-                }
-                catch
-                {
-                    brokenDestinaitons++;
-                }
-            }
-
-
-
-            if (brokenDestinaitons == Destinations.Count())
-            {
-                var view = new AlertView
-                {
-                    DataContext = new AlertViewModel("All destinations are broken. Add a destination.")
-                };
-                await DialogHost.Show(view, "RootDialog");
-                return false;
-            }
-
-            if (brokenDestinaitons > 0)
-            {
-                var view = new ConfirmChoiceView
-                {
-                    DataContext = new ConfirmChoiceViewModel("Continue?",
-                "There are destinations that have no access. Continue with ones that do?")
-                };
-                return (bool)await DialogHost.Show(view, "RootDialog");
-            }
-
-            return true;
         }
 
         public string GenerateBachupLocation(string destination)
@@ -480,8 +413,18 @@ namespace Bachup.Model
 
             if (Destinations.Count <= 0)
             {
-                MainViewModel.ShowMessage($"{Name} Bachup Failed", $"There Are No Destinations", Notifications.Wpf.NotificationType.Error);
-                return false;
+                if (UseGroupDestinations)
+                {
+                    if (MainViewModel.Bachup.FirstOrDefault(group => group.ID == BachupGroupID).Destinations.Count <= 0)
+                    {
+                        MainViewModel.ShowMessage($"{Name} Bachup Failed", $"There Are No Destinations", Notifications.Wpf.NotificationType.Error);
+                        return false;
+                    }
+                }   else
+                {
+                    MainViewModel.ShowMessage($"{Name} Bachup Failed", $"There Are No Destinations", Notifications.Wpf.NotificationType.Error);
+                    return false;
+                }
             }
 
             if (IsFileLocked())
@@ -492,115 +435,79 @@ namespace Bachup.Model
             return true;
         }
 
-        internal bool HasPermission(string path)
-        {
-            var writeAllow = false;
-            var writeDeny = false;
-            try
-            {
-                var accessControlList = Directory.GetAccessControl(path);
-
-                if (accessControlList == null)
-                {
-                    return false;
-                }
-
-                var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
-
-                if (accessRules == null)
-                {
-                    return false;
-                }
-
-                foreach (FileSystemAccessRule rule in accessRules)
-                {
-                    if ((FileSystemRights.Write & rule.FileSystemRights) != FileSystemRights.Write)
-                        continue;
-
-                    if (rule.AccessControlType == AccessControlType.Allow)
-                        writeAllow = true;
-                    else if (rule.AccessControlType == AccessControlType.Deny)
-                        writeDeny = true;
-                }
-
-                return writeAllow && writeDeny;
-
-
-
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return false;
-            }
-        }
-
         public async void RunBachup()
         {
             if (CheckRequirements())
             {
-                if (await CheckDestinationsConnection(true))
+               
+                RunningBachup = true;
+
+                if (BachupHistory == null)
                 {
-                    RunningBachup = true;
-
-                    if (BachupHistory == null)
-                    {
-                        BachupHistory = new ObservableCollection<BachupHistory>();
-                    }
-                    BachupHistory bachupHistory = new BachupHistory();
-
-                    foreach (string destination in Destinations)
-                    {
-                        if (!Directory.Exists(destination))
-                        {
-                            bachupHistory.BachupDestinationStatus.Add(destination, false);
-                            continue;
-                        }
-
-                        bool success = false;
-
-                        if (ZipBachup)
-                        {
-                            await (Task.Run(() => {
-                                success = CopyDataWithZip(destination);
-                            }));
-                        }
-                        else
-                        {
-                            await (Task.Run(() =>
-                            {
-                                success = CopyData(destination);
-                            }));
-                        }
-                        bachupHistory.BachupDestinationStatus.Add(destination, success);
-                    }
-
-                    bachupHistory.GetStatus();
-                    DateTime completedDateTime = DateTime.Now;
-
-                    bachupHistory.BachupDateTime = completedDateTime;
-                    LastBachup = completedDateTime;
-                    BachupHistory.Insert(0, bachupHistory);
-
-                    switch (bachupHistory.Type)
-                    {
-                        case BachupHistoryType.noHistory:
-                            break;
-                        case BachupHistoryType.fullBachup:
-                            MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
-                            ShowLastBachup = true;
-                            break;
-                        case BachupHistoryType.partialBachup:
-                            MainViewModel.ShowMessage("Bached Up", $"{Name} is partially Bached Up", Notifications.Wpf.NotificationType.Warning);
-                            ShowLastBachup = true;
-                            break;
-                        case BachupHistoryType.failedBachup:
-                            MainViewModel.ShowMessage("Bached Up", $"{Name} Failed To Bachup", Notifications.Wpf.NotificationType.Error);
-                            break;
-                    }
-                    
-                    RunningBachup = false;
-                    MainViewModel.SaveData();
+                    BachupHistory = new ObservableCollection<BachupHistory>();
                 }
+                BachupHistory bachupHistory = new BachupHistory();
+
+                List<string> destinations = Destinations.ToList();
+
+                if (UseGroupDestinations)
+                {
+                    destinations = Destinations.ToList().Union(MainViewModel.Bachup.FirstOrDefault(group => group.ID == BachupGroupID).Destinations.ToList()).ToList();
+                }
+                    
+                foreach (string destination in destinations)
+                {
+                    if (!Directory.Exists(destination))
+                    {
+                        bachupHistory.BachupDestinationStatus.Add(destination, false);
+                        continue;
+                    }
+
+                    bool success = false;
+
+                    if (ZipBachup)
+                    {
+                        await (Task.Run(() => {
+                            success = CopyDataWithZip(destination);
+                        }));
+                    }
+                    else
+                    {
+                        await (Task.Run(() =>
+                        {
+                            success = CopyData(destination);
+                        }));
+                    }
+                    bachupHistory.BachupDestinationStatus.Add(destination, success);
+                }
+
+                bachupHistory.GetStatus();
+                DateTime completedDateTime = DateTime.Now;
+
+                bachupHistory.BachupDateTime = completedDateTime;
+                LastBachup = completedDateTime;
+                BachupHistory.Insert(0, bachupHistory);
+
+                switch (bachupHistory.Type)
+                {
+                    case BachupHistoryType.noHistory:
+                        break;
+                    case BachupHistoryType.fullBachup:
+                        MainViewModel.ShowMessage("Bached Up", $"{Name} is Bached Up", Notifications.Wpf.NotificationType.Success);
+                        ShowLastBachup = true;
+                        break;
+                    case BachupHistoryType.partialBachup:
+                        MainViewModel.ShowMessage("Bached Up", $"{Name} is partially Bached Up", Notifications.Wpf.NotificationType.Warning);
+                        ShowLastBachup = true;
+                        break;
+                    case BachupHistoryType.failedBachup:
+                        MainViewModel.ShowMessage("Bached Up", $"{Name} Failed To Bachup", Notifications.Wpf.NotificationType.Error);
+                        break;
+                }
+                    
+                RunningBachup = false;
+                MainViewModel.SaveData();
+                
             }
         }
 

@@ -33,6 +33,8 @@
                 TrueValue="Visible" />
             <converter:BooleanInverter x:Key="BooleanInverter" />
             <converter:DateConverter x:Key="DateConverter" />
+            <converter:BooleanVisibilityInverterCollapsed x:Key="BoolInvertCollapse" />
+            <converter:BooleanVisibilityCollapsed x:Key="BoolCollapse" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -42,7 +44,7 @@
         </Grid.RowDefinitions>
         <TextBlock
             x:Name="textBlock"
-            Margin="10,10,132,11"
+            Margin="10,10,118,11"
             Style="{StaticResource MaterialDesignDisplay1TextBlock}"
             Text="{Binding BachupGroup.Name}"
             TextWrapping="Wrap">
@@ -67,7 +69,7 @@
                 Kind="Plus" />
         </Button>
         <Button
-            Margin="0,20,71,0"
+            Margin="0,20,73,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Background="#f44336"
@@ -94,15 +96,13 @@
                             Width="32"
                             Height="32"
                             VerticalAlignment="Center"
-                            Kind="BackupOutline" />
+                            Kind="SettingsBackupRestore" />
                         <TextBlock
                             Margin="8,0,0,0"
                             VerticalAlignment="Center"
                             Style="{StaticResource MaterialDesignSubheadingTextBlock}"
                             Text="Bachup Items" />
                         <Button
-                            Margin="0,0,10,0"
-                            VerticalAlignment="Center"
                             Command="{Binding Path=DataContext.RunAllCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                             DockPanel.Dock="Right"
                             Style="{StaticResource MaterialDesignToolForegroundButton}"
@@ -135,16 +135,36 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn CanUserReorder="False" CanUserResize="False">
+                    <DataGridTemplateColumn
+                        CanUserReorder="False"
+                        CanUserResize="False"
+                        CanUserSort="False">
                         <DataGridTemplateColumn.Header>
                             <materialDesign:PackIcon Kind="InfoOutline" />
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <ProgressBar
-                                    IsIndeterminate="{Binding RunningBachup}"
-                                    Style="{StaticResource MaterialDesignCircularProgressBar}"
-                                    Value="0" />
+                                <StackPanel>
+                                    <ProgressBar
+                                        VerticalAlignment="Center"
+                                        IsIndeterminate="{Binding RunningBachup}"
+                                        Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                        Visibility="{Binding RunningBachup, Converter={StaticResource BoolCollapse}}"
+                                        Value="0" />
+                                    <Button
+                                        Height="20"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding Path=DataContext.RunBachupItemCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                        CommandParameter="{Binding ID}"
+                                        Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                        ToolTip="Run Bachup"
+                                        Visibility="{Binding RunningBachup, Converter={StaticResource BoolInvertCollapse}}">
+                                        <materialDesign:PackIcon
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Kind="Play" />
+                                    </Button>
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -154,17 +174,69 @@
                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
                         Header="Name"
                         IsReadOnly="False"
-                        MaxLength="25" />
+                        MaxLength="25">
+                        <materialDesign:MaterialDataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridCell}" TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <ContentPresenter Margin="10,0" VerticalAlignment="Center" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </materialDesign:MaterialDataGridTextColumn.CellStyle>
+                    </materialDesign:MaterialDataGridTextColumn>
                     <materialDesign:MaterialDataGridTextColumn
                         Binding="{Binding DateCreated, Converter={StaticResource DateConverter}}"
                         CanUserReorder="True"
-                        Header="Date Created"
-                        IsReadOnly="True" />
+                        IsReadOnly="True">
+                        <materialDesign:MaterialDataGridTextColumn.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Margin="0,0,5,0" Kind="Calendar" />
+                                <TextBlock Text="Created" />
+                            </StackPanel>
+                        </materialDesign:MaterialDataGridTextColumn.Header>
+                        <materialDesign:MaterialDataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridCell}" TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <ContentPresenter Margin="10,0" VerticalAlignment="Center" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </materialDesign:MaterialDataGridTextColumn.CellStyle>
+                    </materialDesign:MaterialDataGridTextColumn>
                     <materialDesign:MaterialDataGridTextColumn
                         Binding="{Binding LastBachup, Converter={StaticResource DateConverter}}"
                         CanUserReorder="True"
-                        Header="Last Bachup"
-                        IsReadOnly="True" />
+                        IsReadOnly="True">
+                        <materialDesign:MaterialDataGridTextColumn.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Margin="0,0,5,0" Kind="EventTime" />
+                                <TextBlock Text="Last Bachup" />
+                            </StackPanel>
+                        </materialDesign:MaterialDataGridTextColumn.Header>
+                        <materialDesign:MaterialDataGridTextColumn.CellStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridCell}" TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <ContentPresenter Margin="10,0" VerticalAlignment="Center" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </materialDesign:MaterialDataGridTextColumn.CellStyle>
+                    </materialDesign:MaterialDataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
@@ -185,7 +257,7 @@
             Height="230"
             Margin="10,281,71,0"
             VerticalAlignment="Top"
-            Header="Default Destinations"
+            Header="Destinations"
             Style="{DynamicResource MaterialDesignCardGroupBox}"
             Visibility="{Binding ShowBachupItems, Converter={StaticResource BooleanToVisiblityConverter}}">
             <GroupBox.HeaderTemplate>
@@ -206,7 +278,7 @@
             </GroupBox.HeaderTemplate>
             <ListBox
                 Margin="-8,-9,-8,-8"
-                ItemsSource="{Binding BachupGroup.DefaultDestinations}"
+                ItemsSource="{Binding BachupGroup.Destinations}"
                 SelectedItem="{Binding SelectedDestination}" />
         </GroupBox>
         <Button

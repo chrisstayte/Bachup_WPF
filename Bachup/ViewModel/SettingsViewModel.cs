@@ -1,6 +1,8 @@
 ﻿using Bachup.Helpers;
 using Bachup.Model;
 using System;
+using System.IO;
+using System.Security.Permissions;
 
 namespace Bachup.ViewModel
 {
@@ -190,6 +192,7 @@ namespace Bachup.ViewModel
             }
         }
 
+        #endregion
 
         private string _themeName;
         public string ThemeName
@@ -208,77 +211,12 @@ namespace Bachup.ViewModel
             }
         }
 
-        public bool DarkMode
-        {
-            get { return MainViewModel.Settings.DarkMode; }
-            set
-            {
-                MainViewModel.Settings.DarkMode = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public bool KeepOnTop
-        {
-            get { return MainViewModel.Settings.KeepOnTop; }
-            set
-            {
-                MainViewModel.Settings.KeepOnTop = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public bool SaveView
-        {
-            get { return MainViewModel.Settings.OpenToLastSelected; }
-            set
-            {
-                MainViewModel.Settings.OpenToLastSelected = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public bool Beta
-        {
-            get { return MainViewModel.Settings.Beta; }
-            set
-            {
-                MainViewModel.Settings.Beta = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public bool ShowNotifications
-        {
-            get { return MainViewModel.Settings.ShowNotifications; }
-            set
-            {
-                MainViewModel.Settings.ShowNotifications = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public int CompressionLevel
-        {
-            get
-            {
-                return (int)MainViewModel.Settings.CompressionLevel;
-            }
-            set
-            {
-                MainViewModel.Settings.CompressionLevel = (CompressionLevel) value;
-                NotifyPropertyChanged();
-                MainViewModel.SaveSettings();
-            }
-        }
 
         // RelayCommands
         public RelayCommand SetThemeCommand { get; private set; }
         public RelayCommand SetDarkModeCommand { get; private set; }
         public RelayCommand SaveSettingsCommand { get; private set; }
         public RelayCommand ShowSiteCommand { get; private set; }
-
-        #endregion
 
         #region Events
 
@@ -325,9 +263,7 @@ namespace Bachup.ViewModel
             ShowSiteCommand = new RelayCommand(ShowSite);
         }
 
-        
-
-        private void SetColorThemeStatus()
+        public void SetColorThemeStatus()
         {
             YellowActive = MainViewModel.Settings.Color == ThemeColors.yellow;
             AmberActive = MainViewModel.Settings.Color == ThemeColors.amber;
@@ -348,8 +284,6 @@ namespace Bachup.ViewModel
 
             ThemeName = MainViewModel.Settings.DarkMode ? "Dark" : "Light";
         }
-
-
 
         #endregion
     }

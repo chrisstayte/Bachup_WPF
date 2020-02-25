@@ -4,6 +4,7 @@ using Bachup.Model;
 using Bachup.View;
 using MaterialDesignThemes.Wpf;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -24,8 +25,13 @@ namespace Bachup.ViewModel
             DeleteDestinationCommand = new RelayCommand(DeleteDestination);
             ShowDestinationCommand = new RelayCommand(ShowDestination);
             RunAllCommand = new RelayCommand(RunAll);
+            RunBachupItemCommand = new RelayCommand(RunBachupItem);
+            RunSelectedCommand = new RelayCommand(RunSelected);
+            DeleteSelectedCommand = new RelayCommand(DeleteSelected);
 
             _bachupGroup = BachupGroupInput;
+
+            ShowSelectedBachupItemButtons = false;
 
             UpdateView();
         }
@@ -90,6 +96,22 @@ namespace Bachup.ViewModel
             }
         }
 
+        private bool _showSelectedBachupItemButtons;
+        public bool ShowSelectedBachupItemButtons
+        {
+            get { return _showSelectedBachupItemButtons; }
+            set
+            {
+                if (_showSelectedBachupItemButtons != value)
+                {
+                    _showSelectedBachupItemButtons = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private HashSet<BachupItem> _selectedItems = new HashSet<BachupItem>();
+
         // Relay Commands
         public RelayCommand EditBachupGroupCommand { get; private set; }
         public RelayCommand DeleteBachupGroupCommand { get; private set; }
@@ -100,6 +122,10 @@ namespace Bachup.ViewModel
         public RelayCommand DeleteDestinationCommand { get; private set; }
         public RelayCommand ShowDestinationCommand { get; private set; }
         public RelayCommand RunAllCommand { get; private set; }
+        public RelayCommand RunBachupItemCommand { get; private set; }
+        public RelayCommand RunSelectedCommand { get; private set; }
+        public RelayCommand DeleteSelectedCommand { get; private set; }
+
 
         #region Events
 
@@ -128,6 +154,7 @@ namespace Bachup.ViewModel
             if ((bool)choice == true)
             {
                 MainViewModel.Bachup.Remove(BachupGroup);
+                MainViewModel.AutoBachupCheck();
                 MainViewModel.SaveData();
                 UpdateView();
             }
@@ -143,7 +170,6 @@ namespace Bachup.ViewModel
             await DialogHost.Show(view, "RootDialog");
             UpdateView();
         }
-
 
         private async void CellEdited(object o)
         {
@@ -243,6 +269,21 @@ namespace Bachup.ViewModel
                     bi.RunBachup();
                 }
             }          
+        }
+
+        private void RunBachupItem(object o)
+        {
+            BachupGroup.BachupItems.FirstOrDefault(item => item.ID == (Guid)o).RunBachup();
+        }
+
+        private void RunSelected(object o)
+        {
+            
+        }
+
+        private void DeleteSelected(object o)
+        {
+            
         }
 
         #endregion

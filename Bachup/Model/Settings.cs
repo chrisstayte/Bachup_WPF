@@ -1,6 +1,7 @@
 ﻿using Bachup.Model;
 using Bachup.ViewModel;
 using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -16,6 +17,7 @@ namespace Bachup.Model
             Color = ThemeColors.red;
             LastOpened = null;
             ShowNotifications = false;
+            AutoBachupEnabled = false;
 
         }
 
@@ -27,6 +29,7 @@ namespace Bachup.Model
             LastOpened = null;
             Beta = false;
             ShowNotifications = false;
+            AutoBachupEnabled = false;
         }
 
         // Basic ViewModelBase
@@ -135,21 +138,21 @@ namespace Bachup.Model
         }
 
         private CompressionLevel _compressionLevel;
-        public CompressionLevel CompressionLevel
+        public int CompressionLevel
         {
             get
             {
-                return _compressionLevel;
+                return (int)_compressionLevel;
             }
             set
             {
-                if (_compressionLevel != value)
-                {
-                    _compressionLevel = value;
-                    NotifyPropertyChanged();
-                }
+                _compressionLevel = (CompressionLevel)value;
+                NotifyPropertyChanged();
             }
         }
+
+        private bool _autoBachupEnabled;
+        public bool AutoBachupEnabled;
 
         #region Methods
 

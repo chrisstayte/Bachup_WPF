@@ -41,7 +41,6 @@
         <vm:MainViewModel x:Key="MainViewModel" />
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
-
     <materialDesign:DrawerHost IsRightDrawerOpen="{Binding RightDrawerShown}">
         <materialDesign:DrawerHost.RightDrawerContent>
             <DockPanel MinWidth="250">
@@ -63,7 +62,7 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </Grid.Resources>
-
+            <tb:TaskbarIcon IconSource="/Images/icon.ico" ToolTipText="Hello World" />
             <materialDesign:ColorZone
                 Grid.ColumnSpan="2"
                 Padding="8"
@@ -163,7 +162,6 @@
                                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         <EventSetter Event="Expanded" Handler="TreeViewItem_Expanded_Collapsed" />
                                         <EventSetter Event="Collapsed" Handler="TreeViewItem_Expanded_Collapsed" />
-
                                     </Style>
                                 </TreeView.ItemContainerStyle>
                                 <TreeView.Resources>
@@ -193,10 +191,10 @@
                             </TreeView>
                             <Border
                                 Height="32"
-                                Margin="10,10,10,0"
+                                Margin="10,10,11,0"
                                 VerticalAlignment="Top"
                                 BorderThickness="1,1,1,1"
-                                CornerRadius="4">
+                                CornerRadius="3">
                                 <Border.BorderBrush>
                                     <DrawingBrush
                                         TileMode="Tile"
@@ -218,34 +216,30 @@
                                 </Border.BorderBrush>
                                 <Button
                                     Height="Auto"
-                                    Margin="0,0,0,-2"
+                                    Margin="0,0,0,0"
                                     Command="{Binding AddBachupGroupCommand}"
                                     Style="{StaticResource MaterialDesignFlatButton}">
                                     <materialDesign:PackIcon Kind="Add" />
                                 </Button>
                             </Border>
-
                         </Grid>
                     </Border>
                     <ScrollViewer
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        materialDesign:ScrollBarAssist.ButtonsVisibility="Hidden"
                         HorizontalScrollBarVisibility="Disabled"
                         VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer.Resources>
+                            <Style BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" TargetType="ScrollBar" />
+                        </ScrollViewer.Resources>
+
                         <ContentControl HorizontalContentAlignment="Center" Content="{Binding SelectedViewModel}" />
                     </ScrollViewer>
-                    <materialDesign:Snackbar
-                        x:Name="SnackbarThree"
-                        Grid.Column="1"
-                        Margin="135,0,136,0"
-                        HorizontalAlignment="Stretch"
-                        MessageQueue="{Binding MessageQueue}" />
-                </Grid>
 
+                </Grid>
             </materialDesign:DialogHost>
         </Grid>
     </materialDesign:DrawerHost>
-
-
 </Window>
