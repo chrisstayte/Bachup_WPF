@@ -1,8 +1,13 @@
 ﻿using Bachup.Helpers;
 using Bachup.Model;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using Newtonsoft.Json;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Security.Permissions;
+using System.Windows.Forms;
+using System.Linq;
 
 namespace Bachup.ViewModel
 {
@@ -217,6 +222,9 @@ namespace Bachup.ViewModel
         public RelayCommand SetDarkModeCommand { get; private set; }
         public RelayCommand SaveSettingsCommand { get; private set; }
         public RelayCommand ShowSiteCommand { get; private set; }
+        public RelayCommand ImportDataCommand { get; private set; }
+        public RelayCommand ExportDataCommand { get; private set; }
+
 
         #region Events
 
@@ -251,6 +259,85 @@ namespace Bachup.ViewModel
             MainViewModel.SaveSettings();
         }
 
+        private void ImportData(object o)
+        {
+            using (System.Windows.Forms.OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "Bachup|*.bachup";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        if (File.Exists(SaveInfo.DataFile))
+                        {
+                            string save = File.ReadAllText(openFileDialog.FileName);
+                            ObservableCollection<BachupGroup> bachupGroups = JsonConvert.DeserializeObject<ObservableCollection<BachupGroup>>(save, new JsonSerializerSettings
+                            {
+                                TypeNameHandling = TypeNameHandling.All
+                            });
+
+                            
+                            foreach (BachupGroup importedBachupGroup in bachupGroups)
+                            {
+                                BachupGroup group = MainViewModel.Bachup.FirstOrDefault(i => i.ID == importedBachupGroup.ID);
+
+                                if (group != null)
+                                {
+                                    foreach (BachupItem importedBachupItem in importedBachupGroup.BachupItems)
+                                    {
+                                        BachupItem item = group.BachupItems.FirstOrDefault(i => i.ID == importedBachupItem.ID);
+
+                                        if (item == null)
+                                        {
+                                            group.BachupItems.Add(importedBachupItem);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    MainViewModel.Bachup.Add(importedBachupGroup);
+                                }
+                            }
+                                
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    MainViewModel.SaveData();
+                    
+                }
+            }
+            
+        }
+
+        private void ExportData(object o)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                try
+                {
+                    string save = JsonConvert.SerializeObject(MainViewModel.Bachup, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.All
+                    });
+                    File.WriteAllText(string.Format("{0}\\Export.bachup", dialog.FileName), save);
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -261,6 +348,8 @@ namespace Bachup.ViewModel
             SetDarkModeCommand = new RelayCommand(SetDarkMode);
             SaveSettingsCommand = new RelayCommand(SaveSettings);
             ShowSiteCommand = new RelayCommand(ShowSite);
+            ImportDataCommand = new RelayCommand(ImportData);
+            ExportDataCommand = new RelayCommand(ExportData);
         }
 
         public void SetColorThemeStatus()
