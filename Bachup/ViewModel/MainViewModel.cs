@@ -32,6 +32,7 @@ namespace Bachup.ViewModel
 
             LoadSettings();
             LoadData();
+            SaveData();
 
             Settings.SetTheme();
             Settings.SetDarkMode();
@@ -52,11 +53,10 @@ namespace Bachup.ViewModel
                 SetView(null);
             }
 
-            SysTrayApp();
+            //SysTrayApp();
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            VersionNumber = $"Version {version.Major}.{version.Minor}.{version.MajorRevision}";
-            
+            VersionNumber = $"Version {version.Major}.{version.Minor}.{version.MajorRevision}";  
         }
 
         public void SysTrayApp()
@@ -90,7 +90,7 @@ namespace Bachup.ViewModel
         // Properties
         static public NotificationManager notificationManager = new NotificationManager();
 
-        static public ObservableCollection<BachupGroup> Bachup { get; set; } = new ObservableCollection<BachupGroup>();
+        static public ObservableCollection<BachupGroup> Bachup { get; set; } 
         static public Settings Settings { get; set; }
 
         private string _themeName;
@@ -333,7 +333,7 @@ namespace Bachup.ViewModel
                     };
                     return;
                 }
-                SelectedViewModel = new HomePageView();
+                SelectedViewModel = new HomePageView(); 
             }
             else
             {
