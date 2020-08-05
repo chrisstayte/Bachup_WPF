@@ -255,9 +255,9 @@ namespace Bachup.ViewModel
                     });
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                Debug.WriteLine(ex.Message);
             } 
         }
 
